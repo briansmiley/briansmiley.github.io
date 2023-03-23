@@ -1,9 +1,9 @@
 body {
-    background-color: antiquewhite;
+    background-color:aliceblue;
 }
 
 .highlight {
-    background-color:yellow;
+    background-color:rgb(217, 217, 146);
     border-radius: 5px;
     padding: 5px;
 }
