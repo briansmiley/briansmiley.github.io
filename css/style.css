@@ -19,7 +19,7 @@ body {
     color: black; /* Set text color */
 }
 .p5-thumbnail img {
-    width: 100px; /* Adjust thumbnail width */
+    width: 135px; /* Adjust thumbnail width */
     margin: auto auto 15px auto; /*Centers thumbnail image with caption spacing below */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Ensure image is displayed as a block */
