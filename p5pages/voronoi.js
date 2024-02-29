@@ -6,12 +6,12 @@ const MODE = DEFAULT;
 
 const REGIONS = 25;
 const RESET_TIME = 10;
-const FADE_TIME = 5;
+const FADE_TIME = MODE == DEFAULT ? 1 : 5;
 const fR = 60;
-const SPEED = (MODE == DEFAULT) ? 0.25 : 0.05;
+const SPEED = (MODE == DEFAULT) ? 2 : 0.05;
 let show_dots = (true && MODE == DEFAULT);
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = false;
+const AUTO_REFRESH = true;
 
 let controls;
 let regionSlider;
