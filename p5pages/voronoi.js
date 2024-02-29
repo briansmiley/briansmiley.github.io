@@ -100,8 +100,9 @@ class Voronoi {
     this.points = this.generatePoints();
     this.size = 0;
     this.buttonDiameter = BOTTOM_BAR - 10;
-    this.fadeBuffer = createGraphics(this.w,this.h);
-    this.fade = 0;
+    this.fadeStep = 10;
+    this.fadeBuffer = this.setupFadeBuffer(this.fadeStep);
+    this.fadeOut = 0;
     this.fading = false;
     this.buffer = createGraphics(w,h);
     
@@ -113,9 +114,10 @@ class Voronoi {
 
     if (this.timer++ % (fR * RESET_TIME)  == 0 && AUTO_REFRESH) this.startFade();
     if (this.fading) {
-      if (this.fade >= 300) this.reset();
+      
       this.renderFade();
-      this.fade+=2;
+      if (this.fadeOut >= 1000) this.reset();
+      // this.fade+=1;
       return;
     }
     if (this.full) {
@@ -145,28 +147,32 @@ class Voronoi {
   }
   reset() {
     clear();
+    this.buffer.clear();
     this.size = 0;
     this.timer = 0;
     this.fading = false;
-    this.fadeBuffer.clear();
-    this.fade = 0;
+    this.fadeOut = 0;
     this.full = false;
     if (MODE == DEFAULT) this.regions = regionSlider.value();
     else this.regions = REGIONS;
     this.points = this.generatePoints(this.regions);
-    this.buffer = createGraphics(this.w,this.h);
+
   }
   generatePoints() {
     return Array.from({length:this.regions}, (_) => (
     new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100))
   ));
   }
-  renderFade() {
-    this.fadeBuffer.clear();
-    this.fadeBuffer.noStroke();
-    this.fadeBuffer.fill(0,0,0,this.fade);
-    this.fadeBuffer.rect(0,0,this.fadeBuffer.width, this.fadeBuffer.height);
+  setupFadeBuffer(alph){
+    let buff = createGraphics(this.w,this.h)
+    buff.noStroke();
+    buff.fill(0,0,0,alph);
+    buff.rect(0,0,this.w, this.h);
+    return buff;
+  }
+  renderFade() {    
     image(this.fadeBuffer,0,0);
+    this.fadeOut += this.fadeStep;
   }
   checkFull() {
     loadPixels();
