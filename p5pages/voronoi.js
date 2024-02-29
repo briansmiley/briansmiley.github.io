@@ -177,7 +177,7 @@ class Voronoi {
         return false;
       }
     }
-    console.log('canvas full?');
+    // console.log('canvas full');
     this.full = true;
     return true;
   }
@@ -253,7 +253,7 @@ function merlinPreview(){
 }
 
 function draw() {
-  if (frameCount % 30 == 0) console.log(frameRate());
+  // if (frameCount % 30 == 0) console.log(frameRate());
   graph.render();
   merlinPreview();
 }
