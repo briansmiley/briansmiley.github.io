@@ -20,6 +20,7 @@ body {
 }
 .p5-thumbnail img {
     width: 100px; /* Adjust thumbnail width */
+    margin: 0 auto; /*Centers thumbnail image */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Ensure image is displayed as a block */
 }
