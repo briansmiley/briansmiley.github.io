@@ -52,6 +52,8 @@ class inputSlider {
   }
   
   render() {
+    //position the elements correctly accounting for canvas bounding element
+    this.position(this.x,this.y);
     //set slider value equal to the textbox value and vice versa
     this.txt.input( () => {
       let n = this.txt.value();
