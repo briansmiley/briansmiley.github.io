@@ -11,7 +11,7 @@ const fR = 60;
 const SPEED = (MODE == DEFAULT) ? 2 : 0.05;
 let show_dots = (true && MODE == DEFAULT);
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = true;
+const AUTO_REFRESH = false;
 
 let controls;
 let regionSlider;
