@@ -45,8 +45,8 @@ class inputSlider {
     this.slider.size(sz);
   }
   position(x,y) {
-    this.x = x;
-    this.y = y;
+    this.x = x + canvas.getBoundingClientRect().x;
+    this.y = y + canvas.getBoundingClientRect().y;
     this.slider.position(x,y);
     this.txt.position(x + this.length/2 - 15, y + 20);
   }
