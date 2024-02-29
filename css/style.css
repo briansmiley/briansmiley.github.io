@@ -20,6 +20,7 @@ body {
     color: black; /* Set text color */
     border: 2px solid #999;
     padding: 1em;
+    
 }
 .p5-thumbnail img {
     width: 135px; /* Adjust thumbnail width */
