@@ -26,5 +26,30 @@ body {
 }
 canvas {
     display: block;
-    margin: auto;
+    /* margin: auto; */
+}
+
+main#voronoi {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100vh;
+}
+
+main#voronoi #container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+main#voronoi #container input[type='range'] {
+    width: 200px;
+}
+
+main#voronoi #container input[type='text'] {
+    width: 30px;
+    text-align: center;
 }
