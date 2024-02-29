@@ -29,31 +29,29 @@ let graph;
 // }
 class inputSlider {
   constructor(mn, mx, initial) {
-    this.x = 0;
-    this.y = 0;
     this.mn = mn;
     this.mx = mx;
-    this.length = 0
-    this.slider = createSlider(this.mn,this.mx,initial);
-    this.txt = createInput('');
-    this.txt.value(initial);
-    this.txt.style('width','30px');
-    
+    this.container = this.makeContainer();
+    this.slider = this.makeSlider(mn, mx, initial, this.container);
+    this.txt = this.makeTextInput(initial, this.container)
   }
-  size(sz) {
-    this.length = sz;
-    this.slider.size(sz);
+  makeContainer() {
+    const container = createDiv();
+    container.id('container');
+    container.parent(document.querySelector('main'));
+    return container;
   }
-  position(x,y) {
-    this.x = x;
-    this.y = y;
-    this.slider.position(this.x,this.y);
-    this.txt.position(this.x + this.length/2 - 15, this.y + 20);
+  makeSlider(mn, mx, initial, container) {
+    const slider = createSlider(this.mn,this.mx,initial);
+    slider.parent(container);
+    return slider;
   }
-  
+  makeTextInput(initial, container) {
+    const textInput = createInput(String(initial));
+    textInput.parent(container);
+    return textInput;
+  }
   render() {
-    //position the elements correctly accounting for canvas bounding element
-    this.position(this.x,this.y);
     //set slider value equal to the textbox value and vice versa
     this.txt.input( () => {
       let n = this.txt.value();
@@ -84,8 +82,7 @@ function setup() {
   colorMode(HSB, 360, 100, 100);
   if (MODE == DEFAULT) {
     regionSlider = new inputSlider(0,1000,REGIONS);
-    regionSlider.size(200);
-    regionSlider.position(width - 220, height - (BOTTOM_BAR/1.1));
+    // regionSlider.position(width - 220, height - (BOTTOM_BAR/1.1));
 
   }
 
