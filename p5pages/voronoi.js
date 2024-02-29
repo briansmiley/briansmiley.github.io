@@ -31,26 +31,12 @@ class inputSlider {
   constructor(mn, mx, initial) {
     this.mn = mn;
     this.mx = mx;
-    this.container = this.makeContainer();
-    this.slider = this.makeSlider(mn, mx, initial, this.container);
-    this.txt = this.makeTextInput(initial, this.container)
-  }
-  makeContainer() {
-    const container = createDiv();
-    container.id('container');
-    container.parent(document.querySelector('main'));
-    return container;
-  }
-  makeSlider(mn, mx, initial, container) {
-    const slider = createSlider(this.mn,this.mx,initial);
-    slider.parent(container);
-    return slider;
-  }
-  makeTextInput(initial, container) {
-    const textInput = createInput(String(initial));
-    textInput.parent(container);
-    return textInput;
-  }
+    this.container = createDiv();
+    this.div = 
+    this.slider = createSlider(this.mn,this.mx,initial);
+    this.txt = createInput('');
+    this.txt.value(initial);
+  } 
   render() {
     //set slider value equal to the textbox value and vice versa
     this.txt.input( () => {
@@ -140,7 +126,7 @@ class Voronoi {
     if (MODE == DEFAULT) this.regions = regionSlider.value();
     else this.regions = REGIONS;
     this.points = this.generatePoints(this.regions);
-    this.buffer = createGraphics(width,height);
+    this.buffer = createGraphics(this.w,this.h);
   }
   generatePoints() {
     return Array.from({length:this.regions}, (_) => (
@@ -150,6 +136,7 @@ class Voronoi {
   renderFade() {
     this.fadeBuffer.clear();
     this.fadeBuffer.fill(0,0,0,this.fade);
+    this.fadeBuffer.noStroke();
     this.fadeBuffer.rect(0,0,this.fadeBuffer.width, this.fadeBuffer.height);
     image(this.fadeBuffer,0,0);
   }
@@ -157,6 +144,7 @@ class Voronoi {
 
     push();
     fill(90);
+    // stroke(0);
     rect(0,this.w,this.w,BOTTOM_BAR);
     stroke(0);
     strokeWeight(6);
@@ -168,6 +156,7 @@ class Voronoi {
   startFade() {
     push();
     this.buffer.fill(255);
+    this.buffer.noStroke();
     this.buffer.rect(0,0,this.buffer.width,this.buffer.height);
     this.buffer.blend(get(),0,0,this.w,this.h,0,0,this.w,this.h,BLEND);
     image(this.buffer,0,0);
