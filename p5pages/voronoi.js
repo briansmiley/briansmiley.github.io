@@ -2,23 +2,17 @@ const MERLIN_PREVIEW = 'merlin_preview';
 const MERLIN = 'merlin';
 const DEFAULT = 'default';
 const WACKY = 'wacky';
-let MODE = DEFAULT;
 
+let MODE = DEFAULT;
+const MERL = (MODE == MERLIN) || (MODE == MERLIN_PREVIEW);
 const REGIONS = 25;
 const RESET_TIME = 10;
-const FADE_TIME = MODE == DEFAULT ? 1 : 5;
+const FADE_TIME = !MERL ? 1 : 5;
 const fR = 60;
-const SPEEDS = {
-  [DEFAULT]: .5,
-  [MERLIN]: .05,
-  [MERLIN_PREVIEW]: .05,
-  [WACKY]: 10
-}
 
-let speed = SPEEDS[MODE] || 1;
-let show_dots = (true && MODE == DEFAULT);
+let show_dots = (true && (!MERL));
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = true;
+const AUTO_REFRESH = false;
 
 let controls;
 let regionSlider;
@@ -81,20 +75,20 @@ function setup() {
     case MERLIN_PREVIEW:
       createCanvas(484,660);
       break;
-    case DEFAULT:
+    default:
       createCanvas(700,700 + BOTTOM_BAR);
       break;
   }
 
   noStroke();
   colorMode(HSB, 360, 100, 100);
-  if (MODE == DEFAULT) {
+  if (!MERL) {
     regionSlider = new inputSlider(0,1000,REGIONS);
     // regionSlider.position(width - 220, height - (BOTTOM_BAR/1.1));
 
   }
 
-  if (MODE == DEFAULT) graph = new Voronoi(regionSlider.value(),width, height - BOTTOM_BAR);
+  if (!MERL) graph = new Voronoi(regionSlider.value(),width, height - BOTTOM_BAR);
   else graph = new Voronoi(REGIONS,44,66);
   
 
@@ -115,6 +109,7 @@ class Voronoi {
     this.buffer = createGraphics(w,h);
     this.fadeStart = 0;
     this.full = false;
+    this.speed = this.setSpeed();
     this.pauseTimer = 0;
     this.startTime = millis();
   }
@@ -130,7 +125,7 @@ class Voronoi {
     }
     if (this.timeElapsed() >= RESET_TIME && AUTO_REFRESH) this.startFade();
     if (this.full) {
-      // regionSlider.render();
+      regionSlider.render();
       // this.drawResetButton();
       return;
     }
@@ -147,26 +142,36 @@ class Voronoi {
     if (frameCount % 60 == 0) this.checkFull();
 
     this.buffer.copy(get(), 0, 0, this.buffer.width, this.buffer.height, 0, 0, this.buffer.width, this.buffer.height);
-    this.size += speed * 2;
-    if (MODE == DEFAULT) {
+    this.size += this.speed;
+    if (!MERL) {
       regionSlider.render();
       this.drawResetButton();
     }
 
+  }
+  setSpeed() {
+    return {
+      [DEFAULT]: .5,
+      [MERLIN]: .05,
+      [MERLIN_PREVIEW]: .05,
+      [WACKY]: map(this.regions,1,1000,11,3)
+    }[MODE] || 1
   }
   timeElapsed() {
     return (millis() - this.startTime) / 1000;
   }
   reset() {
     clear();
+    
     this.buffer.clear();
     this.size = 0;
     this.startTime = millis();
     this.fading = false;
     this.fade = 0;
     this.full = false;
-    if (MODE == DEFAULT) this.regions = regionSlider.value();
+    if (!MERL) this.regions = regionSlider.value();
     else this.regions = REGIONS;
+    this.speed = this.setSpeed();
     this.points = this.generatePoints(this.regions);
 
   }
@@ -244,8 +249,8 @@ class Voronoi {
 
 class Spreader {
   constructor(w,h, colr) {
-    this.x = random(MODE == DEFAULT ? w : 43);
-    this.y = random(MODE == DEFAULT ? h : 66);
+    this.x = random(!MERL ? w : 43);
+    this.y = random(!MERL ? h : 66);
     this.colr = colr;
   }
   render(size) {
