@@ -65,6 +65,27 @@ class inputSlider {
     return (this.slider.value());
   }
 }
+
+class dotToggle {
+  constructor() {
+    this.x = width * .8;
+    this.y = width + BOTTOM_BAR/2;
+    this.state = show_dots;
+    this.size = 20;
+    this.hitbox = this.size*1.25;
+  }
+  render() {
+    push();
+    translate(this.x,this.y);
+    fill(this.state ? 0 : 75);
+    noStroke();
+    circle(0,0,20);
+    pop();
+  }
+  wasClicked() {
+    this.state = !this.state;
+  }
+}
 function setup() {
   angleMode(DEGREES);
 
@@ -113,6 +134,7 @@ class Voronoi {
     this.speed = this.setSpeed();
     this.filledTime = 0;
     this.startTime = millis();
+    this.dotToggle = new dotToggle();
   }
   
   render() {
@@ -130,8 +152,11 @@ class Voronoi {
       this.startFade();
     }
     if (this.full) {
-      if (!MERL) regionSlider.render();
+      if (!MERL) {
+        regionSlider.render();
+        this.dotToggle.render();
       // this.drawResetButton();
+      }
       return;
     }
     if(MERL) clear();
@@ -158,7 +183,9 @@ class Voronoi {
     this.size += this.speed;
     if (!MERL) {
       regionSlider.render();
+      
       this.drawResetButton();
+      this.dotToggle.render();
     }
 
   }
@@ -201,7 +228,7 @@ class Voronoi {
   }
   generatePoints() {
     return Array.from({length:this.regions}, (_) => (
-    new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100))
+    new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100),this)
   ));
   }
   setupFadeBuffer(){
@@ -292,13 +319,19 @@ class Voronoi {
     if (mouseX > this.w/2 - this.buttonDiameter/2 && mouseX < this.w/2 + this.buttonDiameter/2 && mouseY > this.w + BOTTOM_BAR/2 - this.buttonDiameter/2 && mouseY < this.w + BOTTOM_BAR/2 + this.buttonDiameter/2) {
       this.startFade();
     }
+    if (this.mouseInRegion(this.dotToggle.x, this.dotToggle.y, this.dotToggle.size)) this.dotToggle.wasClicked();
+  }
+  //Returns true if mouse is inside a square of side length [size] centered on (x,y)
+  mouseInRegion(x,y,size) {
+    return (mouseX > x - size/2 && mouseX < (x + size/2) && mouseY > y - size/2 && mouseY < (y + size/2))
   }
 }
 
 class Spreader {
-  constructor(w,h, colr) {
+  constructor(w,h, colr, vor) {
     this.x = random(!MERL ? w : 43);
     this.y = random(!MERL ? h : 66);
+    this.parent = vor;
     this.colr = colr;
   }
   render(size) {
@@ -306,7 +339,7 @@ class Spreader {
     fill(this.colr);
     circle(this.x, this.y, size * 2);
     fill(0);
-    if (show_dots) circle(this.x, this.y, 4);
+    if (show_dots && this.parent.dotToggle.state) circle(this.x, this.y, 4);
     pop();
   }
 }
