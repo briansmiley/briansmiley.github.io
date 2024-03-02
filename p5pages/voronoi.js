@@ -3,7 +3,7 @@ const MERLIN = 'merlin';
 const DEFAULT = 'default';
 const WACKY = 'wacky';
 
-let MODE = DEFAULT;
+let MODE = MERLIN_PREVIEW;
 const MERL = (MODE == MERLIN) || (MODE == MERLIN_PREVIEW);
 const REGIONS = 25;
 const RESET_TIME = 5;
@@ -126,7 +126,7 @@ class Voronoi {
     }
     
     if (this.full && this.timeSinceFull() >= RESET_TIME && AUTO_REFRESH) {
-      console.log(this.timeSinceFull());
+      // console.log(this.timeSinceFull());
       this.startFade();
     }
     if (this.full) {
@@ -340,16 +340,16 @@ function merlinPreview(){
           let pix = get(i,j);
           pix = rgbToHSB(pix);
           if (ceilingShine) {
-            for(let d = 10; d>1; d--) {
-              fill(toBrightness(pix,brightness(pix)*map(d,10,2,.25,1)));
+            for(let d = 10; d>2; d-=2) {
+              fill(toBrightness(pix,brightness(pix)* min(0.6,(1.2-(d/10)))));
               circle(50 + (i*10), 5 + (j*10),d);
             }
             // fill(toBrightness(pix,brightness(pix)*.25));
             // circle(50 + (i*10), 5 + (j*10),10);
             // fill(toBrightness(pix,brightness(pix)*.6));
             // circle(50 + (i*10), 5 + (j*10),6);
-            // fill(pix);
-            // circle(50 + (i*10), 5 + (j*10),2);
+            fill(pix);
+            circle(50 + (i*10), 5 + (j*10),3);
           }
           else{
             fill(pix);
