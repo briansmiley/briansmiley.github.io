@@ -173,7 +173,7 @@ class Voronoi {
     return {
       [DEFAULT]: .75,
       [MERLIN]: .05,
-      [MERLIN_PREVIEW]: .05,
+      [MERLIN_PREVIEW]: .1,
       [WACKY]: map(this.regions,1,1000,11,3)
     }[MODE] || 1
   }
@@ -340,12 +340,16 @@ function merlinPreview(){
           let pix = get(i,j);
           pix = rgbToHSB(pix);
           if (ceilingShine) {
-            fill(toBrightness(pix,brightness(pix)*.25));
-            circle(50 + (i*10), 5 + (j*10),10);
-            fill(toBrightness(pix,brightness(pix)*.4));
-            circle(50 + (i*10), 5 + (j*10),6);
-            fill(pix);
-            circle(50 + (i*10), 5 + (j*10),2);
+            for(let d = 10; d>1; d--) {
+              fill(toBrightness(pix,brightness(pix)*map(d,10,2,.25,1)));
+              circle(50 + (i*10), 5 + (j*10),d);
+            }
+            // fill(toBrightness(pix,brightness(pix)*.25));
+            // circle(50 + (i*10), 5 + (j*10),10);
+            // fill(toBrightness(pix,brightness(pix)*.6));
+            // circle(50 + (i*10), 5 + (j*10),6);
+            // fill(pix);
+            // circle(50 + (i*10), 5 + (j*10),2);
           }
           else{
             fill(pix);
