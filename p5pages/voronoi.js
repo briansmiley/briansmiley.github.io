@@ -340,20 +340,25 @@ function merlinPreview(){
           let pix = get(i,j);
           pix = rgbToHSB(pix);
           if (ceilingShine) {
-            for(let d = 10; d>2; d-=2) {
-              fill(toBrightness(pix,brightness(pix)* min(0.6,(1.2-(d/10)))));
-              circle(50 + (i*10), 5 + (j*10),d);
-            }
-            // fill(toBrightness(pix,brightness(pix)*.25));
-            // circle(50 + (i*10), 5 + (j*10),10);
-            // fill(toBrightness(pix,brightness(pix)*.6));
-            // circle(50 + (i*10), 5 + (j*10),6);
+            
+            //Too many concentric circle-based fading ceiling shine
+            // for(let d = 10; d>2; d-=2) {
+            //   fill(toBrightness(pix,brightness(pix)* min(0.6,(1.2-(d/10)))));
+            //   circle(50 + (i*10), 5 + (j*10),d);
+            // }
+            //*
+            
+            //Stroke-based ceilingshine
             fill(pix);
-            circle(50 + (i*10), 5 + (j*10),3);
+            stroke(toBrightness(pix,.35*brightness(pix)));
+            strokeWeight(3.5);
+            circle(50 + (i*10), 5 + (j*10),6.5);
           }
+          
           else{
+            //Just draw a colored circle
             fill(pix);
-            rect(50 + (i*10), 5 + (j*10),3,3)
+            circle(50 + (i*10), 5 + (j*10),3)
           }
         }
       }
