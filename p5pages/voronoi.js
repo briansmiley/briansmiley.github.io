@@ -3,7 +3,7 @@ const MERLIN = 'merlin';
 const DEFAULT = 'default';
 const WACKY = 'wacky';
 
-let MODE = MERLIN_PREVIEW;
+let MODE = DEFAULT;
 const MERL = (MODE == MERLIN) || (MODE == MERLIN_PREVIEW);
 const REGIONS = 25;
 const RESET_TIME = 5;
