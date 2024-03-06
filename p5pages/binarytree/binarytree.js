@@ -111,9 +111,12 @@ function branch(len,ang,wgt,scl){
   if (millis() - frameStart > TIMEOUT) {
 
     if (!TIMEDOUT) {
+      let main = document.querySelector('main');
       console.log('Render timeout');
       message = createDiv('Render timed out; please refresh');
-      message.style('color = "red"');
+      message.id('timeout');
+      // message.parent(main);
+      main.children[1].before(message.elt);
       noLoop();
     }
     TIMEDOUT = true;
