@@ -5,7 +5,7 @@ class ControlPanel {
   }
   createContainer() {
     const container = createDiv();
-    container.id('control_panel');
+    container.addClass('control_panel');
     container.parent(document.querySelector('main'));
     return container;
   }
@@ -16,7 +16,7 @@ class ControlPanel {
   }
   
   //create a new textboxSlider() control 
-  addTextboxSlider(mn, mx, initial, step = 0, label = '', id = "textboxSlider") {
+  addTextboxSlider(mn, mx, initial, step = 0, label = '', id = "") {
     let slider = new textboxSlider(mn, mx, initial, step, this.container, label, id)
     this.controls.push(slider);
     return slider;
