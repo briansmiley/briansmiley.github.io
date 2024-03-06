@@ -1,11 +1,23 @@
 html, body {
   margin: 0;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 canvas {
   display: block;
 }
 
-.control_panel {
-  display: row;
+main {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+#control_panel {
+}
+
+input[type='text'] {
+  width: 3em;
 }
