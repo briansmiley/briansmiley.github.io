@@ -1,18 +1,21 @@
 html, body {
+  display: flex;
+  flex-flow: column wrap;
   margin: 0;
   padding: 0;
-  display: flex;
   align-items: center;
-  flex-flow: column wrap; 
-  justify-content: center;
+  justify-content: start;
+
 }
+
 canvas {
   display: block;
 }
 
-main {
+.control_panel {
   display: flex;
-  align-items: flex-start;
+  flex-flow: column wrap;
+
 }
 
 input[type='text'] {
