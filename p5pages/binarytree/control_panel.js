@@ -22,11 +22,18 @@ class ControlPanel {
     return slider;
   }
   
-  addCheckbox(label = '',state = false,parent = this) {
+  addCheckbox(label = '',state = false, par = this) {
     let check = createCheckbox(label,state);
-    check.parent(parent.container);
+    check.parent(par.container);
     this.controls.push(check);
     return check;
+  }
+
+  addButton(label, value, par = this) {
+    let button = createButton(label, value);
+    this.controls.push(button);
+    button.parent(par.container);
+    return button;
   }
   
   update() {
