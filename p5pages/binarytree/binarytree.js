@@ -117,7 +117,8 @@ function branch(len,ang,wgt,scl){
       message.id('timeout');
       // message.parent(main);
       main.children[1].before(message.elt);
-      noLoop();
+      frameRate(1);
+      // noLoop();
     }
     TIMEDOUT = true;
     return;
