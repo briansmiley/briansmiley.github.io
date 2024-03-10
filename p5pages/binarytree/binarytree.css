@@ -15,7 +15,8 @@ canvas {
 .control_panel {
   display: flex;
   flex-flow: column wrap;
-
+  height: 10em;
+  width: 25em;
 }
 
 #timeout {
