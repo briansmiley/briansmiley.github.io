@@ -14,6 +14,14 @@ class ControlPanel {
     this.controls.push(controlDiv);
     controlDiv.parent(this);
   }
+
+  //add a sub-panel group
+  addPanel() {
+    let newPanel = new ControlPanel()
+    newPanel.parent = this.container; //put the new control panel object inside the parent one's div container
+    this.controls.push(newPanel); //add it to the list of controls in this one (lets update() work seamlessly)
+    return newPanel;
+  }
   
   //create a new textboxSlider() control 
   addTextboxSlider(mn, mx, initial, step = 0, label = '', id = "") {
