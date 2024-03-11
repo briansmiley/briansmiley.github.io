@@ -18,6 +18,16 @@ canvas {
   height: 10em;
   width: 25em;
 }
+#slow_mode {
+  display: flex;
+  flex-flow: row;
+  height: fit-content;
+  align-items: start;
+}
+
+#slow_mode > * {
+  margin-right: 1em;
+}
 
 #timeout {
   color: red;

@@ -25,10 +25,10 @@ function setup() {
 function generateControls() {
   controlPanel = new ControlPanel('main_controls');
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
-  slowModePanel = controlPanel.addPanel('slow_mode');
-  slowMode = slowModePanel.addCheckbox('Single Render Mode', false);
-  renderButton = slowModePanel.addButton('Render', false, slowMode);
-  mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
+  taper = controlPanel.addCheckbox('Taper branches (t) (slower)',false);
+  slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
+  slowMode = slowModePanel.addCheckbox('Single render mode', false);
+  renderButton = slowModePanel.addButton('Render', false);
   scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
@@ -38,7 +38,9 @@ function generateControls() {
 }
 
 function draw() {
+  renderButton.hide();
   frameStart = millis();
+  if(slowMode.checked()) renderButton.show();
   background(220);
   controlPanel.update();
   renderTree();
