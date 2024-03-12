@@ -14,6 +14,7 @@ let trunkBase = 0;
 let frameStart;
 let TIMEOUT = 2000;
 let TIMEDOUT = false;
+let runFrame = true;
 
 function setup() {
   angleMode(DEGREES);
@@ -28,7 +29,8 @@ function generateControls() {
   taper = controlPanel.addCheckbox('Taper branches (t) (slower)',false);
   slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
-  renderButton = slowModePanel.addButton('Render', false);
+  renderButton = slowModePanel.addButton('Render');
+  renderButton.mousePressed(() => runFrame = true);
   scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
@@ -41,10 +43,19 @@ function draw() {
   renderButton.hide();
   frameStart = millis();
   if(slowMode.checked()) renderButton.show();
-  background(220);
+  
   controlPanel.update();
-  renderTree();
-
+  if(slowMode.checked()) {
+    if (runFrame) {
+      background(220);
+      renderTree();
+    }
+    runFrame = false;
+  }
+  else {
+    background(220);
+    renderTree();
+  }
 }
 
 function renderTree() {
@@ -70,15 +81,15 @@ function renderTree() {
 
   branch(length,angle,15,scaleSlider.value());
   if (millis() - frameStart > TIMEOUT) {
-
+    if (slowMode.checked()) return;
     if (!TIMEDOUT) {
       let main = document.querySelector('main');
       console.log('Render timeout');
-      message = createDiv(`Render timed out; please refresh : ${millis() - frameStart} ms frame time`);
+      message = createDiv(`Render timed out; please refresh : ${Math.floor(millis() - frameStart)} ms frame time`);
       message.id(`timeout`);
       // message.parent(main);
       main.children[1].before(message.elt);
-      noLoop();
+      runFrame = false;
     }
     TIMEDOUT = true;
     return;
