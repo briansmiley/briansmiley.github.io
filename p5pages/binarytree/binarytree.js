@@ -69,6 +69,20 @@ function renderTree() {
 
 
   branch(length,angle,15,scaleSlider.value());
+  if (millis() - frameStart > TIMEOUT) {
+
+    if (!TIMEDOUT) {
+      let main = document.querySelector('main');
+      console.log('Render timeout');
+      message = createDiv(`Render timed out; please refresh : ${millis() - frameStart} ms frame time`);
+      message.id(`timeout`);
+      // message.parent(main);
+      main.children[1].before(message.elt);
+      noLoop();
+    }
+    TIMEDOUT = true;
+    return;
+  }
 }
 //Maps a slider's value to the mouseX/Y value
 function mouseMap(slider, mouseDir) {
@@ -114,20 +128,20 @@ function taperLine(
 
 function branch(len,ang,wgt,scl){
   //Break the recursion if the current frame has taken too long to render
-  if (millis() - frameStart > TIMEOUT) {
+  // if (millis() - frameStart > TIMEOUT) {
 
-    if (!TIMEDOUT) {
-      let main = document.querySelector('main');
-      console.log('Render timeout');
-      message = createDiv('Render timed out; please refresh');
-      message.id('timeout');
-      // message.parent(main);
-      main.children[1].before(message.elt);
-      noLoop();
-    }
-    TIMEDOUT = true;
-    return;
-  }
+  //   if (!TIMEDOUT) {
+  //     let main = document.querySelector('main');
+  //     console.log('Render timeout');
+  //     message = createDiv('Render timed out; please refresh');
+  //     message.id('timeout');
+  //     // message.parent(main);
+  //     main.children[1].before(message.elt);
+  //     noLoop();
+  //   }
+  //   TIMEDOUT = true;
+  //   return;
+  // }
   //Draw a branch tapering down to the enxt branch size or of constant weight
   strokeWeight(wgt)
   if (taper.checked()) {
