@@ -20,10 +20,10 @@ class Game {
             case 0:
                 break;
             case 1:
-                score1++
+                this.score1++
                 break;
             case 2:
-                score2++
+                this.score2++
                 break;
         }
     }
