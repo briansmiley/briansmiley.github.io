@@ -12,11 +12,13 @@ const MERLIN = false;
 let slider1, slider2;
 
 function setup() {
-    createCanvas(43,66);
+    // createCanvas(43,66);
+    createCanvas(300,500);
     //Else
     slider1 = createSlider(0,width,width/2,1);
     slider2 = createSlider(0,width,width/2,1);
-    game = new Game(7,2,2,2,3);
+    // game = new Game(7,2,2,2,3);
+    game = new Game(50, 10, 10, 5, 10,1);
 }
 
 function draw() {
