@@ -5,22 +5,20 @@ let score1, score2;
 const MERLIN = false;
 
 // // if (MERLIN)
-// var slider1 = merlinSlider(0,43,1,21);
-// var slider2 = merlinSlider(0,43,1,21);
+var slider1 = merlinSlider(0,43,1,21);
+var slider2 = merlinSlider(0,43,1,21);
 
 //Else
 let slider1, slider2;
 
 function setup() {
-    //Merlin
     createCanvas(43,66);
+    // createCanvas(300,500);
     //Else
-    slider1 = createSlider(0,width,width/2,1);
-    slider2 = createSlider(0,width,width/2,1);
-    //Merlin
+    // slider1 = createSlider(0,width,width/2,1);
+    // slider2 = createSlider(0,width,width/2,1);
     // game = new Game(7,2,2,2,3);
-    //NonMerlin
-    game = new Game(50,10,10,10,1);
+    game = new Game(50, 10, 10, 1, 10, 1);
 }
 
 function draw() {
@@ -32,19 +30,23 @@ function value(slider) {
     return MERLIN ? slider : slider.value();
 }
 
+
+
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, paddleOffset = 2, ballFR = 5) {
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1) {
         this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset);
         this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset);
         this.paddleOffset = paddleOffset;
-        this.ball = new Ball(ballSize,width/2,height/2,1,1);
+        this.ball = new Ball(ballSize,width/2,height/2, ballSpeed);
         this.score1 = 0;
         this.score2 = 0;
         this.ballFR = ballFR;
         this.gameOver = false;
         this.gameOverTime = 0;
     }
-
+    ballSpeed(speed) {
+        this.ball.baseSpeed = speed;
+    }
     update() {
         if (this.gameOver) {
             this.drawElements();
@@ -56,8 +58,8 @@ class Game {
         }
         this.paddle1.update(value(slider1));
         this.paddle2.update(value(slider2));
+        
         if (frameCount % this.ballFR == 0) this.ball.update([this.paddle1,this.paddle2]);
-    
         this.drawElements();
         this.checkScore();
         if (max(this.score1,this.score2) > 3) this.endGame();
@@ -87,10 +89,10 @@ class Game {
         noStroke();
         fill(175);
         for (let i = 0; i < this.score1; i++) {
-            rect(2,4 + (4 * i), 2, 2);
+            rect(width/25, width/10 + (width/15 * i), width/25, width/25);
         }
         for (let i = 0; i < this.score2; i++) {
-            rect(width - 4, height - 4 - (4 * i), 2, 2);
+            rect(width/25, height - width/10 - (width/15 * i) - width/25, width/25, width/25);
         }
         pop();
         
@@ -100,64 +102,14 @@ class Game {
         this.score2 = 0;
     }
 }
-class Paddle {
-    constructor(player, w, h, x, y, colr = 175, speed = 1) {
-        this.w = w;
-        this.h = h;
-        this.player = player;
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.colr = colr
-        this.padding = 0;
-    }
 
-    moveLeft(){
-        this.x = max(this.x - this.speed, this.w/2);
-    }
-    moveRight() {
-        this.x = min(width - this.w/2, this.x + this.speed);
-    }
-    leftEdge() {
-        return this.x - this.w;
-    }
-    rightEdge() {
-        return this.x + this.w;
-    }
-    topEdge() {
-        return this.y - this.h;
-    }
-    bottomEdge() {
-        return this.y + this.h;
-    }
-    update(pos) {
-        this.x = pos;
-    }
-    setColor(colr) {
-        this.colr = colr;
-    }
 
-    //Set the offset between the paddle and the edge of the board
-    pad(dist) {
-        this.padding = dist;
-    }
-    draw() {
-        let x = this.x;
-        let y = this.y;
-        push()
-        rect()
-        rectMode(CENTER);
-        fill(this.colr)
-        noStroke();
-        rect(x, y, this.w, this.h);
-        pop();
-    }
-}
 class Ball {
-    constructor(d, x, y, vx, vy) {
+    constructor(d, x, y, baseSpeed) {
         this.x = x;
         this.y = y;
-        this.vel = [vx,vy];
+        this.vel = [baseSpeed,baseSpeed];
+        this.baseSpeed = baseSpeed;
         this.d = d;
         this.colr = 'white';
     }
@@ -175,7 +127,7 @@ class Ball {
         this.vel = [vx,vy];
     }
 
-    speed() {
+    getSpeed() {
         return Math.sqrt(this.vel[1]**2 + this.vel[0]**2);
     }
 
@@ -188,7 +140,7 @@ class Ball {
     reset() {
         this.setPos(width/2, height/2);
         //set the ball moving in a random of 4 directions
-        this.vel = [random([-1,1]),random([-1,1])];
+        this.vel = [random([-this.baseSpeed,this.baseSpeed]),random([-this.baseSpeed,this.baseSpeed])];
     }
     checkWallCollisions() {
         if (this.x <= this.d/2 || this.x >= width - this.d/2) {
@@ -219,6 +171,60 @@ class Ball {
         fill(this.colr);
         noStroke();
         rect(this.x,this.y,this.d,this.d);
+        pop();
+    }
+}
+
+class Paddle {
+    constructor(player, w, h, x, y, colr = 175, speed = 1) {
+        this.w = w;
+        this.h = h;
+        this.player = player;
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.colr = colr
+        this.padding = 0;
+    }
+
+    moveLeft(){
+        this.x = max(this.x - this.speed, this.w/2);
+    }
+    moveRight() {
+        this.x = min(width - this.w/2, this.x + this.speed);
+    }
+    leftEdge() {
+        return this.x - this.w/2;
+    }
+    rightEdge() {
+        return this.x + this.w/2;
+    }
+    topEdge() {
+        return this.y - this.h/2;
+    }
+    bottomEdge() {
+        return this.y + this.h/2;
+    }
+    update(pos) {
+        this.x = pos;
+    }
+    setColor(colr) {
+        this.colr = colr;
+    }
+
+    //Set the offset between the paddle and the edge of the board
+    pad(dist) {
+        this.padding = dist;
+    }
+    draw() {
+        let x = this.x;
+        let y = this.y;
+        push()
+        rect()
+        rectMode(CENTER);
+        fill(this.colr)
+        noStroke();
+        rect(x, y, this.w, this.h);
         pop();
     }
 }

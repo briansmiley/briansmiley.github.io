@@ -17,16 +17,16 @@ class Paddle {
         this.x = min(width - this.w/2, this.x + this.speed);
     }
     leftEdge() {
-        return this.x - this.w;
+        return this.x - this.w/2;
     }
     rightEdge() {
-        return this.x + this.w;
+        return this.x + this.w/2;
     }
     topEdge() {
-        return this.y - this.h;
+        return this.y - this.h/2;
     }
     bottomEdge() {
-        return this.y + this.h;
+        return this.y + this.h/2;
     }
     update(pos) {
         this.x = pos;

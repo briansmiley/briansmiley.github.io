@@ -1,5 +1,5 @@
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 5) {
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1) {
         this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset);
         this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset);
         this.paddleOffset = paddleOffset;
@@ -58,7 +58,7 @@ class Game {
             rect(width/25, width/10 + (width/15 * i), width/25, width/25);
         }
         for (let i = 0; i < this.score2; i++) {
-            rect(width/25 - width/50, height - width/10 - (width/15 * i), width/25, width/25);
+            rect(width/25, height - width/10 - (width/15 * i) - width/25, width/25, width/25);
         }
         pop();
         
