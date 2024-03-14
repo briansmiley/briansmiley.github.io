@@ -16,7 +16,7 @@ function setup() {
     //Else
     slider1 = createSlider(0,width,width/2,1);
     slider2 = createSlider(0,width,width/2,1);
-    game = new Game(7,2,2,5);
+    game = new Game(7,2,2,2,3);
 }
 
 function draw() {

@@ -1,5 +1,5 @@
 class Paddle {
-    constructor(player, w, h, x, y, colr = 'white', speed = 1) {
+    constructor(player, w, h, x, y, colr = 175, speed = 1) {
         this.w = w;
         this.h = h;
         this.player = player;
