@@ -41,11 +41,11 @@ class Game {
         this.gameOver = true;
     }
     checkScore() {
-        if (this.ball.y - (this.ball.d/2) < this.paddleOffset) {
+        if (this.ball.y - (this.ball.d/2) < this.paddleOffset/2) {
             this.ball.reset();
             this.score2++;
         }
-        if (this.ball.y + (this.ball.d/2) > (height - this.paddleOffset)) {
+        if (this.ball.y + (this.ball.d/2) > (height - this.paddleOffset/2)) {
             this.ball.reset();
             this.score1++
         }
