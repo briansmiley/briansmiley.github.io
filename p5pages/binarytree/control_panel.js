@@ -1,12 +1,14 @@
 class ControlPanel {
-  constructor() {
-    this.container = this.createContainer();
+  constructor(id) {
+    this.container = this.createContainer(id);
     this.controls = [];
+    this.id = id;
   }
-  createContainer() {
+  createContainer(id) {
     const container = createDiv();
     container.addClass('control_panel');
     container.parent(document.querySelector('main'));
+    container.id(id);
     return container;
   }
   //add a preExisting already-containerized control to the set
