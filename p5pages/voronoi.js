@@ -235,11 +235,31 @@ class Voronoi {
 
   }
   generatePoints() {
-    return Array.from({length:this.regions}, (_) => (
-    new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100),this)
-    
-  ));
+    return Array.from({length:this.regions}, () => {
+      
+      //Generate a random RGB triplet color
+      let RGBColr = Array.from({length:3}, () => int(random(255)));
+      let HSBColr = rgbToHSB(RGBColr);
+      return new Spreader(
+        this.w,
+        this.h,
+        //Assign spreader the RGB or HSB based random color
+        Math.random() < .5 
+          ? HSBColr //RGB-value-based
+          : color(random(360), //random hue
+                  random(60,100), //saturation
+                  MODE == MERLIN //brightness depends on whether this is for MERLIN mode
+                    ? 70
+                    : 100
+                 ),
+        this
+      )
+    }
+                     
+                     
+                     )
   }
+                      // new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100),this)
   setupFadeBuffer(){
     //initialize the blackout buffer with an equal sized canvas and a black rectangle alpha 1
     let buff = createGraphics(this.w,this.h)
