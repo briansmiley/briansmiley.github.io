@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   display: flex;
   align-items: center;
-  /* flex-flow: column wrap; */
+  flex-flow: column wrap; 
   justify-content: center;
 }
 canvas {
