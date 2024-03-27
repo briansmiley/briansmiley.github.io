@@ -27,8 +27,8 @@ function setup() {
 
 function generateControls() {
   controlPanel = new ControlPanel('main_controls');
-  mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
-  taper = controlPanel.addCheckbox('Taper branches (t) (slower)',false);
+  mouseMode = controlPanel.addCheckbox('Mouse mode (m)',true);
+  taper = controlPanel.addCheckbox('Taper branches (t) (slower)',true);
   slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
   renderButton = slowModePanel.addButton('Render');
