@@ -1,7 +1,7 @@
 //A slider with an editable textbox reflecting the slider's value, inside a div container for placement using html/CSS
 
 class textboxSlider {
-  constructor(mn, mx, initial, step = 0, parent = document.querySelector('main'),label = '',containerID = "textboxSlider") {
+  constructor(mn, mx, initial, step = 0, parent = document.querySelector('main'),label = '',containerID = "") {
     this.mn = mn; //min value
     this.mx = mx; //max value
     this.label = label;
@@ -13,6 +13,7 @@ class textboxSlider {
   makeContainer(id, parent, label) {
     const container = createDiv(label);
     container.id(id);
+    container.addClass('textboxSlider');
     container.parent(parent);
     return container;
   }
