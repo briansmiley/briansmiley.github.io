@@ -22,7 +22,7 @@ canvas {
   margin: .0 0 .5em 0;
 }
 #controls-box {
-  width: 80vw;
+  width: 95vw;
   align-items: left;
 }
 #controls {
@@ -45,11 +45,11 @@ input[type="range"] {
 }
 #controls-top-row {
   display: flex;
-  flex-flow: row;
-  align-items: center;
+  flex-flow: row wrap;
 }
 #controls-top-row > * {
   margin: 0 .5em 0 0;
+  align-items:center;
 }
 
 #reflection-checkbox-container {
