@@ -110,15 +110,19 @@ class Voronoi {
   }
   
   render() {
-    if (this.full) {
+
+    if (this.timer++ % (fR * RESET_TIME)  == 0 && AUTO_REFRESH) this.startFade();
+    if (this.fading) {
+      if (this.fade >= 300) this.reset();
+      this.renderFade();
+      this.fade+=2;
       return;
     }
-
-    
-    if (MODE == DEFAULT) {
+    if (this.full) {
       regionSlider.render();
+      this.drawResetButton();
+      return;
     }
-    
     
     //spread each region
     this.points.forEach((spreader) => {
@@ -130,18 +134,13 @@ class Voronoi {
     
     //every 60 frames, check if the image is equal to the buffer, and if so we are done drawing
     if (frameCount % 60 == 0) this.checkFull();
-    
-    if (this.timer % (fR * RESET_TIME)  == 0 && AUTO_REFRESH) this.startFade();
+
     this.buffer.copy(get(), 0, 0, this.buffer.width, this.buffer.height, 0, 0, this.buffer.width, this.buffer.height);
-    if (MODE == DEFAULT) this.drawResetButton();
     this.size += SPEED * 2;
-    
-    if (this.fading) {
-      if (this.fade >= 300) this.reset();
-      this.renderFade();
-      this.fade+=2;
+    if (MODE == DEFAULT) {
+      regionSlider.render();
+      this.drawResetButton();
     }
-    this.timer++;
 
   }
   reset() {
