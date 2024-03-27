@@ -13,11 +13,11 @@ h2 {
 
 .p5-thumbnails-container {
     display:flex;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 .p5-thumbnail {
     display: inline-block; /* Display thumbnails as inline-block elements */
-    margin: 10px; /* Adjust margin between thumbnails */
+    margin: 3em; /* Adjust margin between thumbnails */
     text-align: center; /* Center the text caption */
     text-decoration: none; /* Remove underline from links */
     color: black; /* Set text color */
