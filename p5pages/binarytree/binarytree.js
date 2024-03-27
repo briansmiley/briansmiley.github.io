@@ -23,6 +23,8 @@ function setup() {
   generateControls();
   message = createDiv();
   message.id(`timeout`);
+  document.querySelector('main').children[1].before(message.elt);
+  // message.parent(document.querySelector('main'));
 }
 
 
@@ -43,7 +45,7 @@ function generateControls() {
 }
 
 function draw() {
-  
+  TIMEDOUT = false;
   renderButton.hide();
   frameStart = millis();
   if(slowMode.checked()) renderButton.show();
@@ -84,7 +86,7 @@ function renderTree() {
       message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
       
       // message.parent(main);
-      main.children[1].before(message.elt);
+      
       slowMode.checked(true);
       runFrame = false;
     }
