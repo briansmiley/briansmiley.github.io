@@ -42,3 +42,14 @@ input[type="range"] {
 .select-label {
   margin-right: .5em;
 }
+#controls-top-row {
+  display: flex;
+  flex-flow: row;
+}
+#controls-top-row > * {
+  margin: 0 .5em 0 0;
+}
+
+#reflection-checkbox-container {
+  display: flex;
+}

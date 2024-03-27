@@ -20,7 +20,7 @@ function setup() {
 function draw() {
   background(0);
   createDrops();
-  drops.forEach( (drop) => drop.frame());
+  drops.forEach( (drop) =>drop.frame());
   drops = drops.filter((drop) => {
     drop.frame();
     return alpha(drop.colr) > 0;
@@ -32,6 +32,8 @@ function generateControls() {
   colorModeSelect.parent('color-select-container');
   colorOptions.forEach((i) => colorModeSelect.option(i));
 
+  wallReflections = createCheckbox('',true);
+  wallReflections.parent('reflection-checkbox-container');
   dpsSlider = createSlider(0.5, 300, 20, 0); //drops per second assuming 60fps
   dpsSlider.parent('drop-rate-container');
 
@@ -46,6 +48,7 @@ function generateControls() {
 }
 
 function createDrops() {
+  if (wallReflections.checked()) drops.forEach((drop) => drop.reflections());
   if (dpsSlider.value() <= 60) {
     let framesPerDrop = probabalisticInt(60 / dpsSlider.value());
     if (frameCount % framesPerDrop == 0) drops.push(new Drop());
@@ -89,4 +92,13 @@ function probabalisticInt(flt) {
 function  windowResized() {
   // let dim = min(windowWidth, .8*windowHeight, 700);
   resizeCanvas(windowWidth, .8*windowHeight);
+}
+
+function mousePressed() {
+  if (mouseX > width || mouseY > height) return;
+  let d = new Drop();
+  d.x = mouseX;
+  d.y = mouseY;
+  drops.push(d);
+  console.log(mouseX, mouseY)
 }
