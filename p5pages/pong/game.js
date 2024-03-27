@@ -27,11 +27,15 @@ class Game {
         switch (this.mode) {
           case AUTOPLAY:
             this.paddles.forEach((paddle) => {
-            paddle.update(scaledPerlinOffset(this.ball.x, this.ball.y, paddle.y, paddle.w, paddle.seed))});
+            paddle.update(scaledPerlinOffset(this.ball.x, this.ball.y, paddle.y, paddle.w, paddle.seed));
+            slider1.value(this.paddle1.x)
+            slider2.value(this.paddle2.x)
+            });
             break;
           case SINGLE:
             this.paddle1.update(value(slider1));
             this.paddle2.update(scaledPerlinOffset(this.ball.x, this.ball.y, this.paddle2.y, this.paddle2.w, this.paddle2.seed));
+            slider2.value(this.paddle2.x)
             break;
           case SLIDERS:
             this.paddle1.update(value(slider1));
