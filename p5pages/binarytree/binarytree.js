@@ -9,8 +9,7 @@ let minBranchSlider;
 let controlPanel;
 let mouseMode;
 let taper;
-let slowMode;
-let renderButton;
+let slowModePanel, slowMode, renderButton;
 let trunkBase = 0;
 let frameStart;
 let TIMEOUT = 2000;
@@ -24,8 +23,9 @@ function setup() {
 
 
 function generateControls() {
-  controlPanel = new ControlPanel();
+  controlPanel = new ControlPanel('main_controls');
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
+  slowModePanel = controlPanel.addPanel('slow_mode');
   slowMode = controlPanel.addCheckbox('Single Render Mode', false);
   renderButton = controlPanel.addButton('Render', false, slowMode);
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
