@@ -12,7 +12,7 @@ let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorStyleSelect, colorStylePanel, gradientSlider;
-let colorPanel, backgroundSelector, treeColorSelector, TREE_COLOR, BACKGROUND_COLOR;
+let colorPanel, backgroundSelector, treeColorSelector, gradientColorSelector, GRADIENT_COLOR, TREE_COLOR, BACKGROUND_COLOR;
 const GRADIENT = 'Gradient';
 const SOLID = 'Solid';
 const RAINBOW = 'Rainbow';
@@ -25,7 +25,9 @@ let message;
 let minX, maxX, minY, maxY;
 
 function setup() {
-  BACKGROUND_COLOR = 90;
+  BACKGROUND_COLOR = 230;
+  TREE_COLOR = 0;
+  GRADIENT_COLOR = BACKGROUND_COLOR;
   colorMode(HSB);
   blendMode(OVERLAY);
   angleMode(DEGREES);
@@ -60,23 +62,13 @@ function generateControls() {
   });
 
   //Color mode dropdown
-  colorStylePanel = controlPanel.addPanel('color_mode', controlPanel.container);
-  colorStyleSelect = colorStylePanel.addDropdown(); //Colormode selector
-  gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR,0);  //Slider to control gradient
-  gradientSlider.id('gradient_slider');
-  gradientSlider.hide();
-
-  colorStyleSelect.id('color_selector');
-  let colorModes = [SOLID, GRADIENT]
-  colorModes.forEach((mode) => colorStyleSelect.option(mode));
-
-  //Color picker div
-  colorPanel = controlPanel.addPanel('color_panel');
-  //Background color selector
-  backgroundSelector = colorPanel.addColorPicker('Background ','#eeeeee','background_select');
-  //Tree color selector
-  treeColorSelector = colorPanel.addColorPicker('Tree ', '#000000', 'tree_color_select');
-  //Branch scaledown factor
+  // colorStylePanel = controlPanel.addPanel('color_mode', controlPanel.container);
+  // gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR,0);  //Slider to control gradient
+  // gradientSlider.id('gradient_slider');
+  // gradientSlider.hide();
+  
+  
+  
   scaleSlider = controlPanel.addTextboxSlider(0,830,690,1,'Scale Factor (x1000)<br>');
   //Branching angle slider
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
@@ -86,6 +78,21 @@ function generateControls() {
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
   //Antibias to L/R branch direction
   lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink<br>')
+  //Color picker div
+  colorPanel = controlPanel.addPanel('color_panel');
+  colorPanel.container.html('Color')
+  //Color style selector
+  colorStyleSelect = colorPanel.addDropdown(); 
+  colorStyleSelect.id('style_selector');
+  let colorModes = [SOLID, GRADIENT]
+  colorModes.forEach((mode) => colorStyleSelect.option(mode));
+  //Background color selector
+  backgroundSelector = colorPanel.addColorPicker('Background ',BACKGROUND_COLOR,'background_select');
+  //Tree color selector
+  treeColorSelector = colorPanel.addColorPicker('Tree ', TREE_COLOR, 'tree_color_select');
+  //Gradient color Selector
+  gradientColorSelector = colorPanel.addColorPicker('Gradient ', GRADIENT_COLOR, 'gradient_selector');
+  //Branch scaledown factor
 
 }
 
@@ -104,7 +111,8 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  colorStyleSelect.value() == GRADIENT ? gradientSlider.show() : gradientSlider.hide();
+  colorStyleSelect.value() == GRADIENT ? document.getElementById('gradient_selector').classList.remove('hidden') :
+                                        document.getElementById('gradient_selector').classList.add('hidden');
   BACKGROUND_COLOR = backgroundSelector.value();
   
 
@@ -190,6 +198,23 @@ function taperLine(
     pop();
   }
 
+function gradient (oldColor, newColor = '#ffffff', frac) {
+  push();
+  colorMode(RGB);
+  oldRed = red(oldColor);
+  oldGreen = green(oldColor);
+  oldBlue = blue(oldColor);
+  newRed = red(newColor);
+  newGreen = green(newColor);
+  newBlue = blue(newColor);
+  let nextColor = color([
+    oldRed + (frac * (newRed - oldRed)),
+    oldGreen + (frac * (newGreen - oldGreen)),
+    oldBlue + (frac * (newBlue - oldBlue)),
+  ]);
+  pop();
+  return nextColor;
+}
 function branch(x, y, len,ang,wgt,scl,lvl){
   if(len < minBranchSlider.value() || TIMEDOUT) return; //stop branching if we hit min branch limit or hit a render timeout
 
@@ -213,17 +238,11 @@ function branch(x, y, len,ang,wgt,scl,lvl){
         break;
       case GRADIENT:
         let oldColor = treeColorSelector.value();
-        let gradientMap = map(lvl, 
+        let endColor = gradientColorSelector.value();
+        let gradientFrac = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                          0, gradientSlider.value());    
-        push();
-        colorMode(RGB);
-        let newColor = color([
-          red(oldColor) + (gradientMap * ((255 - red(oldColor))/100)),
-          green(oldColor) + (gradientMap * ((255 - green(oldColor))/100)),
-          blue(oldColor) + (gradientMap * ((255 - blue(oldColor))/100)),
-        ])
-        pop();
+                          0, 1);
+        let newColor = gradient(oldColor, endColor, gradientFrac);
         fill(newColor);
         stroke(newColor);
         break;

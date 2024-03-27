@@ -40,11 +40,7 @@ button {
   height: fit-content;
   align-items: start;
 }
-#color_panel {
-  display: flex;
-  flex-flow: row;
-  height: fit-content;
-}
+
 #background_select {
   margin: 0 .5em 0 0;
 }
@@ -52,17 +48,22 @@ button {
   color: red;
   font-weight: bold;
 }
-#color_mode {
-  display: flex;
-  flex-flow: row;
-  height: fit-content;
-  align-items: start;
-}
-#color_selector {
+#style_selector {
   width: fit-content;
   margin: 0 .5em .5em 0;
 }
-
+#color_panel {
+  display: flex;
+  flex-flow: column;
+  font-weight: bold;
+}
+#color_panel > * {
+  font-weight:normal;
+}
+#color_panel > * {
+  min-height: 30px;
+  margin-top: 5px;
+}
 #slow_panel > * {
   margin-right: 1em;
 }
@@ -72,4 +73,7 @@ button {
 }
 input[type='text'] {
   width: 3em;
+}
+.hidden {
+  display:none;
 }
