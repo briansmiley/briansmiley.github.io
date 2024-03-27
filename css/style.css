@@ -8,6 +8,8 @@ body {
     padding: 5px;
 }
 
+.p5-thumbnails-container {
+}
 .p5-thumbnail {
     display: inline-block; /* Display thumbnails as inline-block elements */
     margin: 10px; /* Adjust margin between thumbnails */
