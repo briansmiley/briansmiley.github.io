@@ -20,7 +20,6 @@ body {
     color: black; /* Set text color */
     border: 2px solid #999;
     padding: 1em;
-    
 }
 .p5-thumbnail img {
     width: 135px; /* Adjust thumbnail width */
@@ -50,10 +49,13 @@ main#voronoi #container {
 }
 
 main#voronoi #container input[type='range'] {
-    width: 200px;
+    width: 15em;
+    zoom: 2;
 }
 
 main#voronoi #container input[type='text'] {
-    width: 30px;
+    width: 3em;
+    height:auto;
     text-align: center;
+    font-size: 3em;
 }
