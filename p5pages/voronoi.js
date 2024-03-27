@@ -5,12 +5,13 @@ const MODE = DEFAULT;
 
 
 const REGIONS = 25;
-const RESET_TIME = 7;
+const RESET_TIME = 10;
+const FADE_TIME = 5;
 const fR = 60;
 const SPEED = (MODE == DEFAULT) ? 0.25 : 0.05;
 let show_dots = (true && MODE == DEFAULT);
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = false;
+const AUTO_REFRESH = true;
 
 let controls;
 let regionSlider;
@@ -100,29 +101,30 @@ class Voronoi {
     this.points = this.generatePoints();
     this.size = 0;
     this.buttonDiameter = BOTTOM_BAR - 10;
-    this.fadeStep = 10;
+    this.fadeStep = 1.5;
     this.fadeBuffer = this.setupFadeBuffer(this.fadeStep);
-    this.fadeOut = 0;
+    this.fade = 0;
     this.fading = false;
     this.buffer = createGraphics(w,h);
-    
+    this.fadeStart = 0;
     this.full = false;
-    this.timer = 0;
+    this.pauseTimer = 0;
+    this.startTime = millis();
   }
   
   render() {
 
-    if (this.timer++ % (fR * RESET_TIME)  == 0 && AUTO_REFRESH) this.startFade();
+    
     if (this.fading) {
-      
       this.renderFade();
-      if (this.fadeOut >= 1000) this.reset();
+      if (this.fade >= 255) this.reset();
       // this.fade+=1;
       return;
     }
+    if (this.timeElapsed() >= RESET_TIME && AUTO_REFRESH) this.startFade();
     if (this.full) {
-      regionSlider.render();
-      this.drawResetButton();
+      // regionSlider.render();
+      // this.drawResetButton();
       return;
     }
     
@@ -145,13 +147,16 @@ class Voronoi {
     }
 
   }
+  timeElapsed() {
+    return (millis() - this.startTime) / 1000;
+  }
   reset() {
     clear();
     this.buffer.clear();
     this.size = 0;
-    this.timer = 0;
+    this.startTime = millis();
     this.fading = false;
-    this.fadeOut = 0;
+    this.fade = 0;
     this.full = false;
     if (MODE == DEFAULT) this.regions = regionSlider.value();
     else this.regions = REGIONS;
@@ -163,16 +168,27 @@ class Voronoi {
     new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100))
   ));
   }
-  setupFadeBuffer(alph){
+  setupFadeBuffer(){
+    //initialize the blackout buffer with an equal sized canvas and a black rectangle alpha 1
     let buff = createGraphics(this.w,this.h)
     buff.noStroke();
-    buff.fill(0,0,0,alph);
+    buff.fill(0,1);
     buff.rect(0,0,this.w, this.h);
     return buff;
   }
-  renderFade() {    
+  renderFade() {
+    //set alpha for blackout based on time elapsed since fade started
+    this.fade = (millis() - this.fadeStart)*(255 / FADE_TIME)/1000;
+    
+    //clear the fadeout buffer and fill it with a rectangle of appropriate alpha
+    this.fadeBuffer.clear()
+    this.fadeBuffer.fill(0,0,0,this.fade);
+    this.fadeBuffer.rect(0,0,this.w,this.h);
+    
+    //image the canvas then draw the fadeout rectangle over it
+    image(this.buffer,0,0);
     image(this.fadeBuffer,0,0);
-    this.fadeOut += this.fadeStep;
+
   }
   checkFull() {
     loadPixels();
@@ -183,7 +199,7 @@ class Voronoi {
         return false;
       }
     }
-    // console.log('canvas full');
+    console.log('canvas full');
     this.full = true;
     return true;
   }
@@ -199,6 +215,7 @@ class Voronoi {
     triangle(this.w/2 + this.buttonDiameter/2 - 5, this.w + BOTTOM_BAR/2, this.w/2 + this.buttonDiameter/2 + 5, this.w + BOTTOM_BAR/2, this.w/2 + this.buttonDiameter/2, this.w + BOTTOM_BAR/2 + 6);
     pop();
   }
+  
   startFade() {
     push();
     this.buffer.fill(255);
@@ -207,8 +224,10 @@ class Voronoi {
     this.buffer.blend(get(),0,0,this.w,this.h,0,0,this.w,this.h,BLEND);
     image(this.buffer,0,0);
     pop();
+    this.fadeStart = millis();
     this.fading = true;
   }
+  
   isClicked() {
     if (mouseX > this.w/2 - this.buttonDiameter/2 && mouseX < this.w/2 + this.buttonDiameter/2 && mouseY > this.w + BOTTOM_BAR/2 - this.buttonDiameter/2 && mouseY < this.w + BOTTOM_BAR/2 + this.buttonDiameter/2) {
       this.startFade();
@@ -236,7 +255,7 @@ function mouseClicked() {
 }
 
 function merlinPreview(){
-    if (MODE == MERLIN || MODE == MERLIN_PREVIEW) {
+    if (MODE == MERLIN_PREVIEW) {
       push();
       colorMode(RGB);
       stroke(255);
