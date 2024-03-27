@@ -3,7 +3,6 @@ const MERLIN = 'merlin';
 const DEFAULT = 'default';
 const WACKY = 'wacky';
 let MODE = DEFAULT;
-let a = 'test'
 
 const REGIONS = 25;
 const RESET_TIME = 10;
