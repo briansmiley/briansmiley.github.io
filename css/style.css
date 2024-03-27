@@ -8,11 +8,18 @@ body {
     padding: 5px;
 }
 
-.p5Thumbnail {
-    width: 100px;
-    height: 100px;
+.p5-thumbnail {
+    display: inline-block; /* Display thumbnails as inline-block elements */
+    margin: 10px; /* Adjust margin between thumbnails */
+    text-align: center; /* Center the text caption */
+    text-decoration: none; /* Remove underline from links */
+    color: black; /* Set text color */
 }
-
+.p5-thumbnail img {
+    width: 100px; /* Adjust thumbnail width */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure image is displayed as a block */
+}
 .p5script {
     margin: 0 auto; /* Center the element horizontally */
     display: block; /* Ensure the element is displayed as a block */
