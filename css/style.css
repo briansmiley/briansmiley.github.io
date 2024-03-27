@@ -46,7 +46,6 @@ main#voronoi #container {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    transform: scale(2);
 }
 
 main#voronoi #container input[type='range'] {
