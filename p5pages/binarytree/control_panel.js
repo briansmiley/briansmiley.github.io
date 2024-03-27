@@ -1,13 +1,13 @@
 class ControlPanel {
-  constructor(id) {
-    this.container = this.createContainer(id);
+  constructor(id, parent = document.querySelector('main')) {
+    this.container = this.createContainer(id,parent);
     this.controls = [];
     this.id = id;
   }
-  createContainer(id) {
+  createContainer(id, parent) {
     const container = createDiv();
     container.addClass('control_panel');
-    container.parent(document.querySelector('main'));
+    container.parent(parent);
     container.id(id);
     return container;
   }
@@ -20,7 +20,7 @@ class ControlPanel {
   //add a sub-panel group
   addPanel(id) {
     let newPanel = new ControlPanel(id)
-    newPanel.parent = this.container; //put the new control panel object inside the parent one's div container
+    newPanel.container.parent(this.container); //put the new control panel object inside the parent one's div container
     this.controls.push(newPanel); //add it to the list of controls in this one (lets update() work seamlessly)
     return newPanel;
   }
