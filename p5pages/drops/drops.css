@@ -29,7 +29,7 @@ canvas {
   display: flex;
   flex-flow: column wrap;
 }
-.slider-container {
+.slider-container, .select-container{
   display: flex;
   flex-flow: row nowrap;
 }

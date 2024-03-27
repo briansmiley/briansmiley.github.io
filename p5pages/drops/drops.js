@@ -18,7 +18,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(backgroundColorSelect.value());
   createDrops();
   drops.forEach( (drop) =>drop.frame());
   drops = drops.filter((drop) => {
@@ -31,6 +31,9 @@ function generateControls() {
   colorModeSelect = createSelect();
   colorModeSelect.parent('color-select-container');
   colorOptions.forEach((i) => colorModeSelect.option(i));
+
+  backgroundColorSelect = createColorPicker('black');
+  backgroundColorSelect.parent('background-color-picker-container');
 
   wallReflections = createCheckbox('',true);
   wallReflections.parent('reflection-checkbox-container');
