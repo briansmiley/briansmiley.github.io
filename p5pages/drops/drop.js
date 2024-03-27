@@ -1,5 +1,5 @@
 class Drop {
-    constructor(colr = randomColor(), speed = spreadRateSlider.value(), x = random(width), y = random(height), ) {
+    constructor(colr = randomColor(), speed = spreadRateSlider.value(), weight = rippleWeightSlider.value(), x = random(width), y = random(height), ) {
         this.x = x;
         this.y = y;
         this.colr = colr;
@@ -7,6 +7,7 @@ class Drop {
         this.speed = speed;
         this.birth = millis();
         this.lifetime = rippleDurationSlider.value();
+        this.weight = weight;
     }
 
 
@@ -25,6 +26,7 @@ class Drop {
         push();
         noFill()
         stroke(this.colr);
+        strokeWeight(this.weight);
         circle(this.x, this.y, this.r * 2)
         pop();
     }

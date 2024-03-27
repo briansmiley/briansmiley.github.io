@@ -24,4 +24,5 @@ main {
 .slider {
   display: flex;
   flex-flow: row nowrap;
+  flex-grow: 1;
 }

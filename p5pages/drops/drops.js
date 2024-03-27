@@ -1,11 +1,11 @@
 let canvas;
 let drops = [];
-let colorModeSelect, dpsSlider, spreadRateSlider, rippleDurationSlider;
+let colorModeSelect, dpsSlider, spreadRateSlider, rippleDurationSlider, rippleWeightSlider;
 const rgb = 'RGB';
 const hsb = 'HSB';
 const GRAY = 'Grayscale';
 const PASTEL = 'Pastel';
-const colorOptions = [GRAY, rgb, hsb, PASTEL];
+const colorOptions = [hsb, rgb, PASTEL, GRAY];
 let lastDropsTime, timePerDrop;
 function setup() {
   colorMode(HSB);
@@ -31,12 +31,17 @@ function generateControls() {
   colorModeSelect.parent('color-select');
   colorOptions.forEach((i) => colorModeSelect.option(i));
 
-  dpsSlider = createSlider(0.5, 100, 5, 0);
+  dpsSlider = createSlider(0.5, 150, 20, 0);
   dpsSlider.parent('drop-rate');
+
   spreadRateSlider = createSlider(.01, 1, .5,0);
   spreadRateSlider.parent('spread-rate');
-  rippleDurationSlider = createSlider(50, 5000, 1000);
+
+  rippleDurationSlider = createSlider(50, 5000, 1500);
   rippleDurationSlider.parent('ripple-duration');
+
+  rippleWeightSlider = createSlider(.5, 10, 2, 0);
+  rippleWeightSlider.parent('ripple-weight');
 }
 
 function createDrops(time) {
