@@ -7,10 +7,14 @@ class Ball {
         this.d = d;
         this.colr = 'white';
         this.immune = false;
+        this.slider;
     }
 
     setColr(c) {
         this.colr = c;
+    }
+    speedSlider(slider) {
+        this.slider = slider;
     }
 
     setPos(x,y) {
@@ -26,6 +30,7 @@ class Ball {
         let mult = speed/current;
         this.setVel(this.vel[0] * mult, this.vel[1]*mult);
         this.baseSpeed = speed;
+        this.speedSlider.value(speed);
     }
     getSpeed() {
         return Math.sqrt(this.vel[1]**2 + this.vel[0]**2);

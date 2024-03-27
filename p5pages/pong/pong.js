@@ -33,6 +33,7 @@ function setup() {
     generateControls();
     game.paddle1.control(slider1);
     game.paddle2.control(slider2);
+    game.ball.speedSlider(ballSpeedSlider);
     noLoop();
 }
 function generateControls() {
