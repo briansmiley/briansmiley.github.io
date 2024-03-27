@@ -62,7 +62,10 @@ function generateControls() {
     slider2 = createSlider(0,width,width/2,1);
     resetButton = createButton('Reset');
     resetButton.parent('reset-button');
-    resetButton.mousePressed(() => game.endGame());
+    resetButton.mousePressed(() => {
+        game.endGame();
+        draw();
+    });
     pausePlayButton = createButton('Play');
     pausePlayButton.parent('pause-button');
     pausePlayButton.mousePressed(() => {
