@@ -44,10 +44,12 @@ class Ball {
     checkScore() {
         if (this.y - this.d/2 <= 0) {
             this.reset();
+            console.log('2')
             return 2;
         }
         if (this.y + this.d/2 >= height) {
             this.reset();
+            console.log('1')
             return 1;
         }
         return 0
