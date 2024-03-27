@@ -19,17 +19,6 @@ let regionSlider;
 let graph;
 let c;
 
-//FUTURE: group bottom controls into a Controls class that renders them all
-// class Controls {
-//   constructor() {
-//     this.slider = new inputSlider();
-//     this.dots = false;
-    
-//   }
-//   render() {
-    
-//   }
-// }
 class inputSlider {
   constructor(mn, mx, initial) {
     this.mn = mn;
@@ -282,22 +271,6 @@ class Voronoi {
     image(this.fadeBuffer,0,0);
 
   }
-  //Old version//
-  // checkFull() {
-  //   console.log('checking fullness');
-  //   loadPixels();
-  //   this.buffer.loadPixels();
-  //   for (let i = 0; i < this.buffer.pixels.length; i++) {
-  //     if (pixels[i] !== this.buffer.pixels[i]) {
-  //       // If a difference is found, return false
-  //       // console.log(`Image: [${pixels[i]},${pixels[i+1]},${pixels[i+2]}]\nBuffer:[${this.buffer.pixels[i]},${this.buffer.pixels[i+1]},${this.buffer.pixels[i+2]}]\n at pixel ${i}`);
-  //       return false;
-  //     }
-  //   }
-  //   console.log('canvas full');
-  //   this.full = true;
-  //   return true;
-  // }
   checkFull() {
     // console.log('checking fullness');
     let img = get(0,0,this.w,this.h);
