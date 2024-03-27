@@ -4,7 +4,6 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 canvas {
   display: block;
@@ -14,7 +13,6 @@ main {
   display: flex;
   flex-flow: column wrap;
   align-items: flex-start;
-  height: 100vh;
 }
 
 input[type='text'] {
