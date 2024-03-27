@@ -13,7 +13,7 @@ let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorStyleSelect, colorStylePanel, gradientSlider;
 let colorPanel, backgroundSelector, treeColorSelector, TREE_COLOR, BACKGROUND_COLOR;
-const GRADIENT = 'Graydient';
+const GRADIENT = 'Gradient';
 const SOLID = 'Solid';
 const RAINBOW = 'Rainbow';
 let trunkBaseY,trunkBaseX, trunkLength;
@@ -215,9 +215,17 @@ function branch(x, y, len,ang,wgt,scl,lvl){
         let oldColor = treeColorSelector.value();
         let gradientMap = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                          0, gradientSlider.value());               
-        fill(gradientMap);
-        stroke(gradientMap);
+                          0, gradientSlider.value());    
+        push();
+        colorMode(RGB);
+        let newColor = color([
+          red(oldColor) + (gradientMap * ((255 - red(oldColor))/100)),
+          green(oldColor) + (gradientMap * ((255 - green(oldColor))/100)),
+          blue(oldColor) + (gradientMap * ((255 - blue(oldColor))/100)),
+        ])
+        pop();
+        fill(newColor);
+        stroke(newColor);
         break;
         //To implement: rainbow mode brings you across the hue wheel, slider maybe changes how much/where you start on hue?
       // case RAINBOW:
