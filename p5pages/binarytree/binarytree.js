@@ -14,6 +14,7 @@ let rescale;
 let colorMode, colorPanel, colorSlider;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
+const RAINBOW = 'Rainbow';
 let trunkBaseY,trunkBaseX, trunkLength;
 let frameStart;
 let TIMEOUT = 2000;
@@ -63,7 +64,7 @@ function generateControls() {
   colorSlider.id('color_slider');
   colorSlider.hide();
   colorMode.id('color_selector');
-  let colorModes = [BLACK, GRAY]
+  let colorModes = [BLACK, GRAY/*, RAINBOW*/]
   colorModes.forEach((mode) => colorMode.option(mode));
 
 
@@ -190,32 +191,38 @@ function branch(x, y, len,ang,wgt,scl,lvl){
   maxX = max(maxX, x);
   maxY = max(maxY, y);
   //Draw a branch tapering down to the next branch size or of constant weight
-  switch (colorMode.value()) {
-    case BLACK:
-      fill(0);
-      stroke(0);
-      break;
-    case GRAY:
-      let greymap = map(lvl, 
-                        0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                        colorSlider.value()/4, colorSlider.value());
-      fill(greymap);
-      stroke(greymap);
-      break;
-  }
-  strokeWeight(wgt)
-  let nextX = x + len * sin(ang)
-  let nextY = y - len * cos(ang)
-  if (taper.checked() && len > 4) {
-    push();
-    noStroke();
-    taperLine(x,y,nextX,nextY,wgt,wgt*scl,true);
-    pop();
-    // gradientLine(0,0,0,-len,wgt,wgt*scl,12);
-  }
+  push();
+    switch (colorMode.value()) {
+      case BLACK:
+        fill(0);
+        stroke(0);
+        break;
+      case GRAY:
+        let greymap = map(lvl, 
+                          0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
+                          colorSlider.value()/4, colorSlider.value());
+        fill(greymap);
+        stroke(greymap);
+        break;
+        //To implement: rainbow mode brings you across the hue wheel, slider maybe changes how much/where you start on hue?
+      // case RAINBOW:
+      //   let rainmap = map(lvl, 
+      //                     0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
+      //                     colorSlider.value()/4, colorSlider.value());
+    }
+    strokeWeight(wgt)
+    let nextX = x + len * sin(ang)
+    let nextY = y - len * cos(ang)
+    if (taper.checked() && len > 4) {
+      push();
+        noStroke();
+        taperLine(x,y,nextX,nextY,wgt,wgt*scl,true);
+      pop();
+      // gradientLine(0,0,0,-len,wgt,wgt*scl,12);
+    }
 
-  else line(x,y,nextX,nextY);
-
+    else line(x,y,nextX,nextY);
+  pop();
   
   if(len >= minBranchSlider.value()){
     let nextAng = ang + tiltSlider.value() + angSlider.value();
