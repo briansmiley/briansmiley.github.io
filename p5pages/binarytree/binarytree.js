@@ -62,7 +62,7 @@ function generateControls() {
   //Color mode dropdown
   colorStylePanel = controlPanel.addPanel('color_mode', controlPanel.container);
   colorStyleSelect = colorStylePanel.addDropdown(); //Colormode selector
-  gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR * .95,0);  //Slider to control gradient
+  gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR,0);  //Slider to control gradient
   gradientSlider.id('gradient_slider');
   gradientSlider.hide();
 
