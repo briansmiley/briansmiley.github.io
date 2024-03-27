@@ -55,7 +55,7 @@ function generateControls() {
   //Color mode dropdown
   colorMode = controlPanel.addDropdown();
   colorMode.id('colorMode');
-  let colorModes = ['Black','Graydient']
+  let colorModes = [BLACK, GRAY]
   colorModes.forEach((mode) => colorMode.option(mode));
 
 
