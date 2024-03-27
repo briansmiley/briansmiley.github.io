@@ -10,7 +10,9 @@ class Paddle {
         this.padding = 0;
         this.seed = seed;
     }
-
+    reset() {
+        this.x = width/2;
+    }
     moveLeft(){
         this.x = max(this.x - this.speed, this.w/2);
     }

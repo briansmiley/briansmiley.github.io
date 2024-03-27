@@ -1,5 +1,5 @@
 
-let ball, paddle1, paddle2;
+let game, ball, paddle1, paddle2;
 let score1, score2;
 let MERLIN = false;
 let paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR;
@@ -15,23 +15,14 @@ const SINGLE = 'Single-player';
 //Else
 let MODE, MODESELECT;
 let slider1, slider2;
+let resetButton;
 
 function setup() {
     // createCanvas(43,66);
     //Else
-    MODESELECT = createSelect();
-    [AUTOPLAY,SLIDERS,SINGLE].forEach((option) => MODESELECT.option(option));
     let canvas = createCanvas(300,500);
     canvas.parent('canvas-box');
-    slider1 = createSlider(0,width,width/2,1);
-    slider2 = createSlider(0,width,width/2,1);
-
-    MODESELECT.parent('mode-select');
-    slider1.parent('player1');
-    slider2.parent('player2');
-    slider1.class('paddle-slider');
-    slider2.class('paddle-slider');
-
+    
     // game = new Game(7,2,2,2,3);
     // MERLIN = true;
     if (MERLIN) {
@@ -51,8 +42,24 @@ function setup() {
     }
     // MERLIN = false;
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR, MODE);
+    generateControls();
 }
+function generateControls() {
+    MODESELECT = createSelect();
+    MODESELECT.parent('mode-select');
+    [AUTOPLAY,SLIDERS,SINGLE].forEach((option) => MODESELECT.option(option));
+    
+    slider1 = createSlider(0,width,width/2,1);
+    slider2 = createSlider(0,width,width/2,1);
+    resetButton = createButton('Reset');
+    resetButton.parent('reset-button');
+    resetButton.mousePressed(() => game.reset());
 
+    slider1.parent('player1');
+    slider2.parent('player2');
+    slider1.class('paddle-slider');
+    slider2.class('paddle-slider');
+}
 function scaledPerlinOffset(ballX, ballY, paddleY, paddleWidth, paddleSeed) {
   
   let ballDistance = abs(ballY - paddleY);
