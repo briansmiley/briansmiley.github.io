@@ -18,6 +18,11 @@ canvas {
 
 }
 
+#timeout {
+  color: red;
+  font-weight: bold;
+  
+}
 input[type='text'] {
   width: 3em;
 }
