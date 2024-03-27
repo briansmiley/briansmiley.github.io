@@ -132,23 +132,7 @@ function taperLine(
     pop();
   }
 
-
-function branch(len,ang,wgt,scl){
-  //Break the recursion if the current frame has taken too long to render
-  // if (millis() - frameStart > TIMEOUT) {
-
-  //   if (!TIMEDOUT) {
-  //     let main = document.querySelector('main');
-  //     console.log('Render timeout');
-  //     message = createDiv('Render timed out; please refresh');
-  //     message.id('timeout');
-  //     // message.parent(main);
-  //     main.children[1].before(message.elt);
-  //     noLoop();
-  //   }
-  //   TIMEDOUT = true;
-  //   return;
-  // }
+function branch(len,ang,wgt,scl,canv){
   //Draw a branch tapering down to the enxt branch size or of constant weight
   strokeWeight(wgt)
   if (taper.checked() && wgt > 3 && len > 4) {
