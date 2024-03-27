@@ -62,6 +62,7 @@ function draw() {
     message.html("");
     background(220);
     renderTree();
+    if (TIMEDOUT) message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
   }
   runFrame = !slowMode.checked();
 }
@@ -82,11 +83,7 @@ function renderTree() {
   if (millis() - frameStart > TIMEOUT) {
     if (slowMode.checked()) return;
     if (!TIMEDOUT) {
-      console.log('Render timeout');
-      message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
-      
-      // message.parent(main);
-      
+      console.log('Render timeout');      
       slowMode.checked(true);
       runFrame = false;
     }
