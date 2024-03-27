@@ -51,28 +51,29 @@ class Ball {
     }
 
     checkPaddleCollision(paddle) {
+        let hit = false;
         //checks if the ball has just updated to being inside a paddle
         if (this.x - (this.d/2) < paddle.rightEdge() &&
             this.x + (this.d/2) > paddle.leftEdge() &&
             this.y - (this.d/2) < paddle.bottomEdge() &&
-            this.y + (this.d/2) > paddle.topEdge() &&
-            !this.immune) {
+            this.y + (this.d/2) > paddle.topEdge()) {
+                hit = true;
                 this.bounceY();
                 this.y = [paddle.bottomEdge() + this.d/2, paddle.topEdge() - this.d/2][paddle.player - 1];
-                // this.immune = true;
-                // boop.play();
                 paddleSound.play();
             }
-
+        return hit; //returns true if a paddle was hit
+ 
     }
     update(paddles) {
+        let hit = false;
         //Move
         this.x += this.vel[0];
         this.y += this.vel[1];
         //Check for paddle collisions
-        paddles.forEach((paddle) => this.checkPaddleCollision(paddle));
         this.checkWallCollisions()
-        if (this.y > .33 * height && this.y < .66 * height) this.immune = false;
+        paddles.forEach((paddle) => hit = hit || this.checkPaddleCollision(paddle));
+        return hit;
     }
     draw() {
         push();

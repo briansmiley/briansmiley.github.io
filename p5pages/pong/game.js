@@ -10,6 +10,7 @@ class Game {
         this.gameOver = false;
         this.gameOverTime = 0;
         this.mode = mode;
+        this.turnHits = 0;
     }
     ballSpeed(speed) {
         this.ball.setSpeed(speed);
@@ -19,11 +20,11 @@ class Game {
             this.drawElements();
             if (millis() - this.gameOverTime > 5000) {
                 this.resetScores();
+                this.turnHits = 0;
                 this.gameOver = false;
             }
             return;
         }
-
         this.ball.setSpeed(ballSpeedSlider.value());
         switch (this.mode) {
           case AUTOPLAY:
@@ -44,7 +45,7 @@ class Game {
             break;
       }
         
-        this.ball.update([this.paddle1,this.paddle2]);
+        if(this.ball.update([this.paddle1,this.paddle2])) this.turnHits += 1;
         if (this.ball.x < 0) console.log(this);
         this.drawElements();
         this.checkScore();
