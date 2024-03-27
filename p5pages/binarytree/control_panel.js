@@ -39,8 +39,8 @@ class ControlPanel {
     return check;
   }
 
-  addButton(label, value, par = this) {
-    let button = createButton(label, value);
+  addButton(label, par = this) {
+    let button = createButton(label);
     this.controls.push(button);
     button.parent(par.container);
     return button;
