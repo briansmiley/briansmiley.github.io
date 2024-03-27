@@ -14,7 +14,7 @@ let rescale;
 let colorMode;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
-let trunkBaseY,trunkBaseX;
+let trunkBaseY,trunkBaseX, trunkLength;
 let frameStart;
 let TIMEOUT = 2000;
 let TIMEDOUT = false;
@@ -30,6 +30,7 @@ function setup() {
   message.id(`timeout`);
   trunkBaseX = width/2;
   trunkBaseY = height;
+  trunkLength = 180;
   document.querySelector('main').children[1].before(message.elt);
   // message.parent(document.querySelector('main'));
 }
@@ -86,7 +87,7 @@ function draw() {
 
   if (runFrame) {
     message.html("");
-    background(220);
+    background(240);
     renderTree();
     if (TIMEDOUT) message.html(`Render timed out; switched to single-frame render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
   }
@@ -107,13 +108,12 @@ function renderTree() {
   let s = lrSlider.value();
   if (s > 0) sclR *= (1 - s);
   if (s < 0) sclL *= (1 + s);
-  let length = 180;
   // let angle = map(mouseY,0,height,0, PI);
   let angle = 0;
   
   
 
-  branch(trunkBaseX,trunkBaseY,length,angle,15,scaleSlider.value());
+  branch(trunkBaseX,trunkBaseY,trunkLength,angle,15,scaleSlider.value(),0);
 }
 //Maps a slider's value to the mouseX/Y value
 function mouseMap(slider, mouseDir) {
@@ -167,7 +167,7 @@ function taperLine(
     pop();
   }
 
-function branch(x, y, len,ang,wgt,scl,canv){
+function branch(x, y, len,ang,wgt,scl,lvl){
   if(len < minBranchSlider.value()) return;
   if (millis() - frameStart > TIMEOUT) {
     if (slowMode.checked()) return;
@@ -183,13 +183,23 @@ function branch(x, y, len,ang,wgt,scl,canv){
   minY = min(minY, y);
   maxX = max(maxX, x);
   maxY = max(maxY, y);
-  //Draw a branch tapering down to the enxt branch size or of constant weight
+  //Draw a branch tapering down to the next branch size or of constant weight
+  switch (colorMode.value()) {
+    case BLACK:
+      fill(0);
+      stroke(0);
+      break;
+    case GRAY:
+      let greymap = map(lvl, 0, totalBranches(trunkLength, minBranchSlider.value(), scl), 30, 175);
+      fill(greymap);
+      stroke(greymap);
+      break;
+  }
   strokeWeight(wgt)
   let nextX = x + len * sin(ang)
   let nextY = y - len * cos(ang)
   if (taper.checked() && len > 4) {
     push();
-    fill(0);
     noStroke();
     taperLine(x,y,nextX,nextY,wgt,wgt*scl,true);
     pop();
@@ -202,8 +212,8 @@ function branch(x, y, len,ang,wgt,scl,canv){
   if(len >= minBranchSlider.value()){
     let nextAng = ang + tiltSlider.value() + angSlider.value();
     let nextAng2 = ang + tiltSlider.value() - angSlider.value();
-    branch(nextX,nextY,sclL*len,nextAng,max(.5,wgt*sclL),sclL);
-    branch(nextX, nextY, sclR*len,nextAng2,max(.5,wgt*sclR),sclR);
+    branch(nextX,nextY,sclL*len,nextAng,max(.5,wgt*sclL),sclL, lvl+1);
+    branch(nextX, nextY, sclR*len,nextAng2,max(.5,wgt*sclR),sclR, lvl+1);
   }
 }
 
