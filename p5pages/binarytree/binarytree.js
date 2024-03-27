@@ -11,7 +11,7 @@ let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
-let colorMode, colorPanel, colorSlider;
+let colorSelect, colorPanel, colorSlider;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
 const RAINBOW = 'Rainbow';
@@ -26,6 +26,7 @@ let minX, maxX, minY, maxY;
 
 function setup() {
   BACKGROUND_COLOR = 240;
+  COLOR
   angleMode(DEGREES);
   createCanvas(700, 600);
   generateControls();
@@ -59,13 +60,13 @@ function generateControls() {
 
   //Color mode dropdown
   colorPanel = controlPanel.addPanel('color_mode', controlPanel.container);
-  colorMode = colorPanel.addDropdown(); //Colormode selector
+  colorSelect = colorPanel.addDropdown(); //Colormode selector
   colorSlider = colorPanel.addSlider(0,BACKGROUND_COLOR,0); //Slider to control gradient
   colorSlider.id('color_slider');
   colorSlider.hide();
-  colorMode.id('color_selector');
+  colorSelect.id('color_selector');
   let colorModes = [BLACK, GRAY/*, RAINBOW*/]
-  colorModes.forEach((mode) => colorMode.option(mode));
+  colorModes.forEach((mode) => colorSelect.option(mode));
 
 
   scaleSlider = controlPanel.addTextboxSlider(0,.83,0.65,0.001,'Scale Factor<br>');
@@ -91,7 +92,7 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > .75) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  colorMode.value() == GRAY ? colorSlider.show() : colorSlider.hide();
+  colorSelect.value() == GRAY ? colorSlider.show() : colorSlider.hide();
   
 
   if (runFrame) {
@@ -192,7 +193,7 @@ function branch(x, y, len,ang,wgt,scl,lvl){
   maxY = max(maxY, y);
   //Draw a branch tapering down to the next branch size or of constant weight
   push();
-    switch (colorMode.value()) {
+    switch (colorSelect.value()) {
       case BLACK:
         fill(0);
         stroke(0);
