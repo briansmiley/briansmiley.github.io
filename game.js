@@ -1,16 +1,18 @@
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, paddleOffset = 2, ballFR = 5) {
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 5) {
         this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset);
         this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset);
         this.paddleOffset = paddleOffset;
-        this.ball = new Ball(ballSize,width/2,height/2,1,1);
+        this.ball = new Ball(ballSize,width/2,height/2, ballSpeed);
         this.score1 = 0;
         this.score2 = 0;
         this.ballFR = ballFR;
         this.gameOver = false;
         this.gameOverTime = 0;
     }
-
+    ballSpeed(speed) {
+        this.ball.baseSpeed = speed;
+    }
     update() {
         if (this.gameOver) {
             this.drawElements();
@@ -22,8 +24,8 @@ class Game {
         }
         this.paddle1.update(value(slider1));
         this.paddle2.update(value(slider2));
+        
         if (frameCount % this.ballFR == 0) this.ball.update([this.paddle1,this.paddle2]);
-    
         this.drawElements();
         this.checkScore();
         if (max(this.score1,this.score2) > 3) this.endGame();
@@ -53,10 +55,10 @@ class Game {
         noStroke();
         fill(175);
         for (let i = 0; i < this.score1; i++) {
-            rect(2,4 + (4 * i), 2, 2);
+            rect(width/25, width/10 + (width/15 * i), width/25, width/25);
         }
         for (let i = 0; i < this.score2; i++) {
-            rect(width - 4, height - 4 - (4 * i), 2, 2);
+            rect(width/25 - width/50, height - width/10 - (width/15 * i), width/25, width/25);
         }
         pop();
         

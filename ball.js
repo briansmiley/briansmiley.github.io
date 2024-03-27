@@ -1,8 +1,9 @@
 class Ball {
-    constructor(d, x, y, vx, vy) {
+    constructor(d, x, y, baseSpeed) {
         this.x = x;
         this.y = y;
-        this.vel = [vx,vy];
+        this.vel = [baseSpeed,baseSpeed];
+        this.baseSpeed = baseSpeed;
         this.d = d;
         this.colr = 'white';
     }
@@ -20,7 +21,7 @@ class Ball {
         this.vel = [vx,vy];
     }
 
-    speed() {
+    getSpeed() {
         return Math.sqrt(this.vel[1]**2 + this.vel[0]**2);
     }
 
@@ -33,7 +34,7 @@ class Ball {
     reset() {
         this.setPos(width/2, height/2);
         //set the ball moving in a random of 4 directions
-        this.vel = [random([-1,1]),random([-1,1])];
+        this.vel = [random([-this.baseSpeed,this.baseSpeed]),random([-this.baseSpeed,this.baseSpeed])];
     }
     checkWallCollisions() {
         if (this.x <= this.d/2 || this.x >= width - this.d/2) {
