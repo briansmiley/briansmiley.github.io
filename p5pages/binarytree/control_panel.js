@@ -11,8 +11,8 @@ class ControlPanel {
   }
   //add a preExisting already-containerized control to the set
   addControl(controlDiv) {
-    this.controls.push(panelDiv);
-    panelDiv.parent(this);
+    this.controls.push(controlDiv);
+    controlDiv.parent(this);
   }
   
   //create a new textboxSlider() control 

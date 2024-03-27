@@ -4,6 +4,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 canvas {
   display: block;
@@ -11,16 +12,11 @@ canvas {
 
 main {
   display: flex;
-  flex-flow: column;
+  flex-flow: column wrap;
   align-items: flex-start;
+  height: 100vh;
 }
 
-#control_panel {
-}
-
-.textboxSlider {
-  color:red;
-}
 input[type='text'] {
   width: 3em;
 }

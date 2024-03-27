@@ -10,6 +10,9 @@ let controlPanel;
 let mouseMode;
 let taper;
 let trunkBase = 0;
+let frameStart;
+let TIMEOUT = 2000;
+let TIMEDOUT = false;
 
 function setup() {
   angleMode(DEGREES);
@@ -22,21 +25,21 @@ function generateControls() {
   controlPanel = new ControlPanel();
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
   taper = controlPanel.addCheckbox('Taper Branches (t)', false);
-  scaleSlider = controlPanel.addTextboxSlider(0,.9,0.7,0.01,'Scale Factor');
+  scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor');
   angSlider = controlPanel.addTextboxSlider(0,180,25,1,'Angle','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size');
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,1,'Tilt');
   lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink');
 }
 
-
 function draw() {
-  
+  frameStart = millis();
   background(220);
   controlPanel.update();
   renderTree();
 
 }
+
 function renderTree() {
   sclL = scaleSlider.value();
   sclR = scaleSlider.value();
@@ -53,7 +56,11 @@ function renderTree() {
   // let angle = map(mouseY,0,height,0, PI);
   let angle = angSlider.value();
 
-  
+  function yesLoop() {
+    loop();
+  }
+
+
   branch(length,angle,15,scaleSlider.value());
 }
 //Maps a slider's value to the mouseX/Y value
@@ -99,6 +106,18 @@ function taperLine(
 
 
 function branch(len,ang,wgt,scl){
+  //Break the recursion if the current frame has taken too long to render
+  if (millis() - frameStart > TIMEOUT) {
+
+    if (!TIMEDOUT) {
+      console.log('Render timeout');
+      message = createDiv('Render timed out; please refresh');
+      message.style('color = "red"');
+      noLoop();
+    }
+    TIMEDOUT = true;
+    return;
+  }
   //Draw a branch tapering down to the enxt branch size or of constant weight
   strokeWeight(wgt)
   if (taper.checked()) {
