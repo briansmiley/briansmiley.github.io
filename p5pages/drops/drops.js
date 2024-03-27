@@ -9,7 +9,7 @@ const colorOptions = [hsb, rgb, PASTEL, GRAY];
 let lastDropsFrame, timePerDrop;
 function setup() {
   colorMode(HSB);
-  canvas = createCanvas(600, 600);
+  canvas = createCanvas(700, 700);
   canvas.parent('canvas-box');
 
   generateControls();

@@ -1,8 +1,14 @@
+body {
+  display: flex;
+  width: fit-content;
+  flex-flow: column;
+  align-items:center;
+}
 main {
   margin: 0;
   padding: 0;
   display: flex;
-  width: 100%;
+  width: fit-content;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -13,8 +19,8 @@ canvas {
 #canvas-box {
   display: flex;
   margin-top: 1em;
-  display: block;
-  width: 100%;
+  align-items: center;
+  margin: .5em 0 .5em 0;
 }
 #controls-box {
   width: 100%;
