@@ -26,9 +26,9 @@ function setup() {
     slider1 = createSlider(0,width,width/2,1);
     slider2 = createSlider(0,width,width/2,1);
 
-    MODESELECT.parent('controls');
-    slider1.parent('controls');
-    slider2.parent('controls');
+    MODESELECT.parent('mode-select');
+    slider1.parent('player1');
+    slider2.parent('player2');
     slider1.class('paddle-slider');
     slider2.class('paddle-slider');
 

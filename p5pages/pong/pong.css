@@ -9,10 +9,15 @@ select {
 #controls {
     display: flex;
     flex-flow: column;
-    justify-content: center;
-    align-items: center;
+
+    align-items: left;
     margin-top: 1em;
 }
 .paddle-slider {
+    flex-grow: 1;
+}
+.player {
+    display: flex;
+    flex-flow:row nowrap;
     width: 100%;
 }
