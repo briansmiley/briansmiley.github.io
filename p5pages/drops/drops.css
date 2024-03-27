@@ -2,19 +2,22 @@ main {
   margin: 0;
   padding: 0;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
+canvas {
+  display: block;
+}
 #canvas-box {
   display: flex;
   margin-top: 1em;
   display: block;
-  width: fit-content;
+  width: 100%;
 }
 #controls-box {
-  width: 600px;
+  width: 100%;
   align-items: left;
 }
 #controls {
