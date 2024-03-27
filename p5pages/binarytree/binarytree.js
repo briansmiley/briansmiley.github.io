@@ -11,7 +11,7 @@ let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
-let colorSelect, colorPanel, greyscaleSlider;
+let colorSelect, colorPanel, gradientSlider;
 let backgroundSelector, BACKGROUND_COLOR;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
@@ -61,11 +61,11 @@ function generateControls() {
   //Color mode dropdown
   colorPanel = controlPanel.addPanel('color_mode', controlPanel.container);
   colorSelect = colorPanel.addDropdown(); //Colormode selector
-  greyscaleSlider = colorPanel.addSlider(0,BACKGROUND_COLOR * .95,0); //Slider to control gradient
-  greyscaleSlider.id('color_slider');
-  greyscaleSlider.hide();
+  gradientSlider = colorPanel.addSlider(0,BACKGROUND_COLOR * .95,0); //Slider to control gradient
+  gradientSlider.id('gradient_slider');
+  gradientSlider.hide();
   colorSelect.id('color_selector');
-  let colorModes = [BLACK, GRAY/*, RAINBOW*/]
+  let colorModes = [BLACK, GRAY, RAINBOW]
   colorModes.forEach((mode) => colorSelect.option(mode));
 
   //Background color selector
@@ -98,7 +98,7 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  colorSelect.value() == GRAY ? greyscaleSlider.show() : greyscaleSlider.hide();
+  colorSelect.value() == GRAY ? gradientSlider.show() : gradientSlider.hide();
   BACKGROUND_COLOR = backgroundSelector.value();
   
 
@@ -208,7 +208,7 @@ function branch(x, y, len,ang,wgt,scl,lvl){
       case GRAY:
         let greymap = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                          greyscaleSlider.value()/4, greyscaleSlider.value());
+                          gradientSlider.value()/4, gradientSlider.value());
         fill(greymap);
         stroke(greymap);
         break;
@@ -216,7 +216,7 @@ function branch(x, y, len,ang,wgt,scl,lvl){
       // case RAINBOW:
       //   let rainmap = map(lvl, 
       //                     0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-      //                     greyscaleSlider.value()/4, greyscaleSlider.value());
+      //                     gradientSlider.value()/4, gradientSlider.value());
     }
     strokeWeight(wgt)
     let nextX = x + len * sin(ang)
