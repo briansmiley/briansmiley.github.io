@@ -34,16 +34,16 @@ function generateControls() {
 
   wallReflections = createCheckbox('',true);
   wallReflections.parent('reflection-checkbox-container');
-  dpsSlider = createSlider(0.5, 300, 20, 0); //drops per second assuming 60fps
+  dpsSlider = createSlider(0.5, 300, 30, 0); //drops per second assuming 60fps
   dpsSlider.parent('drop-rate-container');
 
   spreadRateSlider = createSlider(.01, 2, .5,0);
   spreadRateSlider.parent('spread-rate-container');
 
-  rippleDurationSlider = createSlider(50, 5000, 1500);
+  rippleDurationSlider = createSlider(50, 7500, 2500);
   rippleDurationSlider.parent('ripple-duration-container');
 
-  rippleWeightSlider = createSlider(.5, 20, 2, 0);
+  rippleWeightSlider = createSlider(.5, 20, 3, 0);
   rippleWeightSlider.parent('ripple-weight-container');
 }
 
