@@ -44,6 +44,7 @@ class Ball {
     }
     checkWallCollisions() {
         if (this.x <= this.d/2 || this.x >= width - this.d/2) {
+            this.x = min(max(this.x, this.d/2), width - this.d/2);
             this.bounceX();
             wallSound.play();
         }
@@ -57,19 +58,20 @@ class Ball {
             this.y + (this.d/2) > paddle.topEdge() &&
             !this.immune) {
                 this.bounceY();
-                this.immune = true;
+                this.y = [paddle.bottomEdge() + this.d/2, paddle.topEdge() - this.d/2][paddle.player - 1];
+                // this.immune = true;
                 // boop.play();
                 paddleSound.play();
             }
 
     }
     update(paddles) {
-        this.checkWallCollisions()
-        //Check for paddle collisions
-        paddles.forEach((paddle) => this.checkPaddleCollision(paddle));
         //Move
         this.x += this.vel[0];
         this.y += this.vel[1];
+        //Check for paddle collisions
+        paddles.forEach((paddle) => this.checkPaddleCollision(paddle));
+        this.checkWallCollisions()
         if (this.y > .33 * height && this.y < .66 * height) this.immune = false;
     }
     draw() {

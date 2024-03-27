@@ -1,7 +1,7 @@
 
 let game, ball, paddle1, paddle2;
 let score1, score2;
-let paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR;
+let paddleSize, paddleHeight, ballSize, ballSpeed, offset;
 let singlePlayer = false;
 const AUTOPLAY = 'Auto';
 const SLIDERS = 'Two-player';
@@ -28,9 +28,8 @@ function setup() {
     ballSize = 8;
     ballSpeed = 3;
     offset = 10;
-    fR = 1;
 
-    game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR, MODE);
+    game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, MODE);
     generateControls();
     game.paddle1.control(slider1);
     game.paddle2.control(slider2);

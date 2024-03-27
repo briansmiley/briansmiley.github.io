@@ -1,5 +1,5 @@
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1, mode = AUTOPLAY) {
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, mode = AUTOPLAY) {
         this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset, random());
         this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset, random() * 2000);
         this.paddles = [this.paddle1, this.paddle2];
@@ -7,7 +7,6 @@ class Game {
         this.ball = new Ball(ballSize,width/2,height/2, ballSpeed);
         this.score1 = 0;
         this.score2 = 0;
-        this.ballFR = ballFR;
         this.gameOver = false;
         this.gameOverTime = 0;
         this.mode = mode;
@@ -45,7 +44,8 @@ class Game {
             break;
       }
         
-        if (frameCount % this.ballFR == 0) this.ball.update([this.paddle1,this.paddle2]);
+        this.ball.update([this.paddle1,this.paddle2]);
+        if (this.ball.x < 0) console.log(this);
         this.drawElements();
         this.checkScore();
         if (max(this.score1,this.score2) > 3) this.endGame();
