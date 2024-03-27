@@ -17,6 +17,7 @@ const AUTO_REFRESH = false || MERL;
 let controls;
 let regionSlider;
 let graph;
+let c;
 
 //FUTURE: group bottom controls into a Controls class that renders them all
 // class Controls {
@@ -67,23 +68,29 @@ class inputSlider {
 }
 
 class dotToggle {
-  constructor() {
-    this.x = width * .8;
-    this.y = width + BOTTOM_BAR/2;
+  constructor(vor) {
+    this.x = vor.w * .8;
+    this.y = vor.w + BOTTOM_BAR/2;
+    this.parent = vor;
     this.state = show_dots;
-    this.size = 20;
+    this.size = 15;
     this.hitbox = this.size*1.25;
   }
   render() {
     push();
     translate(this.x,this.y);
-    fill(this.state ? 0 : 75);
+    fill(this.state ? 0 : 55);
     noStroke();
     circle(0,0,20);
+    fill(0);
+    if (this.parent.mouseInRegion(this.x,this.y,this.size)) {
+      text('toggle dots & reset',-50,this.hitbox);
+    }
     pop();
   }
   wasClicked() {
     this.state = !this.state;
+    this.parent.reset();
   }
 }
 function setup() {
@@ -91,13 +98,13 @@ function setup() {
 
   switch (MODE) {
     case MERLIN:
-      createCanvas(44,66);
+      c =createCanvas(44,66);
       break;
     case MERLIN_PREVIEW:
-      createCanvas(484,660);
+      c =createCanvas(484,660);
       break;
     default:
-      createCanvas(700,700 + BOTTOM_BAR);
+      c =createCanvas(700,700 + BOTTOM_BAR);
       break;
   }
 
@@ -134,12 +141,12 @@ class Voronoi {
     this.speed = this.setSpeed();
     this.filledTime = 0;
     this.startTime = millis();
-    this.dotToggle = new dotToggle();
+    this.dotToggle = new dotToggle(this);
   }
   
   render() {
 
-    
+
     if (this.fading) {
       this.renderFade();
       if (this.fade >= 255) this.reset();
@@ -153,9 +160,10 @@ class Voronoi {
     }
     if (this.full) {
       if (!MERL) {
+        this.drawResetButton();
         regionSlider.render();
         this.dotToggle.render();
-      // this.drawResetButton();
+      
       }
       return;
     }
@@ -229,6 +237,7 @@ class Voronoi {
   generatePoints() {
     return Array.from({length:this.regions}, (_) => (
     new Spreader(this.w,this.h,color(random(360),random(60,100),MODE == MERLIN ? 70 : 100),this)
+    
   ));
   }
   setupFadeBuffer(){
