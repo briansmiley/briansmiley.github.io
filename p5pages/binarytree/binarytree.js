@@ -15,11 +15,13 @@ let frameStart;
 let TIMEOUT = 2000;
 let TIMEDOUT = false;
 let runFrame = true;
+let message;
 
 function setup() {
   angleMode(DEGREES);
   createCanvas(700, 600);
   generateControls();
+  message = createDiv();
 }
 
 
@@ -40,23 +42,25 @@ function generateControls() {
 }
 
 function draw() {
+  
   renderButton.hide();
   frameStart = millis();
   if(slowMode.checked()) renderButton.show();
 
   
-  controlPanel.update();
   if (mouseMode.checked()) {
     mouseMap(tiltSlider,mouseX);
     mouseMap(angSlider,mouseY);
   }
+  controlPanel.update();
   
 
   if (runFrame) {
+    message.html("");
     background(220);
     renderTree();
   }
-  if (slowMode.checked()) runFrame = false;
+  runFrame = !slowMode.checked();
 }
 
 function renderTree() {
@@ -77,7 +81,7 @@ function renderTree() {
     if (!TIMEDOUT) {
       let main = document.querySelector('main');
       console.log('Render timeout');
-      message = createDiv(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
+      message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
       message.id(`timeout`);
       // message.parent(main);
       main.children[1].before(message.elt);
