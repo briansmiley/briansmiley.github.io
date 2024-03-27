@@ -87,7 +87,7 @@ function draw() {
     mouseMap(angSlider,mouseY);
   }
   controlPanel.update();
-  if (scaleSlider.value() > .77) scaleSlider.txt.class('warning');
+  if (scaleSlider.value() > .75) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
   colorMode.value() == GRAY ? colorSlider.show() : colorSlider.hide();
   
@@ -175,14 +175,12 @@ function taperLine(
   }
 
 function branch(x, y, len,ang,wgt,scl,lvl){
-  if(len < minBranchSlider.value()) return;
-  if (millis() - frameStart > TIMEOUT) {
-    if (slowMode.checked()) return;
-    if (!TIMEDOUT) {
-      console.log('Render timeout');      
-      slowMode.checked(true);
-      runFrame = false;
-    }
+  if(len < minBranchSlider.value() || TIMEDOUT) return; //stop branching if we hit min branch limit or hit a render timeout
+
+  if (millis() - frameStart > TIMEOUT && !slowMode.checked()) {
+    console.log('Render timeout');      
+    slowMode.checked(true);
+    runFrame = false;
     TIMEDOUT = true;
     return;
   }
@@ -197,7 +195,9 @@ function branch(x, y, len,ang,wgt,scl,lvl){
       stroke(0);
       break;
     case GRAY:
-      let greymap = map(lvl, 0, totalBranches(trunkLength, minBranchSlider.value(), scl), 0, colorSlider.value());
+      let greymap = map(lvl, 
+        0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
+        colorSlider.value()/4, colorSlider.value());
       fill(greymap);
       stroke(greymap);
       break;
