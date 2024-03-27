@@ -47,7 +47,7 @@ function generateControls() {
 
   wallReflections = createCheckbox('',true);
   wallReflections.parent('reflection-checkbox-container');
-  dpsSlider = createSlider(0.5, 300, width*height/50000, 0); //drops per second assuming 60fps
+  dpsSlider = createSlider(0, 300, width*height/50000, 0); //drops per second assuming 60fps
   dpsSlider.parent('drop-rate-container');
 
   spreadRateSlider = createSlider(.01, 2, .5,0);
