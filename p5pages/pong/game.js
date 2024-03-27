@@ -13,7 +13,7 @@ class Game {
         this.mode = mode;
     }
     ballSpeed(speed) {
-        this.ball.baseSpeed = speed;
+        this.ball.setSpeed(speed);
     }
     update() {
         if (this.gameOver) {
@@ -24,6 +24,8 @@ class Game {
             }
             return;
         }
+
+        this.ball.setSpeed(ballSpeedSlider.value());
         switch (this.mode) {
           case AUTOPLAY:
             this.paddles.forEach((paddle) => {
@@ -33,13 +35,13 @@ class Game {
             });
             break;
           case SINGLE:
-            this.paddle1.update(value(slider1));
+            this.paddle1.update(slider1.value());
             this.paddle2.update(scaledPerlinOffset(this.ball.x, this.ball.y, this.paddle2.y, this.paddle2.w, this.paddle2.seed));
             slider2.value(this.paddle2.x)
             break;
           case SLIDERS:
-            this.paddle1.update(value(slider1));
-            this.paddle2.update(value(slider2));
+            this.paddle1.update(slider1.value());
+            this.paddle2.update(slider2.value());
             break;
       }
         
@@ -59,6 +61,7 @@ class Game {
         this.gameOver = true;
         this.ball.reset();
         this.paddles.forEach( (paddle) => paddle.reset());
+        slider1.value()
     }
     playScoreSound(score) {
         if (score == 4) gameOverSound.play();

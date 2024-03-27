@@ -9,9 +9,14 @@ class Paddle {
         this.colr = colr
         this.padding = 0;
         this.seed = seed;
+        this.slider;
     }
     reset() {
         this.x = width/2;
+        this.slider.value(this.x);
+    }
+    control(slider) {
+        this.slider = slider;
     }
     moveLeft(){
         this.x = max(this.x - this.speed, this.w/2);

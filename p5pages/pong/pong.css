@@ -19,7 +19,7 @@ select {
 .paddle-slider {
     flex-grow: 1;
 }
-.player {
+.slider {
     display: flex;
     flex-flow:row nowrap;
     width: 100%;

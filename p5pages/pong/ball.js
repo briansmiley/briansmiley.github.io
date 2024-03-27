@@ -21,7 +21,12 @@ class Ball {
     setVel(vx,vy) {
         this.vel = [vx,vy];
     }
-
+    setSpeed(speed) {
+        let current = this.getSpeed();
+        let mult = speed/current;
+        this.setVel(this.vel[0] * mult, this.vel[1]*mult);
+        this.baseSpeed = speed;
+    }
     getSpeed() {
         return Math.sqrt(this.vel[1]**2 + this.vel[0]**2);
     }
