@@ -21,9 +21,16 @@ function setup() {
     //Else
     MODESELECT = createSelect();
     [AUTOPLAY,SLIDERS,SINGLE].forEach((option) => MODESELECT.option(option));
-    createCanvas(300,500);
+    let canvas = createCanvas(300,500);
+    canvas.parent('canvas-box');
     slider1 = createSlider(0,width,width/2,1);
     slider2 = createSlider(0,width,width/2,1);
+
+    MODESELECT.parent('controls');
+    slider1.parent('controls');
+    slider2.parent('controls');
+    slider1.class('paddle-slider');
+    slider2.class('paddle-slider');
 
     // game = new Game(7,2,2,2,3);
     // MERLIN = true;
