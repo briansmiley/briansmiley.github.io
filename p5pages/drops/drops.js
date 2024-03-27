@@ -1,11 +1,13 @@
 let canvas;
 let drops = [];
 let colorModeSelect, dpsSlider, spreadRateSlider, rippleDurationSlider, rippleWeightSlider;
+let backgroundColorSelect, dropColorSelect, dropColorContainer;
 const rgb = 'RGB';
 const hsb = 'HSB';
 const GRAY = 'Grayscale';
 const PASTEL = 'Pastel';
-const colorOptions = [hsb, rgb, PASTEL, GRAY];
+const SINGLE = 'Single color';
+const colorOptions = [hsb, rgb, PASTEL, GRAY, SINGLE];
 let lastDropsFrame, timePerDrop;
 function setup() {
   colorMode(HSB);
@@ -18,6 +20,10 @@ function setup() {
 }
 
 function draw() {
+  colorModeSelect.value() == SINGLE ? 
+    dropColorContainer.classList.remove('hidden') :
+    dropColorContainer.classList.add('hidden');
+
   background(backgroundColorSelect.value());
   createDrops();
   drops.forEach( (drop) =>drop.frame());
@@ -31,6 +37,10 @@ function generateControls() {
   colorModeSelect = createSelect();
   colorModeSelect.parent('color-select-container');
   colorOptions.forEach((i) => colorModeSelect.option(i));
+
+  dropColorSelect = createColorPicker('white');
+  dropColorContainer = document.getElementById('drop-color-picker-container');
+  dropColorSelect.parent(dropColorContainer);
 
   backgroundColorSelect = createColorPicker('black');
   backgroundColorSelect.parent('background-color-picker-container');
@@ -81,6 +91,8 @@ function randomColor() {
       return color(0,0,100);
     case PASTEL:
       return color([random(360), random(100), 100]);
+    case SINGLE:
+      return dropColorSelect.value();
     default:
       return 100;
   }
