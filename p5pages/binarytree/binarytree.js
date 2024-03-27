@@ -28,7 +28,7 @@ let minX, maxX, minY, maxY;
 function setup() {
   BACKGROUND_COLOR = 230;
   TREE_COLOR = 0;
-  GRADIENT_COLOR = BACKGROUND_COLOR;
+  GRADIENT_COLOR =  0.8 * BACKGROUND_COLOR;
   colorMode(HSB);
   blendMode(OVERLAY);
   angleMode(DEGREES);
