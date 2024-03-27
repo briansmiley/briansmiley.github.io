@@ -32,6 +32,7 @@ canvas {
 .slider-container, .select-container{
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
 }
 .slider-label{
   min-width: 110px;
@@ -45,6 +46,7 @@ input[type="range"] {
 #controls-top-row {
   display: flex;
   flex-flow: row;
+  align-items: center;
 }
 #controls-top-row > * {
   margin: 0 .5em 0 0;
