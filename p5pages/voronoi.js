@@ -29,8 +29,8 @@ let graph;
 // }
 class inputSlider {
   constructor(mn, mx, initial) {
-    this.x = 0 + canvas.getBoundingClientRect().x;
-    this.y = 0 + canvas.getBoundingClientRect().y;
+    this.x = 0;
+    this.y = 0;
     this.mn = mn;
     this.mx = mx;
     this.length = 0
@@ -45,8 +45,8 @@ class inputSlider {
     this.slider.size(sz);
   }
   position(x,y) {
-    this.x = x + canvas.getBoundingClientRect().x;
-    this.y = y + canvas.getBoundingClientRect().y;
+    this.x = x;
+    this.y = y;
     this.slider.position(this.x,this.y);
     this.txt.position(this.x + this.length/2 - 15, this.y + 20);
   }
