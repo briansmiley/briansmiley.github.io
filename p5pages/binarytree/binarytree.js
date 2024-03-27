@@ -9,8 +9,6 @@ let minBranchSlider;
 let controlPanel;
 let mouseMode;
 let taper;
-let slowMode;
-let renderButton;
 let trunkBase = 0;
 let frameStart;
 let TIMEOUT = 2000;
@@ -26,13 +24,11 @@ function setup() {
 function generateControls() {
   controlPanel = new ControlPanel();
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
-  slowMode = controlPanel.addCheckbox('Single Render Mode', false);
-  renderButton = controlPanel.addButton('Render', false, slowMode);
-  mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
+  taper = controlPanel.addCheckbox('Taper Branches (t)', false);
   scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
-  angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
+  angSlider = controlPanel.addTextboxSlider(0,180,25,1,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
-  tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
+  tiltSlider = controlPanel.addTextboxSlider(-90,90,0,1,'Tilt<br>');
   lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink<br>')
 
 }
@@ -121,7 +117,8 @@ function branch(len,ang,wgt,scl){
       message.id('timeout');
       // message.parent(main);
       main.children[1].before(message.elt);
-      noLoop();
+      frameRate(1);
+      // noLoop();
     }
     TIMEDOUT = true;
     return;
