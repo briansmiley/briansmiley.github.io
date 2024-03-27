@@ -3,7 +3,7 @@ const MERLIN = 'merlin';
 const DEFAULT = 'default';
 const WACKY = 'wacky';
 
-let MODE = DEFAULT;
+let MODE = MERLIN_PREVIEW;
 const MERL = (MODE == MERLIN) || (MODE == MERLIN_PREVIEW);
 const REGIONS = 25;
 const RESET_TIME = 5;
@@ -172,8 +172,8 @@ class Voronoi {
   setSpeed() {
     return {
       [DEFAULT]: .75,
-      [MERLIN]: .025,
-      [MERLIN_PREVIEW]: .025,
+      [MERLIN]: .05,
+      [MERLIN_PREVIEW]: .05,
       [WACKY]: map(this.regions,1,1000,11,3)
     }[MODE] || 1
   }
@@ -314,23 +314,43 @@ function mouseClicked() {
   graph.isClicked();
 }
 
+let ceilingShine = true;
+function toBrightness(colr, brt) {
+  //takes in an HSB pixel and returns it at the given brightness
+  // return color(`HSB(hue(${colr}),saturation(${colr}),${brt})`)
+  return [hue(colr),saturation(colr),brt]
+}
+function rgbToHSB(pix) {
+  return (color(`RGB(${pix[0]},${pix[1]},${pix[2]})`));
+}
 function merlinPreview(){
     if (MODE == MERLIN_PREVIEW) {
       push();
-      colorMode(RGB);
-      stroke(255);
+      colorMode(HSB);
+      noStroke();
       fill(255);
-      line(45,0,45,height);
-      rect(0,66,45,height);
+      // line(45,0,45,height);
+      rect(0,66,44,height);
       fill(0);
-      rect(46,0,width,height);
+      rect(44,0,width,height);
       rectMode(CENTER);
+      noStroke();
       for (let i = 0; i < 44; i++) {
         for (let j = 0; j < 66; j++) {
           let pix = get(i,j);
-          fill(pix);
-          stroke(0);
-          rect(50 + (i*10), 5 + (j*10),3,3);
+          pix = rgbToHSB(pix);
+          if (ceilingShine) {
+            fill(toBrightness(pix,brightness(pix)*.25));
+            circle(50 + (i*10), 5 + (j*10),10);
+            fill(toBrightness(pix,brightness(pix)*.4));
+            circle(50 + (i*10), 5 + (j*10),6);
+            fill(pix);
+            circle(50 + (i*10), 5 + (j*10),2);
+          }
+          else{
+            fill(pix);
+            rect(50 + (i*10), 5 + (j*10),3,3)
+          }
         }
       }
       pop();
