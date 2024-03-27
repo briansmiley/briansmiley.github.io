@@ -24,8 +24,7 @@ body {
     height: auto; /* Maintain aspect ratio */
     display: block; /* Ensure image is displayed as a block */
 }
-.p5script {
-    margin: 0 auto; /* Center the element horizontally */
-    display: block; /* Ensure the element is displayed as a block */
-    width: 100%; /* Adjust the width as needed */
+canvas {
+    display: block;
+    margin: auto;
 }
