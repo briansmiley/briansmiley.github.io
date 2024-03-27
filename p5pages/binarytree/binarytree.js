@@ -140,9 +140,7 @@ function taperLine(
     vertex(-end_width/2,distance);
     endShape(CLOSE);
     if(endRound) {
-      fill('red')
       arc(0,0,start_width,start_width,180,360,PIE);
-      fill('blue')
       arc(0,distance,end_width,end_width,0,180,PIE);
     }
     pop();
