@@ -25,11 +25,12 @@ function generateControls() {
   controlPanel = new ControlPanel();
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
   taper = controlPanel.addCheckbox('Taper Branches (t)', false);
-  scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor');
-  angSlider = controlPanel.addTextboxSlider(0,180,25,1,'Angle','angle');
-  minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size');
-  tiltSlider = controlPanel.addTextboxSlider(-90,90,0,1,'Tilt');
-  lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink');
+  scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
+  angSlider = controlPanel.addTextboxSlider(0,180,25,1,'Angle<br>','angle');
+  minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
+  tiltSlider = controlPanel.addTextboxSlider(-90,90,0,1,'Tilt<br>');
+  lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink<br>')
+
 }
 
 function draw() {
