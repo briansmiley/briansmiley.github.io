@@ -11,7 +11,7 @@ let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
-let colorMode;
+let colorMode, colorPanel, colorSlider;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
 let trunkBaseY,trunkBaseX, trunkLength;
@@ -20,9 +20,11 @@ let TIMEOUT = 2000;
 let TIMEDOUT = false;
 let runFrame = true;
 let message;
+let BACKGROUND_COLOR;
 let minX, maxX, minY, maxY;
 
 function setup() {
+  BACKGROUND_COLOR = 240;
   angleMode(DEGREES);
   createCanvas(700, 600);
   generateControls();
@@ -42,7 +44,7 @@ function generateControls() {
   taper = controlPanel.addCheckbox('Taper branches (t) (slower)',true);
 
   //Slow mode/single render mode options
-  slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
+  slowModePanel = controlPanel.addPanel('slow_panel',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
   renderButton = slowModePanel.addButton('Render (r)');
   renderButton.mousePressed(() => runFrame = true);
@@ -54,8 +56,12 @@ function generateControls() {
   });
 
   //Color mode dropdown
-  colorMode = controlPanel.addDropdown();
-  colorMode.id('colorMode');
+  colorPanel = controlPanel.addPanel('color_mode', controlPanel.container);
+  colorMode = colorPanel.addDropdown(); //Colormode selector
+  colorSlider = colorPanel.addSlider(0,BACKGROUND_COLOR,0); //Slider to control gradient
+  colorSlider.id('color_slider');
+  colorSlider.hide();
+  colorMode.id('color_selector');
   let colorModes = [BLACK, GRAY]
   colorModes.forEach((mode) => colorMode.option(mode));
 
@@ -83,11 +89,12 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > .77) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
+  colorMode.value() == GRAY ? colorSlider.show() : colorSlider.hide();
   
 
   if (runFrame) {
     message.html("");
-    background(240);
+    background(BACKGROUND_COLOR);
     renderTree();
     if (TIMEDOUT) message.html(`Render timed out; switched to single-frame render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
   }
@@ -190,7 +197,7 @@ function branch(x, y, len,ang,wgt,scl,lvl){
       stroke(0);
       break;
     case GRAY:
-      let greymap = map(lvl, 0, totalBranches(trunkLength, minBranchSlider.value(), scl), 30, 175);
+      let greymap = map(lvl, 0, totalBranches(trunkLength, minBranchSlider.value(), scl), 0, colorSlider.value());
       fill(greymap);
       stroke(greymap);
       break;

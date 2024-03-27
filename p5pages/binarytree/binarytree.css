@@ -22,7 +22,7 @@ canvas {
   width: fit-content;
   margin: .5em 0 .5em 0;
 }
-#slow_mode {
+#slow_panel {
   display: flex;
   flex-flow: row;
   height: fit-content;
@@ -32,11 +32,18 @@ canvas {
   color: red;
   font-weight: bold;
 }
-#colorMode {
+#color_mode {
+  display: flex;
+  flex-flow: row;
+  height: fit-content;
+  align-items: start;
+}
+#color_selector {
   width: fit-content;
   margin: 0 0 .5em 0;
 }
-#slow_mode > * {
+
+#slow_panel > * {
   margin-right: 1em;
 }
 #timeout {
