@@ -1,17 +1,25 @@
 const MERLIN_PREVIEW = 'merlin_preview';
 const MERLIN = 'merlin';
 const DEFAULT = 'default';
-const MODE = DEFAULT;
-
+const WACKY = 'wacky';
+let MODE = DEFAULT;
+let a = 'test'
 
 const REGIONS = 25;
 const RESET_TIME = 10;
 const FADE_TIME = MODE == DEFAULT ? 1 : 5;
 const fR = 60;
-const SPEED = (MODE == DEFAULT) ? 2 : 0.05;
+const SPEEDS = {
+  [DEFAULT]: .5,
+  [MERLIN]: .05,
+  [MERLIN_PREVIEW]: .05,
+  [WACKY]: 10
+}
+
+let speed = SPEEDS[MODE] || 1;
 let show_dots = (true && MODE == DEFAULT);
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = false;
+const AUTO_REFRESH = true;
 
 let controls;
 let regionSlider;
@@ -140,7 +148,7 @@ class Voronoi {
     if (frameCount % 60 == 0) this.checkFull();
 
     this.buffer.copy(get(), 0, 0, this.buffer.width, this.buffer.height, 0, 0, this.buffer.width, this.buffer.height);
-    this.size += SPEED * 2;
+    this.size += speed * 2;
     if (MODE == DEFAULT) {
       regionSlider.render();
       this.drawResetButton();
