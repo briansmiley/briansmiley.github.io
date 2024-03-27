@@ -140,8 +140,10 @@ function taperLine(
     vertex(-end_width/2,distance);
     endShape(CLOSE);
     if(endRound) {
+      fill('red')
       arc(0,0,start_width,start_width,180,360,PIE);
-      arc(0,-deltaY,end_width,end_width,0,180,PIE);
+      fill('blue')
+      arc(0,distance,end_width,end_width,0,180,PIE);
     }
     pop();
   }
@@ -170,8 +172,8 @@ function branch(x, y, len,ang,wgt,scl,canv){
   if(len >= minBranchSlider.value()){
     let nextAng = ang + tiltSlider.value() + angSlider.value();
     let nextAng2 = ang + tiltSlider.value() - angSlider.value();
-    branch(nextX,nextY,sclL*len,nextAng,max(.1,wgt*sclL),sclL);
-    branch(nextX, nextY, sclR*len,nextAng2,max(.1,wgt*sclR),sclR);
+    branch(nextX,nextY,sclL*len,nextAng,max(.5,wgt*sclL),sclL);
+    branch(nextX, nextY, sclR*len,nextAng2,max(.5,wgt*sclR),sclR);
   }
 }
 
