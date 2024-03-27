@@ -16,7 +16,7 @@ let boop, paddleSound, wallSound, scoreSound;
 //Else
 let MODE, MODESELECT;
 let slider1, slider2;
-let resetButton;
+let resetButton, pausePlayButton;
 
 function setup() {
     boop = loadSound('./sounds/beep.wav');
@@ -51,6 +51,7 @@ function setup() {
     // MERLIN = false;
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR, MODE);
     generateControls();
+    noLoop();
 }
 function generateControls() {
     MODESELECT = createSelect();
@@ -62,7 +63,18 @@ function generateControls() {
     resetButton = createButton('Reset');
     resetButton.parent('reset-button');
     resetButton.mousePressed(() => game.endGame());
-
+    pausePlayButton = createButton('Play');
+    pausePlayButton.parent('pause-button');
+    pausePlayButton.mousePressed(() => {
+        if (isLooping()) {
+            noLoop();
+            pausePlayButton.html('Play');
+        }
+        else {
+            loop();
+            pausePlayButton.html('Pause');
+        }
+    });
     slider1.parent('player1');
     slider2.parent('player2');
     slider1.class('paddle-slider');
@@ -88,6 +100,7 @@ function draw() {
     MODE = MODESELECT.value();
     game.setMode(MODE);
     game.update();
+
 }
 function value(slider) {
     return MERLIN ? slider : slider.value();
