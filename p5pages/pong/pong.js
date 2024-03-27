@@ -26,7 +26,7 @@ function setup() {
     paddleSize = 50;
     paddleHeight = 10;
     ballSize = 8;
-    ballSpeed = 3;
+    ballSpeed = 5.25;
     offset = 10;
 
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, MODE);
