@@ -6,13 +6,13 @@ const WACKY = 'wacky';
 let MODE = DEFAULT;
 const MERL = (MODE == MERLIN) || (MODE == MERLIN_PREVIEW);
 const REGIONS = 25;
-const RESET_TIME = 10;
+const RESET_TIME = 5;
 const FADE_TIME = !MERL ? 1 : 5;
 const fR = 60;
 
 let show_dots = (true && (!MERL));
 const BOTTOM_BAR = 50;
-const AUTO_REFRESH = false;
+const AUTO_REFRESH = false || MERL;
 
 let controls;
 let regionSlider;
@@ -80,6 +80,7 @@ function setup() {
       break;
   }
 
+
   noStroke();
   colorMode(HSB, 360, 100, 100);
   if (!MERL) {
@@ -110,7 +111,7 @@ class Voronoi {
     this.fadeStart = 0;
     this.full = false;
     this.speed = this.setSpeed();
-    this.pauseTimer = 0;
+    this.filledTime = 0;
     this.startTime = millis();
   }
   
@@ -123,25 +124,37 @@ class Voronoi {
       // this.fade+=1;
       return;
     }
-    if (this.timeElapsed() >= RESET_TIME && AUTO_REFRESH) this.startFade();
+    
+    if (this.full && this.timeSinceFull() >= RESET_TIME && AUTO_REFRESH) {
+      console.log(this.timeSinceFull());
+      this.startFade();
+    }
     if (this.full) {
-      regionSlider.render();
+      if (!MERL) regionSlider.render();
       // this.drawResetButton();
       return;
     }
+    if(MERL) clear();
+    
     
     //spread each region
     this.points.forEach((spreader) => {
       spreader.render(this.size);
     });
-    
+    //every half second, check if the image is equal to the buffer, and if so we are done drawing
     //overwrite with buffered image
     image(this.buffer,0,0);
-    
-    //every 60 frames, check if the image is equal to the buffer, and if so we are done drawing
     if (frameCount % 60 == 0) this.checkFull();
-
+    
+    //Copy the current finalized frame other than background stuff) to buffer
     this.buffer.copy(get(), 0, 0, this.buffer.width, this.buffer.height, 0, 0, this.buffer.width, this.buffer.height);
+    
+    //if in MERLIN modes, draw a black background and overwrite the buffer again
+    if(MERL) {
+      background(0);
+      image(this.buffer,0,0);
+    }
+    
     this.size += this.speed;
     if (!MERL) {
       regionSlider.render();
@@ -149,22 +162,33 @@ class Voronoi {
     }
 
   }
+  //draws a black rectangle background, for MERLIN modes where we dont want white
+  blackground() {
+    push();
+    fill(0);
+    rect(0,0,this.w,this.h);
+    pop();
+  }
   setSpeed() {
     return {
-      [DEFAULT]: .5,
-      [MERLIN]: .05,
-      [MERLIN_PREVIEW]: .05,
+      [DEFAULT]: .75,
+      [MERLIN]: .025,
+      [MERLIN_PREVIEW]: .025,
       [WACKY]: map(this.regions,1,1000,11,3)
     }[MODE] || 1
   }
   timeElapsed() {
-    return (millis() - this.startTime) / 1000;
+    return ((millis() - this.startTime) / 1000);
+  }
+  timeSinceFull() {
+    return ((millis() - this.filledTime ) / 1000);
   }
   reset() {
+    // console.log('Reset');
     clear();
-    
     this.buffer.clear();
     this.size = 0;
+    this.t
     this.startTime = millis();
     this.fading = false;
     this.fade = 0;
@@ -202,17 +226,39 @@ class Voronoi {
     image(this.fadeBuffer,0,0);
 
   }
+  //Old version//
+  // checkFull() {
+  //   console.log('checking fullness');
+  //   loadPixels();
+  //   this.buffer.loadPixels();
+  //   for (let i = 0; i < this.buffer.pixels.length; i++) {
+  //     if (pixels[i] !== this.buffer.pixels[i]) {
+  //       // If a difference is found, return false
+  //       // console.log(`Image: [${pixels[i]},${pixels[i+1]},${pixels[i+2]}]\nBuffer:[${this.buffer.pixels[i]},${this.buffer.pixels[i+1]},${this.buffer.pixels[i+2]}]\n at pixel ${i}`);
+  //       return false;
+  //     }
+  //   }
+  //   console.log('canvas full');
+  //   this.full = true;
+  //   return true;
+  // }
   checkFull() {
-    loadPixels();
-    this.buffer.loadPixels();
-    for (let i = 0; i < this.buffer.pixels.length; i++) {
-      if (pixels[i] !== this.buffer.pixels[i]) {
+    // console.log('checking fullness');
+    let img = get(0,0,this.w,this.h);
+    let buff = this.buffer.get(0,0,this.w,this.h);
+    buff.loadPixels();
+    img.loadPixels();
+    for (let i = 0; i < buff.pixels.length; i++) {
+      
+      if (img.pixels[i] !== buff.pixels[i]) {
         // If a difference is found, return false
+        // console.log('not full');
         return false;
       }
     }
     console.log('canvas full');
     this.full = true;
+    this.filledTime = millis();
     return true;
   }
   drawResetButton() {
@@ -229,13 +275,15 @@ class Voronoi {
   }
   
   startFade() {
-    push();
-    this.buffer.fill(255);
-    this.buffer.noStroke();
-    this.buffer.rect(0,0,this.buffer.width,this.buffer.height);
-    this.buffer.blend(get(),0,0,this.w,this.h,0,0,this.w,this.h,BLEND);
-    image(this.buffer,0,0);
-    pop();
+    if(!MERL) {
+      push();
+      this.buffer.fill(255);
+      this.buffer.noStroke();
+      this.buffer.rect(0,0,this.buffer.width,this.buffer.height);
+      this.buffer.blend(get(),0,0,this.w,this.h,0,0,this.w,this.h,BLEND);
+      image(this.buffer,0,0);
+      pop();
+    }
     this.fadeStart = millis();
     this.fading = true;
   }
