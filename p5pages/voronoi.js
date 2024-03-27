@@ -29,8 +29,8 @@ let graph;
 // }
 class inputSlider {
   constructor(mn, mx, initial) {
-    this.x = 0+ canvas.getBoundingClientRect().x;
-    this.y = 0+ canvas.getBoundingClientRect().y;
+    this.x = 0 + canvas.getBoundingClientRect().x;
+    this.y = 0 + canvas.getBoundingClientRect().y;
     this.mn = mn;
     this.mx = mx;
     this.length = 0
@@ -48,19 +48,15 @@ class inputSlider {
     this.x = x;
     this.y = y;
     this.slider.position(x,y);
+    this.txt.position(x + this.length/2 - 15, y + 20);
   }
   
   render() {
-    //Position the region control text input/slider
-    this.txt.position(this.x + this.length/2 - 15, this.y + 20);
-    this.slider.position(this.x,this.y);
-    
     //set slider value equal to the textbox value and vice versa
     this.txt.input( () => {
       let n = this.txt.value();
       this.slider.value(int(n));
     })
-    
     this.txt.value(this.slider.value());
   }
   value() {
@@ -86,8 +82,9 @@ function setup() {
   colorMode(HSB, 360, 100, 100);
   if (MODE == DEFAULT) {
     regionSlider = new inputSlider(0,1000,REGIONS);
-    regionSlider.position(width - 220, height - (BOTTOM_BAR/1.1));
     regionSlider.size(200);
+    regionSlider.position(width - 220, height - (BOTTOM_BAR/1.1));
+
   }
 
   if (MODE == DEFAULT) graph = new Voronoi(regionSlider.value(),width, height - BOTTOM_BAR);
@@ -161,12 +158,12 @@ class Voronoi {
 
     push();
     fill(90);
-    rect(0,width,width,BOTTOM_BAR);
+    rect(0,this.w,this.w,BOTTOM_BAR);
     stroke(0);
     strokeWeight(6);
-    arc(width/2,width + BOTTOM_BAR/2,this.buttonDiameter,this.buttonDiameter,90,360);
+    arc(this.w/2,this.w + BOTTOM_BAR/2,this.buttonDiameter,this.buttonDiameter,90,360);
     fill(0);
-    triangle(width/2 + this.buttonDiameter/2 - 5, width + BOTTOM_BAR/2, width/2 + this.buttonDiameter/2 + 5, width + BOTTOM_BAR/2, width/2 + this.buttonDiameter/2, width + BOTTOM_BAR/2 + 6);
+    triangle(this.w/2 + this.buttonDiameter/2 - 5, this.w + BOTTOM_BAR/2, this.w/2 + this.buttonDiameter/2 + 5, this.w + BOTTOM_BAR/2, this.w/2 + this.buttonDiameter/2, this.w + BOTTOM_BAR/2 + 6);
     pop();
   }
   startFade() {
@@ -179,7 +176,7 @@ class Voronoi {
     this.fading = true;
   }
   isClicked() {
-    if (mouseX > width/2 - this.buttonDiameter/2 && mouseX < width/2 + this.buttonDiameter/2 && mouseY > width + BOTTOM_BAR/2 - this.buttonDiameter/2 && mouseY < width + BOTTOM_BAR/2 + this.buttonDiameter/2) {
+    if (mouseX > this.w/2 - this.buttonDiameter/2 && mouseX < this.w/2 + this.buttonDiameter/2 && mouseY > this.w + BOTTOM_BAR/2 - this.buttonDiameter/2 && mouseY < this.w + BOTTOM_BAR/2 + this.buttonDiameter/2) {
       this.startFade();
     }
   }
