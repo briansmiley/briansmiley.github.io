@@ -93,7 +93,10 @@ function draw() {
   runFrame = !slowMode.checked();
   
 }
-
+function totalBranches(baseLength, minLimit, scale) {
+  let endScale = minLimit/baseLength //Total multiplicative point where minimum branch length is reached
+  return 1 + Math.floor(Math.log(endScale) / Math.log(scale)) //log_base_{scale}(endScle); power of {scale} which yields endScale, floor because we only go to integer powers of {scale} and dont overshoot
+}
 function renderTree() {
   minX = trunkBaseX;
   maxX = trunkBaseX;
@@ -108,22 +111,9 @@ function renderTree() {
   // let angle = map(mouseY,0,height,0, PI);
   let angle = 0;
   
-  function totalBranches(baseLength, minLimit, scale) {
-    let endScale = minLimit/baseLength //Total multiplicative point where minimum branch length is reached
-    return 1 + Math.floor(Math.log(endScale) / Math.log(scale)) //log_base_{scale}(endScle); power of {scale} which yields endScale, floored because we wont actually reach that scale
-  }
+  
 
   branch(trunkBaseX,trunkBaseY,length,angle,15,scaleSlider.value());
-  if (millis() - frameStart > TIMEOUT) {
-    if (slowMode.checked()) return;
-    if (!TIMEDOUT) {
-      console.log('Render timeout');      
-      slowMode.checked(true);
-      runFrame = false;
-    }
-    TIMEDOUT = true;
-    return;
-  }
 }
 //Maps a slider's value to the mouseX/Y value
 function mouseMap(slider, mouseDir) {
@@ -178,6 +168,17 @@ function taperLine(
   }
 
 function branch(x, y, len,ang,wgt,scl,canv){
+  if(len < minBranchSlider.value()) return;
+  if (millis() - frameStart > TIMEOUT) {
+    if (slowMode.checked()) return;
+    if (!TIMEDOUT) {
+      console.log('Render timeout');      
+      slowMode.checked(true);
+      runFrame = false;
+    }
+    TIMEDOUT = true;
+    return;
+  }
   minX = min(minX, x);
   minY = min(minY, y);
   maxX = max(maxX, x);
