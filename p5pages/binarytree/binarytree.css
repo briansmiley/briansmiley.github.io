@@ -15,8 +15,11 @@ canvas {
 .control_panel {
   display: flex;
   flex-flow: column wrap;
-  height: 10em;
+  height: 12em;
   width: 25em;
+}
+.control_panel > button {
+  width: fit-content;
 }
 #slow_mode {
   display: flex;

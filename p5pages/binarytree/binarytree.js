@@ -10,7 +10,8 @@ let controlPanel;
 let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
-let trunkBase = 0;
+let rescale;
+let trunkBaseY,trunkBaseX;
 let frameStart;
 let TIMEOUT = 2000;
 let TIMEDOUT = false;
@@ -24,6 +25,8 @@ function setup() {
   generateControls();
   message = createDiv();
   message.id(`timeout`);
+  trunkBaseX = width/2;
+  trunkBaseY = height;
   document.querySelector('main').children[1].before(message.elt);
   // message.parent(document.querySelector('main'));
 }
@@ -35,6 +38,11 @@ function generateControls() {
   taper = controlPanel.addCheckbox('Taper branches (t) (slower)',true);
   slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
+  rescale = controlPanel.addButton('Scale canvas');
+  rescale.mousePressed(() => {
+    rescaleCheck();
+    runFrame = true;
+  });
   renderButton = slowModePanel.addButton('Render');
   renderButton.mousePressed(() => runFrame = true);
   scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
@@ -46,6 +54,7 @@ function generateControls() {
 }
 
 function draw() {
+  
   TIMEDOUT = false;
   renderButton.hide();
   frameStart = millis();
@@ -66,9 +75,14 @@ function draw() {
     if (TIMEDOUT) message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
   }
   runFrame = !slowMode.checked();
+  
 }
 
 function renderTree() {
+  minX = trunkBaseX;
+  maxX = trunkBaseX;
+  minY = trunkBaseY;
+  maxY = trunkBaseY;
   sclL = scaleSlider.value();
   sclR = scaleSlider.value();
   let s = lrSlider.value();
@@ -79,7 +93,7 @@ function renderTree() {
   let angle = 0;
   
 
-  branch(width/2,height-trunkBase,length,angle,15,scaleSlider.value());
+  branch(trunkBaseX,trunkBaseY,length,angle,15,scaleSlider.value());
   if (millis() - frameStart > TIMEOUT) {
     if (slowMode.checked()) return;
     if (!TIMEDOUT) {
@@ -134,7 +148,7 @@ function taperLine(
 
 function branch(x, y, len,ang,wgt,scl,canv){
   minX = min(minX, x);
-  minY = min(minX, y);
+  minY = min(minY, y);
   maxX = max(maxX, x);
   maxY = max(maxY, y);
   //Draw a branch tapering down to the enxt branch size or of constant weight
@@ -161,7 +175,20 @@ function branch(x, y, len,ang,wgt,scl,canv){
   }
 }
 
-
+function rescaleCheck() {
+  let xScale = max(1.1*(maxX - minX), 500);
+  let yScale = max(1.1*(maxY - minY), 500);
+  let rightSize = maxX - trunkBaseX;
+  let leftSize = trunkBaseX - minX;
+  let upSize = trunkBaseY - minY;
+  let downSize = maxY - trunkBaseY;
+  resizeCanvas(xScale, yScale);
+  if (rightSize > width/2) trunkBaseX = .98 * width - rightSize;
+  else if (leftSize > width/2) trunkBaseX = .02 * width + leftSize;
+  else trunkBaseX = width/2;
+  if (downSize > 0) trunkBaseY = .98*height - downSize;
+  else trunkBaseY = height;
+  }
 
 
 //Multi-step line version of doing a graded line, from StackOverflow, replced with my Trapezoid method
