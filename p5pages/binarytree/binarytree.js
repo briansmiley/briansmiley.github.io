@@ -12,8 +12,8 @@ let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorMode;
-const GRAY = 'graydient';
-const BLACK = 'black';
+const GRAY = 'Graydient';
+const BLACK = 'Black';
 let trunkBaseY,trunkBaseX;
 let frameStart;
 let TIMEOUT = 2000;
@@ -108,6 +108,10 @@ function renderTree() {
   // let angle = map(mouseY,0,height,0, PI);
   let angle = 0;
   
+  function totalBranches(baseLength, minLimit, scale) {
+    let endScale = minLimit/baseLength //Total multiplicative point where minimum branch length is reached
+    return 1 + Math.floor(Math.log(endScale) / Math.log(scale)) //log_base_{scale}(endScle); power of {scale} which yields endScale, floored because we wont actually reach that scale
+  }
 
   branch(trunkBaseX,trunkBaseY,length,angle,15,scaleSlider.value());
   if (millis() - frameStart > TIMEOUT) {
