@@ -293,27 +293,3 @@ function scaleCanvas() {
   rescaleCheck();
   runFrame = true;
 }
-
-//Multi-step line version of doing a graded line, from StackOverflow, replced with my Trapezoid method
-// function gradientLine(
-//   start_x,
-//   start_y,
-//   end_x,
-//   end_y,
-//   start_weight,
-//   end_weight,
-//   segments
-// ) {
-//   let prev_loc_x = start_x;
-//   let prev_loc_y = start_y;
-//   for (let i = 1; i <= segments; i++) {
-//     let cur_loc_x = lerp(start_x, end_x, i / segments);
-//     let cur_loc_y = lerp(start_y, end_y, i / segments);
-//     push();
-//     strokeWeight(lerp(start_weight, end_weight, i / segments));
-//     line(prev_loc_x, prev_loc_y, cur_loc_x, cur_loc_y);
-//     pop();
-//     prev_loc_x = cur_loc_x;
-//     prev_loc_y = cur_loc_y;
-//   }
-// }
