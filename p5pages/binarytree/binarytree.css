@@ -20,6 +20,7 @@ canvas {
 }
 .control_panel > button {
   width: fit-content;
+  margin: .5em 0 .5em 0;
 }
 #slow_mode {
   display: flex;
@@ -31,14 +32,16 @@ canvas {
   color: red;
   font-weight: bold;
 }
+#colorMode {
+  width: fit-content;
+  margin: 0 0 .5em 0;
+}
 #slow_mode > * {
   margin-right: 1em;
 }
-
 #timeout {
   color: red;
   font-weight: bold;
-  
 }
 input[type='text'] {
   width: 3em;

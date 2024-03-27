@@ -11,6 +11,9 @@ let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
+let colorMode;
+const GRAY = 'graydient';
+const BLACK = 'black';
 let trunkBaseY,trunkBaseX;
 let frameStart;
 let TIMEOUT = 2000;
@@ -36,14 +39,26 @@ function generateControls() {
   controlPanel = new ControlPanel('main_controls');
   mouseMode = controlPanel.addCheckbox('Mouse mode (m)',false);
   taper = controlPanel.addCheckbox('Taper branches (t) (slower)',true);
+
+  //Slow mode/single render mode options
   slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
+  renderButton = slowModePanel.addButton('Render (r)');
+  renderButton.mousePressed(() => runFrame = true);
+
+  //Rescale button
   rescale = controlPanel.addButton('Scale canvas (s)');
   rescale.mousePressed(() => {
     scaleCanvas();
   });
-  renderButton = slowModePanel.addButton('Render (r)');
-  renderButton.mousePressed(() => runFrame = true);
+
+  //Color mode dropdown
+  colorMode = controlPanel.addDropdown();
+  colorMode.id('colorMode');
+  let colorModes = ['Black','Graydient']
+  colorModes.forEach((mode) => colorMode.option(mode));
+
+
   scaleSlider = controlPanel.addTextboxSlider(0,.83,0.65,0.001,'Scale Factor<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');

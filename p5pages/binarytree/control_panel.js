@@ -45,6 +45,13 @@ class ControlPanel {
     button.parent(par.container);
     return button;
   }
+
+  addDropdown(label, par = this) {
+    let dropdown = createSelect();
+    dropdown.parent(this.container);
+    this.controls.push(dropdown);
+    return dropdown;
+  }
   
   update() {
     this.controls.forEach((setting) => {
