@@ -52,6 +52,13 @@ class ControlPanel {
     this.controls.push(dropdown);
     return dropdown;
   }
+
+  addSlider(min, max, value, step = 0, parent = this.container) {
+    let slider = createSlider(min, max, value, step)
+    slider.parent(parent);
+    this.controls.push(slider);
+    return slider;
+  }
   
   update() {
     this.controls.forEach((setting) => {
