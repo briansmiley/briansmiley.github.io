@@ -92,7 +92,7 @@ function scaledPerlinOffset(ballX, ballY, paddleY, paddleWidth, paddleSeed) {
   let n = noise(millis()/1000);
   pop();
   let perlinX = n * width;
-  let paddleX = (ballX * (1 - ballDistance/height)) + (perlinX * (0.18 + ballDistance/height));
+  let paddleX = (ballX * (1 - ballDistance/height)) + (perlinX * (0.15 + ballDistance/height));
   
   // let offsetRange = (n - 0.5) * paddleWidth;
   // let scaledOffset = map(ballDistance, 0, height, offsetRange * 2, offsetRange * 10);
