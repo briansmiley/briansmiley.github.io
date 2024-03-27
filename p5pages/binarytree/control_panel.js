@@ -12,9 +12,17 @@ class ControlPanel {
     return container;
   }
   //add a preExisting already-containerized control to the set
-  addControl(controlDiv) {
+  addControlDiv(controlDiv) {
     this.controls.push(controlDiv);
     controlDiv.parent(this);
+  }
+
+  //add an element and label it
+  addControl(label = '', id = '') {
+    let control = createDiv(label);
+    control.id(id);
+    control.parent(this.container);
+    return control;
   }
 
   //add a sub-panel group
@@ -25,6 +33,15 @@ class ControlPanel {
     return newPanel;
   }
   
+  addColorPicker(label = '', colr = '', id = '') {
+    let picker = createColorPicker(colr);
+    let container = createDiv(label);
+    picker.parent(container);
+    container.id(id);
+    container.parent(this.container);
+    return picker
+
+  }
   //create a new textboxSlider() control 
   addTextboxSlider(mn, mx, initial, step = 0, label = '', id = "") {
     let slider = new textboxSlider(mn, mx, initial, step, this.container, label, id)

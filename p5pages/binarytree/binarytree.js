@@ -12,6 +12,7 @@ let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorSelect, colorPanel, colorSlider;
+let backgroundSelector, BACKGROUND_COLOR;
 const GRAY = 'Graydient';
 const BLACK = 'Black';
 const RAINBOW = 'Rainbow';
@@ -21,11 +22,10 @@ let TIMEOUT = 2000;
 let TIMEDOUT = false;
 let runFrame = true;
 let message;
-let BACKGROUND_COLOR;
 let minX, maxX, minY, maxY;
 
 function setup() {
-  BACKGROUND_COLOR = 100;
+  BACKGROUND_COLOR = 90;
   colorMode(HSB);
   angleMode(DEGREES);
   createCanvas(700, 600);
@@ -68,11 +68,17 @@ function generateControls() {
   let colorModes = [BLACK, GRAY/*, RAINBOW*/]
   colorModes.forEach((mode) => colorSelect.option(mode));
 
-
+  //Background color selector
+  backgroundSelector = controlPanel.addColorPicker('Background ','#bbbbbb','background_select');
+  //Branch scaledown factor
   scaleSlider = controlPanel.addTextboxSlider(0,830,690,1,'Scale Factor (x1000)<br>');
+  //Branching angle slider
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
+  //Minimum branch size recursion exit limit
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
+  //Overall tree tilt angle slider
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
+  //Antibias to L/R branch direction
   lrSlider = controlPanel.addTextboxSlider(-1,1,0,.001,'L/R Shrink<br>')
 
 }
@@ -93,6 +99,7 @@ function draw() {
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
   colorSelect.value() == GRAY ? colorSlider.show() : colorSlider.hide();
+  BACKGROUND_COLOR = backgroundSelector.value();
   
 
   if (runFrame) {
