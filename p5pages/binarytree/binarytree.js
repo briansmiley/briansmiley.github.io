@@ -25,8 +25,8 @@ let BACKGROUND_COLOR;
 let minX, maxX, minY, maxY;
 
 function setup() {
-  BACKGROUND_COLOR = 240;
-  COLOR
+  BACKGROUND_COLOR = 100;
+  colorMode(HSB);
   angleMode(DEGREES);
   createCanvas(700, 600);
   generateControls();
@@ -61,7 +61,7 @@ function generateControls() {
   //Color mode dropdown
   colorPanel = controlPanel.addPanel('color_mode', controlPanel.container);
   colorSelect = colorPanel.addDropdown(); //Colormode selector
-  colorSlider = colorPanel.addSlider(0,BACKGROUND_COLOR,0); //Slider to control gradient
+  colorSlider = colorPanel.addSlider(0,BACKGROUND_COLOR * .95,0); //Slider to control gradient
   colorSlider.id('color_slider');
   colorSlider.hide();
   colorSelect.id('color_selector');
