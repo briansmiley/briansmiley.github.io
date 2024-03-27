@@ -2,6 +2,9 @@ body {
     background-color:aliceblue;
 }
 
+h2 {
+    text-align: center;
+}
 .highlight {
     background-color:rgb(217, 217, 146);
     border-radius: 5px;
