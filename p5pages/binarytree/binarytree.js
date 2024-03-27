@@ -69,7 +69,7 @@ function generateControls() {
   colorModes.forEach((mode) => colorSelect.option(mode));
 
 
-  scaleSlider = controlPanel.addTextboxSlider(0,.83,0.65,0.001,'Scale Factor<br>');
+  scaleSlider = controlPanel.addTextboxSlider(0,830,650,1,'Scale Factor (/1000)<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
@@ -90,7 +90,7 @@ function draw() {
     mouseMap(angSlider,mouseY);
   }
   controlPanel.update();
-  if (scaleSlider.value() > .75) scaleSlider.txt.class('warning');
+  if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
   colorSelect.value() == GRAY ? colorSlider.show() : colorSlider.hide();
   
@@ -113,8 +113,8 @@ function renderTree() {
   maxX = trunkBaseX;
   minY = trunkBaseY;
   maxY = trunkBaseY;
-  sclL = scaleSlider.value();
-  sclR = scaleSlider.value();
+  sclL = scaleSlider.value()/1000;
+  sclR = scaleSlider.value()/1000;
   let s = lrSlider.value();
   if (s > 0) sclR *= (1 - s);
   if (s < 0) sclL *= (1 + s);
@@ -123,7 +123,7 @@ function renderTree() {
   
   
 
-  branch(trunkBaseX,trunkBaseY,trunkLength,angle,15,scaleSlider.value(),0);
+  branch(trunkBaseX,trunkBaseY,trunkLength,angle,15,scaleSlider.value()/1000,0);
 }
 //Maps a slider's value to the mouseX/Y value
 function mouseMap(slider, mouseDir) {
