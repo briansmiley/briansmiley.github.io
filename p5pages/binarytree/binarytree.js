@@ -45,7 +45,7 @@ function generateControls() {
   });
   renderButton = slowModePanel.addButton('Render');
   renderButton.mousePressed(() => runFrame = true);
-  scaleSlider = controlPanel.addTextboxSlider(0,.77,0.65,0.01,'Scale Factor<br>');
+  scaleSlider = controlPanel.addTextboxSlider(0,.83,0.65,0.01,'Scale Factor<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
@@ -66,6 +66,8 @@ function draw() {
     mouseMap(angSlider,mouseY);
   }
   controlPanel.update();
+  if (scaleSlider.value() > .77) scaleSlider.txt.class('warning');
+  else scaleSlider.txt.removeClass('warning');
   
 
   if (runFrame) {

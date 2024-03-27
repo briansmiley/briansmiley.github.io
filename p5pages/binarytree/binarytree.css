@@ -27,7 +27,10 @@ canvas {
   height: fit-content;
   align-items: start;
 }
-
+.warning {
+  color: red;
+  font-weight: bold;
+}
 #slow_mode > * {
   margin-right: 1em;
 }
