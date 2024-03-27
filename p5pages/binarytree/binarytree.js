@@ -157,7 +157,7 @@ function branch(x, y, len,ang,wgt,scl,canv){
   strokeWeight(wgt)
   let nextX = x + len * sin(ang)
   let nextY = y - len * cos(ang)
-  if (taper.checked() && wgt > 3 && len > 4) {
+  if (taper.checked() && len > 4) {
     push();
     fill(0);
     noStroke();
