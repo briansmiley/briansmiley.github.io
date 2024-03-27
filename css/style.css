@@ -9,6 +9,7 @@ body {
 }
 
 .p5-thumbnails-container {
+    text-align: center;
 }
 .p5-thumbnail {
     display: inline-block; /* Display thumbnails as inline-block elements */
