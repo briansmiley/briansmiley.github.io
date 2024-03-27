@@ -46,16 +46,16 @@ main#voronoi #container {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    transform: scale(1.5);
 }
 
 main#voronoi #container input[type='range'] {
-    width: 15em;
-    zoom: 2;
+    width: 10em;
 }
 
 main#voronoi #container input[type='text'] {
     width: 3em;
     height:auto;
     text-align: center;
-    font-size: 3em;
+
 }
