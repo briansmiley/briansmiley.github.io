@@ -103,11 +103,13 @@ function draw() {
     mouseMap(tiltSlider,mouseX);
     mouseMap(angSlider,mouseY);
   }
+  
+  //Control panel updates
   controlPanel.update();
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  let style = colorStyleSelect.value();
-  style == GRADIENT_BRANCH || style == GRADIENT_LEN ? document.getElementById('gradient_selector').classList.remove('hidden') :
+  let colorStyle = colorStyleSelect.value();
+  colorStyle == GRADIENT_BRANCH || colorStyle == GRADIENT_LEN ? document.getElementById('gradient_selector').classList.remove('hidden') :
                                         document.getElementById('gradient_selector').classList.add('hidden');
   BACKGROUND_COLOR = backgroundSelector.value();
   
@@ -117,6 +119,7 @@ function draw() {
     background(BACKGROUND_COLOR);
     renderTree();
     if (TIMEDOUT) message.html(`Render timed out; switched to single-frame render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
+    if (slowMode.checked()) console.log(`Render: ${2**totalBranches(trunkLength, minBranchSlider.value(), scaleSlider.value()/1000) - 1} branches in ${Math.trunc(millis() - frameStart)/1000} seconds`);
   }
   runFrame = !slowMode.checked();
   
