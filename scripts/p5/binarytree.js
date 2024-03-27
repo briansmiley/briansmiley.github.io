@@ -1,7 +1,7 @@
 var sclL = .75;
 var sclR = .75;
 function setup() {
-  createCanvas(900, 900);
+  createCanvas(900, 750);
 }
 
 function draw() {
