@@ -6,19 +6,19 @@ const hsb = 'HSB';
 const GRAY = 'Grayscale';
 const PASTEL = 'Pastel';
 const colorOptions = [hsb, rgb, PASTEL, GRAY];
-let lastDropsTime, timePerDrop;
+let lastDropsFrame, timePerDrop;
 function setup() {
   colorMode(HSB);
   canvas = createCanvas(600, 600);
   canvas.parent('canvas-box');
 
   generateControls();
-  lastDropsTime = 0;
+  lastDropsFrame = 0;
 }
 
 function draw() {
   background(0);
-  createDrops(millis());
+  createDrops();
   drops.forEach( (drop) => drop.frame());
   drops = drops.filter((drop) => {
     drop.frame();
@@ -31,7 +31,7 @@ function generateControls() {
   colorModeSelect.parent('color-select');
   colorOptions.forEach((i) => colorModeSelect.option(i));
 
-  dpsSlider = createSlider(0.5, 150, 20, 0);
+  dpsSlider = createSlider(0.5, 150, 20, 0); //drops per second assuming 60fps
   dpsSlider.parent('drop-rate');
 
   spreadRateSlider = createSlider(.01, 1, .5,0);
@@ -44,14 +44,23 @@ function generateControls() {
   rippleWeightSlider.parent('ripple-weight');
 }
 
-function createDrops(time) {
-  let sinceLastDrops = time - lastDropsTime; //milliseconds "unused" by drop creation
-  let interval = 1000/dpsSlider.value() //milliseconds of elapsed time each drop "gets"
-  let newDrops = floor(sinceLastDrops / interval); //number of full intervals "unused" in the pool of elapsed time
-  if (newDrops >= 1) {
-    lastDropsTime += newDrops * interval; //remove [interval] ms for each drop we're creating
-    Array.from({length: newDrops}, () => drops.push(new Drop())); //create that many new drops
+function createDrops() {
+  if (dpsSlider.value() <= 60) {
+    let framesPerDrop = probabalisticInt(60 / dpsSlider.value());
+    if (frameCount % framesPerDrop == 0) drops.push(new Drop());
+    return 1;
   }
+  else {
+    let dropsPerFrame = probabalisticInt(dpsSlider.value() / 60);
+    Array.from({length: dropsPerFrame}, () => drops.push(new Drop())); //create that many new drops
+    return dropsPerFrame;
+  }
+  // let sinceLastDrops = frameCount - lastDropsFrame; //frames since last drop
+  // let interval = 1000/dpsSlider.value() //milliseconds of elapsed time each drop "gets"
+  // let newDrops = floor(sinceLastDrops / interval); //number of full intervals "unused" in the pool of elapsed time
+  // if (newDrops >= 1) {
+  //   lastDropsFrame += newDrops * interval; //remove [interval] ms for each drop we're creating
+  // }
 }
 function randomColor() {
   let colr;
