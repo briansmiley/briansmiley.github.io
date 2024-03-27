@@ -47,7 +47,7 @@ function generateControls() {
 
   wallReflections = createCheckbox('',true);
   wallReflections.parent('reflection-checkbox-container');
-  dpsSlider = createSlider(0, 300, width*height/50000, 0); //drops per second assuming 60fps
+  dpsSlider = createSlider(0, width*height/2500, width*height/50000, 0); //drops per second assuming 60fps
   dpsSlider.parent('drop-rate-container');
 
   spreadRateSlider = createSlider(.01, 2, .5,0);
@@ -100,7 +100,10 @@ function probabalisticInt(flt) {
 
 function  windowResized() {
   // let dim = min(windowWidth, .8*windowHeight, 700);
+  let prevDps = dpsSlider.value()/dpsSlider.max;
   resizeCanvas(windowWidth, .8*windowHeight);
+  dpsSlider.attribute('max',width*height/2500);
+  dpsSlider.value(prevDps * dpsSlider.max);
 }
 
 function mousePressed() {
