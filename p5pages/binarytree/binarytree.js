@@ -16,6 +16,7 @@ let TIMEOUT = 2000;
 let TIMEDOUT = false;
 let runFrame = true;
 let message;
+let minX, maxX, minY, maxY;
 
 function setup() {
   angleMode(DEGREES);
@@ -73,13 +74,12 @@ function renderTree() {
   let s = lrSlider.value();
   if (s > 0) sclR *= (1 - s);
   if (s < 0) sclL *= (1 + s);
-  translate(width/2,height - trunkBase);
   let length = 180;
   // let angle = map(mouseY,0,height,0, PI);
-  let angle = angSlider.value();
+  let angle = 0;
   
 
-  branch(length,angle,15,scaleSlider.value());
+  branch(width/2,height-trunkBase,length,angle,15,scaleSlider.value());
   if (millis() - frameStart > TIMEOUT) {
     if (slowMode.checked()) return;
     if (!TIMEDOUT) {
@@ -132,30 +132,32 @@ function taperLine(
     pop();
   }
 
-function branch(len,ang,wgt,scl,canv){
+function branch(x, y, len,ang,wgt,scl,canv){
+  minX = min(minX, x);
+  minY = min(minX, y);
+  maxX = max(maxX, x);
+  maxY = max(maxY, y);
   //Draw a branch tapering down to the enxt branch size or of constant weight
   strokeWeight(wgt)
+  let nextX = x + len * sin(ang)
+  let nextY = y - len * cos(ang)
   if (taper.checked() && wgt > 3 && len > 4) {
     push();
     fill(0);
     noStroke();
-    taperLine(0,0,0,-len,wgt,wgt*scl,true);
+    taperLine(x,y,nextX,nextY,wgt,wgt*scl,true);
     pop();
     // gradientLine(0,0,0,-len,wgt,wgt*scl,12);
   }
 
-  else line(0,0,0,-len);
-  
-  translate(0,-len);
+  else line(x,y,nextX,nextY);
 
   
   if(len >= minBranchSlider.value()){
-    push();
-    rotate(ang + tiltSlider.value());
-    branch(sclL*len,ang,max(.1,wgt*sclL),sclL);
-    pop()
-    rotate(-ang + tiltSlider.value());
-    branch(sclR*len,ang,max(.1,wgt*sclR),sclR);
+    let nextAng = ang + tiltSlider.value() + angSlider.value();
+    let nextAng2 = ang + tiltSlider.value() - angSlider.value();
+    branch(nextX,nextY,sclL*len,nextAng,max(.1,wgt*sclL),sclL);
+    branch(nextX, nextY, sclR*len,nextAng2,max(.1,wgt*sclR),sclR);
   }
 }
 
