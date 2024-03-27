@@ -10,6 +10,8 @@ html, body {
 
 canvas {
   display: block;
+  border: 2px solid black;
+  margin: 1em 0 1em 0;
 }
 button {
   width: fit-content;
@@ -18,7 +20,7 @@ button {
   display: flex;
   flex-flow: column wrap;
   height: 12em;
-  width: 25em;
+  width: 20em;
 }
 .control_panel > * {
   min-height: 22px;
