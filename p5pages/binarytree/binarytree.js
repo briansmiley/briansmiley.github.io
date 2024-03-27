@@ -38,12 +38,11 @@ function generateControls() {
   taper = controlPanel.addCheckbox('Taper branches (t) (slower)',true);
   slowModePanel = controlPanel.addPanel('slow_mode',controlPanel.container);
   slowMode = slowModePanel.addCheckbox('Single render mode', false);
-  rescale = controlPanel.addButton('Scale canvas');
+  rescale = controlPanel.addButton('Scale canvas (s)');
   rescale.mousePressed(() => {
-    rescaleCheck();
-    runFrame = true;
+    scaleCanvas();
   });
-  renderButton = slowModePanel.addButton('Render');
+  renderButton = slowModePanel.addButton('Render (r)');
   renderButton.mousePressed(() => runFrame = true);
   scaleSlider = controlPanel.addTextboxSlider(0,.83,0.65,0.001,'Scale Factor<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
@@ -113,10 +112,21 @@ function mouseMap(slider, mouseDir) {
 }
 function keyPressed() {
   //toggle mouse mode to freeze tree state and free mouse
-  if (key == 'm') mouseMode.checked(!mouseMode.checked());
-  if (key == 't') taper.checked(!taper.checked());
+  switch (key) {
+    case 'm':
+      mouseMode.checked(!mouseMode.checked());
+      break;
+    case 't':
+      taper.checked(!taper.checked());
+      break;
+    case 's':
+      scaleCanvas();
+      break;
+    case 'r':
+      runFrame = true;
+      break;
+  }
 }
-
 function taperLine(
   start_x,
   start_y,
@@ -190,8 +200,11 @@ function rescaleCheck() {
   else trunkBaseX = width/2;
   if (downSize > 0) trunkBaseY = .98*height - downSize;
   else trunkBaseY = height;
-  }
-
+}
+function scaleCanvas() {
+  rescaleCheck();
+  runFrame = true;
+}
 
 //Multi-step line version of doing a graded line, from StackOverflow, replced with my Trapezoid method
 // function gradientLine(
