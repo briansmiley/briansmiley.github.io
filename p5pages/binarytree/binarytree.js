@@ -45,6 +45,11 @@ function draw() {
   if(slowMode.checked()) renderButton.show();
   
   controlPanel.update();
+  if (mouseMode.checked()) {
+    mouseMap(tiltSlider,mouseX);
+    mouseMap(angSlider,mouseY);
+  }
+  
   if(slowMode.checked()) {
     if (runFrame) {
       background(220);
@@ -66,11 +71,6 @@ function renderTree() {
   if (s < 0) sclL *= (1 + s);
   translate(width/2,height - trunkBase);
   let length = 180;
-  if (mouseMode.checked()) {
-    // mouseMap(lrSlider,mouseX);
-    mouseMap(tiltSlider,mouseX);
-    mouseMap(angSlider,mouseY);
-  }
   // let angle = map(mouseY,0,height,0, PI);
   let angle = angSlider.value();
 
