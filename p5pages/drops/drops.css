@@ -1,8 +1,27 @@
-html, body {
+main {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-canvas {
+#canvas-box {
+  display: flex;
+  margin-top: 1em;
   display: block;
+  width: fit-content;
+}
+#controls-box {
+  width: 600px;
+  align-items: left;
+}
+#controls {
+  display: flex;
+  flex-flow: column wrap;
+}
+.slider {
+  display: flex;
+  flex-flow: row nowrap;
 }

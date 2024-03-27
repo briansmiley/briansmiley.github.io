@@ -6,13 +6,25 @@
 
     <title>Sketch</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="./drops.css">
 
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
+    <script src="drops.js"></script>
+    <script src="drop.js"></script>
   </head>
 
   <body>
-    <script src="sketch.js"></script>
+    <main>
+    <div id = "canvas-box"></div>
+    <div id = "controls-box">
+      <div id = "controls">
+        <div id = 'color-select'>Color </div>
+        <div id = 'drop-rate' class="slider">Drop rate </div>
+        <div id = 'spread-rate' class="slider">Spread speed </div>
+        <div id = 'ripple-duration' class="slider">Ripple duration </div>
+      </div>
+    </div>
+    </main>
   </body>
 </html>
