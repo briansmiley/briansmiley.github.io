@@ -25,9 +25,11 @@ button {
 }
 .control_panel > * {
   min-height: 22px;
+  width: fit-content;
+  margin-right: 1em;
 }
 #scale_canvas {
-  margin: .5em 0 .5em 0;
+  margin: 0 0 .5em 0;
 }
 #slow_panel {
   display: flex;
