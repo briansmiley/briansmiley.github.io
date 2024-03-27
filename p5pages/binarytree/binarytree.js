@@ -11,10 +11,10 @@ let mouseMode;
 let taper;
 let slowModePanel, slowMode, renderButton;
 let rescale;
-let colorSelect, colorPanel, gradientSlider;
-let backgroundSelector, BACKGROUND_COLOR;
-const GRAY = 'Graydient';
-const BLACK = 'Black';
+let colorStyleSelect, colorStylePanel, gradientSlider;
+let colorPanel, backgroundSelector, treeColorSelector, TREE_COLOR, BACKGROUND_COLOR;
+const GRADIENT = 'Gradient';
+const SOLID = 'Solid';
 const RAINBOW = 'Rainbow';
 let trunkBaseY,trunkBaseX, trunkLength;
 let frameStart;
@@ -27,6 +27,7 @@ let minX, maxX, minY, maxY;
 function setup() {
   BACKGROUND_COLOR = 90;
   colorMode(HSB);
+  blendMode(OVERLAY);
   angleMode(DEGREES);
   createCanvas(700, 600);
   generateControls();
@@ -59,17 +60,22 @@ function generateControls() {
   });
 
   //Color mode dropdown
-  colorPanel = controlPanel.addPanel('color_mode', controlPanel.container);
-  colorSelect = colorPanel.addDropdown(); //Colormode selector
-  gradientSlider = colorPanel.addSlider(0,BACKGROUND_COLOR * .95,0); //Slider to control gradient
+  colorStylePanel = controlPanel.addPanel('color_mode', controlPanel.container);
+  colorStyleSelect = colorStylePanel.addDropdown(); //Colormode selector
+  gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR * .95,0);  //Slider to control gradient
   gradientSlider.id('gradient_slider');
   gradientSlider.hide();
-  colorSelect.id('color_selector');
-  let colorModes = [BLACK, GRAY, RAINBOW]
-  colorModes.forEach((mode) => colorSelect.option(mode));
 
+  colorStyleSelect.id('color_selector');
+  let colorModes = [SOLID, GRADIENT]
+  colorModes.forEach((mode) => colorStyleSelect.option(mode));
+
+  //Color picker div
+  colorPanel = controlPanel.addPanel('color_panel');
   //Background color selector
-  backgroundSelector = controlPanel.addColorPicker('Background ','#bbbbbb','background_select');
+  backgroundSelector = colorPanel.addColorPicker('Background ','#eeeeee','background_select');
+  //Tree color selector
+  treeColorSelector = colorPanel.addColorPicker('Tree ', '#000000', 'tree_color_select');
   //Branch scaledown factor
   scaleSlider = controlPanel.addTextboxSlider(0,830,690,1,'Scale Factor (x1000)<br>');
   //Branching angle slider
@@ -98,7 +104,7 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  colorSelect.value() == GRAY ? gradientSlider.show() : gradientSlider.hide();
+  colorStyleSelect.value() == GRADIENT ? gradientSlider.show() : gradientSlider.hide();
   BACKGROUND_COLOR = backgroundSelector.value();
   
 
@@ -200,17 +206,17 @@ function branch(x, y, len,ang,wgt,scl,lvl){
   maxY = max(maxY, y);
   //Draw a branch tapering down to the next branch size or of constant weight
   push();
-    switch (colorSelect.value()) {
-      case BLACK:
-        fill(0);
+    switch (colorStyleSelect.value()) {
+      case SOLID:
+        fill(treeColorSelector.value());
         stroke(0);
         break;
-      case GRAY:
-        let greymap = map(lvl, 
+      case GRADIENT:
+        let gradientMap = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                          gradientSlider.value()/4, gradientSlider.value());
-        fill(greymap);
-        stroke(greymap);
+                          0, gradientSlider.value());
+        fill(gradientMap);
+        stroke(gradientMap);
         break;
         //To implement: rainbow mode brings you across the hue wheel, slider maybe changes how much/where you start on hue?
       // case RAINBOW:
