@@ -8,7 +8,7 @@ const REGIONS = 25;
 const RESET_TIME = 7;
 const fR = 60;
 const SPEED = (MODE == DEFAULT) ? 0.25 : 0.05;
-const SHOW_DOTS = (true && MODE == DEFAULT);
+let show_dots = (true && MODE == DEFAULT);
 const BOTTOM_BAR = 50;
 const AUTO_REFRESH = false;
 
@@ -110,17 +110,30 @@ class Voronoi {
   }
   
   render() {
+    if (this.full) {
+      return;
+    }
+
+    
     if (MODE == DEFAULT) {
       regionSlider.render();
     }
+    
+    
+    //spread each region
     this.points.forEach((spreader) => {
       spreader.render(this.size);
     });
-    if (MODE == DEFAULT) this.drawResetButton();
+    
+    //overwrite with buffered image
     image(this.buffer,0,0);
+    
+    //every 60 frames, check if the image is equal to the buffer, and if so we are done drawing
+    if (frameCount % 60 == 0) this.checkFull();
+    
     if (this.timer % (fR * RESET_TIME)  == 0 && AUTO_REFRESH) this.startFade();
     this.buffer.copy(get(), 0, 0, this.buffer.width, this.buffer.height, 0, 0, this.buffer.width, this.buffer.height);
-    
+    if (MODE == DEFAULT) this.drawResetButton();
     this.size += SPEED * 2;
     
     if (this.fading) {
@@ -129,6 +142,7 @@ class Voronoi {
       this.fade+=2;
     }
     this.timer++;
+
   }
   reset() {
     clear();
@@ -137,6 +151,7 @@ class Voronoi {
     this.fading = false;
     this.fadeBuffer.clear();
     this.fade = 0;
+    this.full = false;
     if (MODE == DEFAULT) this.regions = regionSlider.value();
     else this.regions = REGIONS;
     this.points = this.generatePoints(this.regions);
@@ -153,6 +168,19 @@ class Voronoi {
     this.fadeBuffer.fill(0,0,0,this.fade);
     this.fadeBuffer.rect(0,0,this.fadeBuffer.width, this.fadeBuffer.height);
     image(this.fadeBuffer,0,0);
+  }
+  checkFull() {
+    loadPixels();
+    this.buffer.loadPixels();
+    for (let i = 0; i < this.buffer.pixels.length; i++) {
+      if (pixels[i] !== this.buffer.pixels[i]) {
+        // If a difference is found, return false
+        return false;
+      }
+    }
+    console.log('canvas full?');
+    this.full = true;
+    return true;
   }
   drawResetButton() {
 
@@ -194,7 +222,7 @@ class Spreader {
     fill(this.colr);
     circle(this.x, this.y, size * 2);
     fill(0);
-    if (SHOW_DOTS) circle(this.x, this.y, 4);
+    if (show_dots) circle(this.x, this.y, 4);
     pop();
   }
 }
@@ -226,7 +254,7 @@ function merlinPreview(){
 }
 
 function draw() {
-  // if (frameCount % 20 == 0) console.log(frameRate());
+  if (frameCount % 30 == 0) console.log(frameRate());
   graph.render();
   merlinPreview();
 }
