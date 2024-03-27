@@ -13,7 +13,8 @@ let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorStyleSelect, colorStylePanel, gradientSlider;
 let colorPanel, backgroundSelector, treeColorSelector, gradientColorSelector, GRADIENT_COLOR, TREE_COLOR, BACKGROUND_COLOR;
-const GRADIENT = 'Gradient';
+const GRADIENT_LEN = 'Gradient (distance)';
+const GRADIENT_BRANCH = 'Gradient (branch)'
 const SOLID = 'Solid';
 const RAINBOW = 'Rainbow';
 let trunkBaseY,trunkBaseX, trunkLength;
@@ -60,12 +61,6 @@ function generateControls() {
   rescale.mousePressed(() => {
     scaleCanvas();
   });
-
-  //Color mode dropdown
-  // colorStylePanel = controlPanel.addPanel('color_mode', controlPanel.container);
-  // gradientSlider = colorStylePanel.addSlider(0,BACKGROUND_COLOR,0);  //Slider to control gradient
-  // gradientSlider.id('gradient_slider');
-  // gradientSlider.hide();
   
   
   
@@ -84,7 +79,7 @@ function generateControls() {
   //Color style selector
   colorStyleSelect = colorPanel.addDropdown(); 
   colorStyleSelect.id('style_selector');
-  let colorModes = [SOLID, GRADIENT]
+  let colorModes = [SOLID, GRADIENT_LEN, GRADIENT_BRANCH]
   colorModes.forEach((mode) => colorStyleSelect.option(mode));
   //Background color selector
   backgroundSelector = colorPanel.addColorPicker('Background ',BACKGROUND_COLOR,'background_select');
@@ -111,7 +106,8 @@ function draw() {
   controlPanel.update();
   if (scaleSlider.value() > 725) scaleSlider.txt.class('warning');
   else scaleSlider.txt.removeClass('warning');
-  colorStyleSelect.value() == GRADIENT ? document.getElementById('gradient_selector').classList.remove('hidden') :
+  let style = colorStyleSelect.value();
+  style == GRADIENT_BRANCH || style == GRADIENT_LEN ? document.getElementById('gradient_selector').classList.remove('hidden') :
                                         document.getElementById('gradient_selector').classList.add('hidden');
   BACKGROUND_COLOR = backgroundSelector.value();
   
@@ -128,6 +124,9 @@ function draw() {
 function totalBranches(baseLength, minLimit, scale) {
   let endScale = minLimit/baseLength //Total multiplicative point where minimum branch length is reached
   return 1 + Math.floor(Math.log(endScale) / Math.log(scale)) //log_base_{scale}(endScle); power of {scale} which yields endScale, floor because we only go to integer powers of {scale} and dont overshoot
+}
+function branchLengthProgress(baseLength, minLimit, currentLength) {
+  return (baseLength - currentLength) / (baseLength - minLimit);
 }
 function renderTree() {
   minX = trunkBaseX;
@@ -231,27 +230,26 @@ function branch(x, y, len,ang,wgt,scl,lvl){
   maxY = max(maxY, y);
   //Draw a branch tapering down to the next branch size or of constant weight
   push();
+    let newColor;
+    let oldColor = treeColorSelector.value();
+    let endColor = gradientColorSelector.value();
     switch (colorStyleSelect.value()) {
       case SOLID:
-        fill(treeColorSelector.value());
-        stroke(treeColorSelector.value());
+        newColor = treeColorSelector.value();
         break;
-      case GRADIENT:
-        let oldColor = treeColorSelector.value();
-        let endColor = gradientColorSelector.value();
+      case GRADIENT_BRANCH:
         let gradientFrac = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
                           0, 1);
-        let newColor = gradient(oldColor, endColor, gradientFrac);
-        fill(newColor);
-        stroke(newColor);
+        newColor = gradient(oldColor, endColor, gradientFrac);
         break;
-        //To implement: rainbow mode brings you across the hue wheel, slider maybe changes how much/where you start on hue?
-      // case RAINBOW:
-      //   let rainmap = map(lvl, 
-      //                     0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-      //                     gradientSlider.value()/4, gradientSlider.value());
+      case GRADIENT_LEN:
+        let gradientLengthBasedFrac = branchLengthProgress(trunkLength, minBranchSlider.value(), len);
+        newColor = gradient(oldColor, endColor, gradientLengthBasedFrac); 
+        break;
     }
+    fill(newColor);
+    stroke(newColor);
     strokeWeight(wgt)
     let nextX = x + len * sin(ang)
     let nextY = y - len * cos(ang)
