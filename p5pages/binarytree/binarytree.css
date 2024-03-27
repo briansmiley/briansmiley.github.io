@@ -3,6 +3,7 @@ html, body {
   padding: 0;
   display: flex;
   align-items: center;
+  /* flex-flow: column wrap; */
   justify-content: center;
 }
 canvas {
@@ -11,7 +12,6 @@ canvas {
 
 main {
   display: flex;
-  flex-flow: column wrap;
   align-items: flex-start;
 }
 
