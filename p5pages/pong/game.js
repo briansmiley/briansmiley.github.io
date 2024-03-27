@@ -57,12 +57,8 @@ class Game {
     endGame() {
         if (!this.gameOver) this.gameOverTime = millis();
         this.gameOver = true;
-    }
-    reset() {
-        console.log(this);
         this.ball.reset();
         this.paddles.forEach( (paddle) => paddle.reset());
-        this.endGame();
     }
     checkScore() {
         if (this.ball.y - (this.ball.d/2) < this.paddleOffset/2) {

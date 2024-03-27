@@ -53,7 +53,7 @@ function generateControls() {
     slider2 = createSlider(0,width,width/2,1);
     resetButton = createButton('Reset');
     resetButton.parent('reset-button');
-    resetButton.mousePressed(() => game.reset());
+    resetButton.mousePressed(() => game.endGame());
 
     slider1.parent('player1');
     slider2.parent('player2');
