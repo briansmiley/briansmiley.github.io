@@ -12,3 +12,9 @@ body {
     width: 100px;
     height: 100px;
 }
+
+.p5script {
+    margin: 0 auto; /* Center the element horizontally */
+    display: block; /* Ensure the element is displayed as a block */
+    width: 100%; /* Adjust the width as needed */
+}
