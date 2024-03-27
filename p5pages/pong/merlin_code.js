@@ -8,9 +8,10 @@ const AUTOPLAY = 'Auto';
 const SLIDERS = 'Two-player';
 const SINGLE = 'Single-player';
 // // if (MERLIN)
-var MODE = merlinDropdown([AUTOPLAY, SLIDERS, SINGLE], AUTOPLAY);
+var MODE = merlinDropdown(['Auto', 'Two-Player', 'Single-player'], 'Auto');
 var slider1 = merlinSlider(0,43,21,1);
 var slider2 = merlinSlider(0,43,21,1);
+var ballSpeedSlider = merlinSlider(.1,2,1,.1);
 
 //Else
 // let MODE, MODESELECT;
@@ -24,9 +25,6 @@ function setup() {
     // createCanvas(300,500);
     // slider1 = createSlider(0,width,width/2,1);
     // slider2 = createSlider(0,width,width/2,1);
-
-
-    // MERLIN = true;
     if (MERLIN) {
         paddleSize = 7;
         paddleHeight = 2;
@@ -34,6 +32,7 @@ function setup() {
         ballSpeed = 1;
         offset = 2;
         fR = 1;
+      //test
     } else {
         paddleSize = 50;
         paddleHeight = 10;
@@ -42,10 +41,34 @@ function setup() {
         offset = 10;
         fR = 1;
     }
-    // MERLIN = false;
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR, MODE);
 }
 
+function scaledPerlinOffset(ballX, ballY, paddleY, paddleWidth, paddleSeed) {
+  
+  let ballDistance = abs(ballY - paddleY);
+  
+  push();
+  noiseSeed(paddleSeed);
+  let n = noise(millis()/1000);
+  pop();
+  let perlinX = n * width;
+  let paddleX = (ballX * (1 - ballDistance/height)) + (perlinX * (0.18 + ballDistance/height));
+  
+  // let offsetRange = (n - 0.5) * paddleWidth;
+  // let scaledOffset = map(ballDistance, 0, height, offsetRange * 2, offsetRange * 10);
+  return min(max(0, paddleX),width);
+}
+function draw() {
+    background(0);
+    // MODE = MODESELECT.value();
+    game.ballSpeed(ballSpeedSlider);
+    game.setMode(MODE);
+    game.update();
+}
+function value(slider) {
+    return MERLIN ? slider : slider.value();
+}
 
 class Game {
     constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1, mode = AUTOPLAY) {
