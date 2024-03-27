@@ -40,7 +40,7 @@ canvas {
 main#voronoi {
     display: flex;
     flex-flow: column wrap;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 0.5rem;
     height: 100vh;
