@@ -23,6 +23,7 @@ function setup() {
     paddleSound = loadSound('./sounds/paddle.wav');
     wallSound = loadSound('./sounds/wall.wav');
     scoreSound = loadSound('./sounds/score.wav')
+    gameOverSound = loadSound('./sounds/gameover.wav');
 
 
     // createCanvas(43,66);

@@ -60,16 +60,18 @@ class Game {
         this.ball.reset();
         this.paddles.forEach( (paddle) => paddle.reset());
     }
+    playScoreSound(score) {
+        if (score == 4) gameOverSound.play();
+        else scoreSound.play();
+    }
     checkScore() {
         if (this.ball.y - (this.ball.d/2) < this.paddleOffset/2) {
             this.ball.reset();
-            this.score2++;
-            scoreSound.play();
+            this.playScoreSound(++this.score2);
         }
         if (this.ball.y + (this.ball.d/2) > (height - this.paddleOffset/2)) {
             this.ball.reset();
-            this.score1++
-            scoreSound.play();
+            this.playScoreSound(++this.score1);
         }
     }
     displayScores() {
