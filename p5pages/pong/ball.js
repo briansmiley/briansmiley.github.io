@@ -6,6 +6,7 @@ class Ball {
         this.baseSpeed = baseSpeed;
         this.d = d;
         this.colr = 'white';
+        this.immune = false;
     }
 
     setColr(c) {
@@ -48,8 +49,10 @@ class Ball {
         if (this.x - (this.d/2) < paddle.rightEdge() &&
             this.x + (this.d/2) > paddle.leftEdge() &&
             this.y - (this.d/2) < paddle.bottomEdge() &&
-            this.y + (this.d/2) > paddle.topEdge()) {
+            this.y + (this.d/2) > paddle.topEdge() &&
+            !this.immune) {
                 this.bounceY();
+                this.immune = true;
                 // boop.play();
                 paddleSound.play();
             }
@@ -62,6 +65,7 @@ class Ball {
         //Move
         this.x += this.vel[0];
         this.y += this.vel[1];
+        if (this.y > .33 * height && this.y < .66 * height) this.immune = false;
     }
     draw() {
         push();
