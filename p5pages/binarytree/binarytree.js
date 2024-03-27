@@ -209,7 +209,7 @@ function branch(x, y, len,ang,wgt,scl,lvl){
     switch (colorStyleSelect.value()) {
       case SOLID:
         fill(treeColorSelector.value());
-        stroke(0);
+        stroke(treeColorSelector.value());
         break;
       case GRADIENT:
         let gradientMap = map(lvl, 
