@@ -9,7 +9,8 @@ const colorOptions = [hsb, rgb, PASTEL, GRAY];
 let lastDropsFrame, timePerDrop;
 function setup() {
   colorMode(HSB);
-  canvas = createCanvas(700, 700);
+  // let dim = min(windowWidth, .8*windowHeight, 700);
+  canvas = createCanvas(windowWidth, .8*windowHeight);
   canvas.parent('canvas-box');
 
   generateControls();
@@ -83,4 +84,9 @@ function randomColor() {
 //integer.decimal has a decimal chance to yield integer + 1
 function probabalisticInt(flt) {
   return floor(flt) + int(random() < (flt % 1))
+}
+
+function  windowResized() {
+  // let dim = min(windowWidth, .8*windowHeight, 700);
+  resizeCanvas(windowWidth, .8*windowHeight);
 }
