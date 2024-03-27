@@ -7,6 +7,7 @@ let singlePlayer = false;
 const AUTOPLAY = 'Auto';
 const SLIDERS = 'Two-player';
 const SINGLE = 'Single-player';
+let boop, paddleSound, wallSound, scoreSound;
 // // if (MERLIN)
 // var MODE = merlinDropdown([AUTOPLAY, SLIDERS, SINGLE], AUTOPLAY);
 // var slider1 = merlinSlider(0,43,21,1);
@@ -18,6 +19,12 @@ let slider1, slider2;
 let resetButton;
 
 function setup() {
+    boop = loadSound('./sounds/beep.wav');
+    paddleSound = loadSound('./sounds/paddle.wav');
+    wallSound = loadSound('./sounds/wall.wav');
+    scoreSound = loadSound('./sounds/score.wav')
+
+
     // createCanvas(43,66);
     //Else
     let canvas = createCanvas(300,500);

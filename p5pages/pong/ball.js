@@ -39,6 +39,7 @@ class Ball {
     checkWallCollisions() {
         if (this.x <= this.d/2 || this.x >= width - this.d/2) {
             this.bounceX();
+            wallSound.play();
         }
     }
 
@@ -49,7 +50,10 @@ class Ball {
             this.y - (this.d/2) < paddle.bottomEdge() &&
             this.y + (this.d/2) > paddle.topEdge()) {
                 this.bounceY();
+                // boop.play();
+                paddleSound.play();
             }
+
     }
     update(paddles) {
         this.checkWallCollisions()

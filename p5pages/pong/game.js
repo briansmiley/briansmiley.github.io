@@ -64,10 +64,12 @@ class Game {
         if (this.ball.y - (this.ball.d/2) < this.paddleOffset/2) {
             this.ball.reset();
             this.score2++;
+            scoreSound.play();
         }
         if (this.ball.y + (this.ball.d/2) > (height - this.paddleOffset/2)) {
             this.ball.reset();
             this.score1++
+            scoreSound.play();
         }
     }
     displayScores() {
