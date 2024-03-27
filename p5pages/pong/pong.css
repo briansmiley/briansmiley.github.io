@@ -13,6 +13,9 @@ select {
     align-items: left;
     margin-top: 1em;
 }
+#controls > * {
+    margin: .2em 0 .2em 0;
+}
 .paddle-slider {
     flex-grow: 1;
 }
