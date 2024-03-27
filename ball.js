@@ -31,8 +31,7 @@ class Ball {
         this.vel = [this.vel[0],-this.vel[1]];
     }
     reset() {
-        this.x = width/2;
-        this.y = height/2;
+        this.setPos(width/2, height/2);
         //set the ball moving in a random of 4 directions
         this.vel = [random([-1,1]),random([-1,1])];
     }
@@ -41,25 +40,13 @@ class Ball {
             this.bounceX();
         }
     }
-    checkScore() {
-        if (this.y - this.d/2 <= 0) {
-            this.reset();
-            console.log('2')
-            return 2;
-        }
-        if (this.y + this.d/2 >= height) {
-            this.reset();
-            console.log('1')
-            return 1;
-        }
-        return 0
-    }
+
     checkPaddleCollision(paddle) {
         //checks if the ball has just updated to being inside a paddle
-        if (this.x - this.d/2 <= paddle.rightEdge() &&
-            this.x + this.d/2 >= paddle.leftEdge() &&
-            this.y - this.d/2 <= paddle.bottomEdge() &&
-            this.y + this.d/2 >= paddle.topEdge()) {
+        if (this.x - (this.d/2) < paddle.rightEdge() &&
+            this.x + (this.d/2) > paddle.leftEdge() &&
+            this.y - (this.d/2) < paddle.bottomEdge() &&
+            this.y + (this.d/2) > paddle.topEdge()) {
                 this.bounceY();
             }
     }
