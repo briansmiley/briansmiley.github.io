@@ -74,7 +74,7 @@ function draw() {
     message.html("");
     background(220);
     renderTree();
-    if (TIMEDOUT) message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
+    if (TIMEDOUT) message.html(`Render timed out; switched to single-frame render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
   }
   runFrame = !slowMode.checked();
   
