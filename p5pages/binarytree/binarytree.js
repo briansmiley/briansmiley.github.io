@@ -22,6 +22,7 @@ function setup() {
   createCanvas(700, 600);
   generateControls();
   message = createDiv();
+  message.id(`timeout`);
 }
 
 
@@ -79,10 +80,9 @@ function renderTree() {
   if (millis() - frameStart > TIMEOUT) {
     if (slowMode.checked()) return;
     if (!TIMEDOUT) {
-      let main = document.querySelector('main');
       console.log('Render timeout');
       message.html(`Render timed out; activating single-render mode : ${Math.floor(millis() - frameStart)} ms frame time`);
-      message.id(`timeout`);
+      
       // message.parent(main);
       main.children[1].before(message.elt);
       slowMode.checked(true);
