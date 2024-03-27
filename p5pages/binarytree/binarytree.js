@@ -151,7 +151,7 @@ function branch(len,ang,wgt,scl){
   // }
   //Draw a branch tapering down to the enxt branch size or of constant weight
   strokeWeight(wgt)
-  if (taper.checked()) {
+  if (taper.checked() && wgt > 3 && len > 4) {
     push();
     fill(0);
     noStroke();
