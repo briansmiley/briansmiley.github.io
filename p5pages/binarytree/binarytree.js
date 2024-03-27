@@ -13,7 +13,7 @@ let slowModePanel, slowMode, renderButton;
 let rescale;
 let colorStyleSelect, colorStylePanel, gradientSlider;
 let colorPanel, backgroundSelector, treeColorSelector, TREE_COLOR, BACKGROUND_COLOR;
-const GRADIENT = 'Gradient';
+const GRADIENT = 'Graydient';
 const SOLID = 'Solid';
 const RAINBOW = 'Rainbow';
 let trunkBaseY,trunkBaseX, trunkLength;
@@ -212,9 +212,10 @@ function branch(x, y, len,ang,wgt,scl,lvl){
         stroke(treeColorSelector.value());
         break;
       case GRADIENT:
+        let oldColor = treeColorSelector.value();
         let gradientMap = map(lvl, 
                           0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-                          0, gradientSlider.value());
+                          0, gradientSlider.value());               
         fill(gradientMap);
         stroke(gradientMap);
         break;
