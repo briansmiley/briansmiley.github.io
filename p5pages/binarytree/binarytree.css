@@ -11,15 +11,19 @@ html, body {
 canvas {
   display: block;
 }
-
+button {
+  width: fit-content;
+}
 .control_panel {
   display: flex;
   flex-flow: column wrap;
   height: 12em;
   width: 25em;
 }
-.control_panel > button {
-  width: fit-content;
+.control_panel > * {
+  min-height: 22px;
+}
+#scale_canvas {
   margin: .5em 0 .5em 0;
 }
 #slow_panel {

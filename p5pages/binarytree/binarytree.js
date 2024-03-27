@@ -51,6 +51,7 @@ function generateControls() {
 
   //Rescale button
   rescale = controlPanel.addButton('Scale canvas (s)');
+  rescale.id('scale_canvas');
   rescale.mousePressed(() => {
     scaleCanvas();
   });
@@ -196,8 +197,8 @@ function branch(x, y, len,ang,wgt,scl,lvl){
       break;
     case GRAY:
       let greymap = map(lvl, 
-        0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
-        colorSlider.value()/4, colorSlider.value());
+                        0, totalBranches(trunkLength, minBranchSlider.value(), scl), 
+                        colorSlider.value()/4, colorSlider.value());
       fill(greymap);
       stroke(greymap);
       break;
