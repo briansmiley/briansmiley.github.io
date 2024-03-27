@@ -69,7 +69,7 @@ function generateControls() {
   colorModes.forEach((mode) => colorSelect.option(mode));
 
 
-  scaleSlider = controlPanel.addTextboxSlider(0,830,650,1,'Scale Factor (/1000)<br>');
+  scaleSlider = controlPanel.addTextboxSlider(0,830,690,1,'Scale Factor (x1000)<br>');
   angSlider = controlPanel.addTextboxSlider(0,180,25,.5,'Angle<br>','angle');
   minBranchSlider = controlPanel.addTextboxSlider(1,10,5,1,'Min Branch Size<br>');
   tiltSlider = controlPanel.addTextboxSlider(-90,90,0,.5,'Tilt<br>');
