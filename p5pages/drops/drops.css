@@ -21,8 +21,16 @@ main {
   display: flex;
   flex-flow: column wrap;
 }
-.slider {
+.slider-container {
   display: flex;
   flex-flow: row nowrap;
+}
+.slider-label{
+  min-width: 110px;
+}
+input[type="range"] {
   flex-grow: 1;
+}
+.select-label {
+  margin-right: .5em;
 }

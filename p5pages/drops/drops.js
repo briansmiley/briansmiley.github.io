@@ -28,20 +28,20 @@ function draw() {
 
 function generateControls() {
   colorModeSelect = createSelect();
-  colorModeSelect.parent('color-select');
+  colorModeSelect.parent('color-select-container');
   colorOptions.forEach((i) => colorModeSelect.option(i));
 
-  dpsSlider = createSlider(0.5, 150, 20, 0); //drops per second assuming 60fps
-  dpsSlider.parent('drop-rate');
+  dpsSlider = createSlider(0.5, 300, 20, 0); //drops per second assuming 60fps
+  dpsSlider.parent('drop-rate-container');
 
-  spreadRateSlider = createSlider(.01, 1, .5,0);
-  spreadRateSlider.parent('spread-rate');
+  spreadRateSlider = createSlider(.01, 2, .5,0);
+  spreadRateSlider.parent('spread-rate-container');
 
   rippleDurationSlider = createSlider(50, 5000, 1500);
-  rippleDurationSlider.parent('ripple-duration');
+  rippleDurationSlider.parent('ripple-duration-container');
 
-  rippleWeightSlider = createSlider(.5, 10, 2, 0);
-  rippleWeightSlider.parent('ripple-weight');
+  rippleWeightSlider = createSlider(.5, 20, 2, 0);
+  rippleWeightSlider.parent('ripple-weight-container');
 }
 
 function createDrops() {
