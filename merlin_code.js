@@ -2,14 +2,14 @@
 let ball, paddle1, paddle2;
 const ballFR = 5;
 let score1, score2;
-const MERLIN = false;
+const MERLIN = true;
 let paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR;
 // // if (MERLIN)
-var slider1 = merlinSlider(0,43,1,21);
-var slider2 = merlinSlider(0,43,1,21);
+var slider1 = merlinSlider(0,43,21,1);
+var slider2 = merlinSlider(0,43,21,1);
 
 //Else
-let slider1, slider2;
+// let slider1, slider2;
 
 function setup() {
     createCanvas(43,66);
