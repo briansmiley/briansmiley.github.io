@@ -1,7 +1,8 @@
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1) {
-        this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset);
-        this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset);
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1, mode = AUTOPLAY) {
+        this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset, random());
+        this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset, random() * 2000);
+        this.paddles = [this.paddle1, this.paddle2];
         this.paddleOffset = paddleOffset;
         this.ball = new Ball(ballSize,width/2,height/2, ballSpeed);
         this.score1 = 0;
@@ -9,6 +10,7 @@ class Game {
         this.ballFR = ballFR;
         this.gameOver = false;
         this.gameOverTime = 0;
+        this.mode = mode;
     }
     ballSpeed(speed) {
         this.ball.baseSpeed = speed;
@@ -22,8 +24,20 @@ class Game {
             }
             return;
         }
-        this.paddle1.update(value(slider1));
-        this.paddle2.update(value(slider2));
+        switch (this.mode) {
+          case AUTOPLAY:
+            this.paddles.forEach((paddle) => {
+            paddle.update(scaledPerlinOffset(this.ball.x, this.ball.y, paddle.y, paddle.w, paddle.seed))});
+            break;
+          case SINGLE:
+            this.paddle1.update(value(slider1));
+            this.paddle2.update(scaledPerlinOffset(this.ball.x, this.ball.y, this.paddle2.y, this.paddle2.w, this.paddle2.seed));
+            break;
+          case SLIDERS:
+            this.paddle1.update(value(slider1));
+            this.paddle2.update(value(slider2));
+            break;
+      }
         
         if (frameCount % this.ballFR == 0) this.ball.update([this.paddle1,this.paddle2]);
         this.drawElements();
@@ -55,13 +69,16 @@ class Game {
         noStroke();
         fill(175);
         for (let i = 0; i < this.score1; i++) {
-            rect(width/25, width/10 + (width/15 * i), width/25, width/25);
+            rect(width/15, width/8 + (width/12 * i), width/25, width/25);
         }
         for (let i = 0; i < this.score2; i++) {
-            rect(width/25, height - width/10 - (width/15 * i) - width/25, width/25, width/25);
+            rect(width/15, height - width/8 - (width/12 * i) - width/25, width/25, width/25);
         }
         pop();
         
+    }
+    setMode(mode) {
+      this.mode = mode;
     }
     resetScores() {
         this.score1 = 0;

@@ -1,5 +1,5 @@
 class Paddle {
-    constructor(player, w, h, x, y, colr = 175, speed = 1) {
+    constructor(player, w, h, x, y, seed, colr = 175, speed = 1) {
         this.w = w;
         this.h = h;
         this.player = player;
@@ -8,6 +8,7 @@ class Paddle {
         this.speed = speed;
         this.colr = colr
         this.padding = 0;
+        this.seed = seed;
     }
 
     moveLeft(){
@@ -43,7 +44,6 @@ class Paddle {
         let x = this.x;
         let y = this.y;
         push()
-        rect()
         rectMode(CENTER);
         fill(this.colr)
         noStroke();

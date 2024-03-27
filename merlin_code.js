@@ -1,56 +1,57 @@
 
 let ball, paddle1, paddle2;
-const ballFR = 5;
 let score1, score2;
-const MERLIN = true;
+let MERLIN = true;
 let paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR;
+let singlePlayer = false;
+const AUTOPLAY = 'Auto';
+const SLIDERS = 'Two-player';
+const SINGLE = 'Single-player';
 // // if (MERLIN)
+var MODE = merlinDropdown([AUTOPLAY, SLIDERS, SINGLE], AUTOPLAY);
 var slider1 = merlinSlider(0,43,21,1);
 var slider2 = merlinSlider(0,43,21,1);
 
 //Else
+// let MODE, MODESELECT;
 // let slider1, slider2;
 
 function setup() {
     createCanvas(43,66);
-    // createCanvas(300,500);
     //Else
+    // MODESELECT = createSelect();
+    // [AUTOPLAY,SLIDERS,SINGLE].forEach((option) => MODESELECT.option(option));
+    // createCanvas(300,500);
     // slider1 = createSlider(0,width,width/2,1);
     // slider2 = createSlider(0,width,width/2,1);
-    // game = new Game(7,2,2,2,3);
+
+
+    // MERLIN = true;
     if (MERLIN) {
         paddleSize = 7;
         paddleHeight = 2;
         ballSize = 2;
-        ballSpeed = .25;
+        ballSpeed = 1;
         offset = 2;
         fR = 1;
     } else {
         paddleSize = 50;
         paddleHeight = 10;
         ballSize = 8;
-        ballSpeed = 1;
+        ballSpeed = 3;
         offset = 10;
         fR = 1;
     }
-    game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR);
+    // MERLIN = false;
+    game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, fR, MODE);
 }
-
-function draw() {
-    background(0);
-    game.update();
-   
-}
-function value(slider) {
-    return MERLIN ? slider : slider.value();
-}
-
 
 
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1) {
-        this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset);
-        this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset);
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, ballFR = 1, mode = AUTOPLAY) {
+        this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset, random());
+        this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset, random() * 2000);
+        this.paddles = [this.paddle1, this.paddle2];
         this.paddleOffset = paddleOffset;
         this.ball = new Ball(ballSize,width/2,height/2, ballSpeed);
         this.score1 = 0;
@@ -58,6 +59,7 @@ class Game {
         this.ballFR = ballFR;
         this.gameOver = false;
         this.gameOverTime = 0;
+        this.mode = mode;
     }
     ballSpeed(speed) {
         this.ball.baseSpeed = speed;
@@ -71,8 +73,20 @@ class Game {
             }
             return;
         }
-        this.paddle1.update(value(slider1));
-        this.paddle2.update(value(slider2));
+        switch (this.mode) {
+          case AUTOPLAY:
+            this.paddles.forEach((paddle) => {
+            paddle.update(scaledPerlinOffset(this.ball.x, this.ball.y, paddle.y, paddle.w, paddle.seed))});
+            break;
+          case SINGLE:
+            this.paddle1.update(value(slider1));
+            this.paddle2.update(scaledPerlinOffset(this.ball.x, this.ball.y, this.paddle2.y, this.paddle2.w, this.paddle2.seed));
+            break;
+          case SLIDERS:
+            this.paddle1.update(value(slider1));
+            this.paddle2.update(value(slider2));
+            break;
+      }
         
         if (frameCount % this.ballFR == 0) this.ball.update([this.paddle1,this.paddle2]);
         this.drawElements();
@@ -104,13 +118,16 @@ class Game {
         noStroke();
         fill(175);
         for (let i = 0; i < this.score1; i++) {
-            rect(width/25, width/10 + (width/15 * i), width/25, width/25);
+            rect(width/15, width/8 + (width/12 * i), width/25, width/25);
         }
         for (let i = 0; i < this.score2; i++) {
-            rect(width/25, height - width/10 - (width/15 * i) - width/25, width/25, width/25);
+            rect(width/15, height - width/8 - (width/12 * i) - width/25, width/25, width/25);
         }
         pop();
         
+    }
+    setMode(mode) {
+      this.mode = mode;
     }
     resetScores() {
         this.score1 = 0;
@@ -191,7 +208,7 @@ class Ball {
 }
 
 class Paddle {
-    constructor(player, w, h, x, y, colr = 175, speed = 1) {
+    constructor(player, w, h, x, y, seed, colr = 175, speed = 1) {
         this.w = w;
         this.h = h;
         this.player = player;
@@ -200,6 +217,7 @@ class Paddle {
         this.speed = speed;
         this.colr = colr
         this.padding = 0;
+        this.seed = seed;
     }
 
     moveLeft(){
@@ -235,7 +253,6 @@ class Paddle {
         let x = this.x;
         let y = this.y;
         push()
-        rect()
         rectMode(CENTER);
         fill(this.colr)
         noStroke();
