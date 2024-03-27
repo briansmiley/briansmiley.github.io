@@ -19,7 +19,8 @@ class Drop {
         colorMode(HSB);
         let age = millis() - this.birth;
         let bright = map(age, 0, this.lifetime, 100, 0);
-        this.colr = [hue(this.colr),saturation(this.colr),bright];
+        let alph = map(age, 0, this.lifetime, 1, 0);
+        this.colr = color([hue(this.colr),saturation(this.colr),brightness(this.colr),alph]);
         pop();
     }
     draw() {

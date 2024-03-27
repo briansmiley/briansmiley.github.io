@@ -22,7 +22,7 @@ function draw() {
   drops.forEach( (drop) => drop.frame());
   drops = drops.filter((drop) => {
     drop.frame();
-    return brightness(drop.colr) >   .05;
+    return alpha(drop.colr) > 0;
   });
 }
 
