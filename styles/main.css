@@ -14,6 +14,7 @@ h2 {
 .p5-thumbnails-container {
     display:flex;
     justify-content: center;
+    flex-flow: wrap;
 }
 .p5-thumbnail {
     display: inline-block; /* Display thumbnails as inline-block elements */
