@@ -72,12 +72,6 @@ function createDrops() {
     Array.from({length: dropsPerFrame}, () => drops.push(new Drop())); //create that many new drops
     return dropsPerFrame;
   }
-  // let sinceLastDrops = frameCount - lastDropsFrame; //frames since last drop
-  // let interval = 1000/dpsSlider.value() //milliseconds of elapsed time each drop "gets"
-  // let newDrops = floor(sinceLastDrops / interval); //number of full intervals "unused" in the pool of elapsed time
-  // if (newDrops >= 1) {
-  //   lastDropsFrame += newDrops * interval; //remove [interval] ms for each drop we're creating
-  // }
 }
 function randomColor() {
   let colr;
