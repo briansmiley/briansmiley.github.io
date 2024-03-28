@@ -82,7 +82,7 @@ class Game {
         push();
         noStroke();
         fill(175);
-        let scorePip = 12;
+        let scorePip = this.ball.d;
         for (let i = 0; i < this.score1; i++) {
             // rect(width/15, width/8 + (width/12 * i), width/25, width/25);
             rect(width/15, width/8 + (width/12 * i), scorePip, scorePip);
