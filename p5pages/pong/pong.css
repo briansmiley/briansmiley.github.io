@@ -6,6 +6,11 @@ body {
     align-items: center;
     color: #ffffff;
 }
+main {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
 select {
     width: fit-content;
 }
@@ -14,6 +19,7 @@ select {
     flex-flow: column;
     align-items: left;
     margin-top: 1em;
+    width: 85%;
 }
 #controls > * {
     margin: .2em 0 .2em 0;

@@ -19,8 +19,10 @@ function setup() {
     wallSound = loadSound('./sounds/wall.wav');
     scoreSound = loadSound('./sounds/score.wav')
     gameOverSound = loadSound('./sounds/gameover.wav');
-
-    let canvas = createCanvas(windowHeight * .5,windowHeight * .75);
+    let canvW, canvH;
+    canvW = windowWidth/windowHeight < .66 ? windowWidth : windowHeight * .5;
+    canvH = canvW * 3/2;
+    let canvas = createCanvas(canvW, canvH);
     canvas.parent('canvas-box');
 
     paddleSize = .125 * width;
