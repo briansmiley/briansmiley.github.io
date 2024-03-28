@@ -20,13 +20,13 @@ function setup() {
     scoreSound = loadSound('./sounds/score.wav')
     gameOverSound = loadSound('./sounds/gameover.wav');
 
-    let canvas = createCanvas(300,500);
+    let canvas = createCanvas(windowHeight * .5,windowHeight * .75);
     canvas.parent('canvas-box');
 
-    paddleSize = 50;
-    paddleHeight = 10;
-    ballSize = 8;
-    ballSpeed = 5.25;
+    paddleSize = .125 * width;
+    paddleHeight = .2 * paddleSize;
+    ballSize = .022 * width;
+    ballSpeed = .015 * width;
     offset = 10;
 
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, MODE);
@@ -82,7 +82,7 @@ function scaledPerlinOffset(ballX, ballY, paddleY, paddleWidth, paddleSeed) {
   let n = noise(millis()/1000);
   pop();
   let perlinX = n * width;
-  let paddleX = (ballX * (1 - ballDistance/height)) + (perlinX * (0.15 + ballDistance/height));
+  let paddleX = (ballX * (1 - ballDistance/height)) + (perlinX * ((.8*paddleSize / width) + ballDistance/height));
   
   // let offsetRange = (n - 0.5) * paddleWidth;
   // let scaledOffset = map(ballDistance, 0, height, offsetRange * 2, offsetRange * 10);

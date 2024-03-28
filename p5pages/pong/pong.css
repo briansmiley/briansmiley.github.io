@@ -1,7 +1,10 @@
+
 body {
     display: flex;
     flex-flow: column;
+    background-color: #444444;
     align-items: center;
+    color: #ffffff;
 }
 select {
     width: fit-content;
@@ -9,7 +12,6 @@ select {
 #controls {
     display: flex;
     flex-flow: column;
-
     align-items: left;
     margin-top: 1em;
 }
