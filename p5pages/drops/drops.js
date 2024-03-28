@@ -53,7 +53,7 @@ function generateControls() {
   spreadRateSlider = createSlider(.01, 2, .5,0);
   spreadRateSlider.parent('spread-rate-container');
 
-  rippleDurationSlider = createSlider(50, 7500, 2500);
+  rippleDurationSlider = createSlider(10, 600, 120);
   rippleDurationSlider.parent('ripple-duration-container');
 
   rippleWeightSlider = createSlider(.5, 20, 3, 0);
@@ -100,10 +100,10 @@ function probabalisticInt(flt) {
 
 function  windowResized() {
   // let dim = min(windowWidth, .8*windowHeight, 700);
-  let prevDps = dpsSlider.value()/dpsSlider.max;
+  let prevDps = dpsSlider.value()/dpsSlider.attribute('max');
   resizeCanvas(windowWidth, .8*windowHeight);
   dpsSlider.attribute('max',width*height/2500);
-  dpsSlider.value(prevDps * dpsSlider.max);
+  dpsSlider.value(prevDps * dpsSlider.attribute('max'));
 }
 
 function mousePressed() {

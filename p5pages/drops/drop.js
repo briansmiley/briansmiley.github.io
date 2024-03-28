@@ -5,7 +5,7 @@ class Drop {
         this.colr = colr;
         this.r = 0;
         this.speed = speed;
-        this.birth = millis();
+        this.birth = frameCount;
         this.lifetime = rippleDurationSlider.value();
         this.weight = weight;
         this.mirrors = {
@@ -69,7 +69,7 @@ class Drop {
     fade() {
         push();
         colorMode(HSB);
-        let age = millis() - this.birth;
+        let age = frameCount - this.birth;
         let bright = map(age, 0, this.lifetime, 100, 0);
         let alph = map(age, 0, this.lifetime, 1, 0);
         this.colr = color([hue(this.colr),saturation(this.colr),brightness(this.colr),alph]);
