@@ -79,7 +79,7 @@ class dotToggle {
   }
   wasClicked() {
     this.state = !this.state;
-    this.parent.reset();
+    this.parent.startFade();
   }
 }
 function setup() {
