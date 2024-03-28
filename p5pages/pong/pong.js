@@ -29,7 +29,7 @@ function setup() {
     paddleHeight = .2 * paddleSize;
     ballSize = .022 * width;
     ballSpeed = .015 * width;
-    offset = 10;
+    offset = paddleHeight*1.5;
 
     game = new Game(paddleSize, paddleHeight, ballSize, ballSpeed, offset, MODE);
     generateControls();
@@ -70,7 +70,7 @@ function generateControls() {
         }
     });
 
-    ballSpeedSlider = createSlider(1, 20, ballSpeed, 0.25);
+    ballSpeedSlider = createSlider(1, .05 * width, ballSpeed, 0.25);
     ballSpeedSlider.parent('ball-slider-container');
     ballSpeedSlider.id('ball-slider')
 

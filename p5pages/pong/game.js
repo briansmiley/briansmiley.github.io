@@ -1,5 +1,5 @@
 class Game {
-    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = 2, mode = AUTOPLAY) {
+    constructor(paddleWidth = 7, paddleHeight = 2, ballSize = 2, ballSpeed = 3, paddleOffset = paddleHeight, mode = AUTOPLAY) {
         this.paddle1 = new Paddle(1,paddleWidth,paddleHeight,width/2,paddleOffset, random());
         this.paddle2 = new Paddle(2,paddleWidth,paddleHeight,width/2, height-paddleOffset, random() * 2000);
         this.paddles = [this.paddle1, this.paddle2];
