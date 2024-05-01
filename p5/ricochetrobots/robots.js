@@ -589,7 +589,7 @@ function askForPlayers() {
   while (isNaN(numPlayers) || numPlayers === null || numPlayers < 1) {
     numPlayers = parseInt(prompt("How many players?"));
   }
-  let players = Array.from({ length: numPlayers}, (_, i) => new Player(prompt(`Player ${i + 1}`), i));
+  let players = Array.from({ length: numPlayers}, (_, i) => new Player(prompt(`Player ${i + 1} name`), i));
   return players;
 }
 
