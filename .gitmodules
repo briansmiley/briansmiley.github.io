@@ -1,3 +1,6 @@
 [submodule "p5/ricochetrobots"]
 	path = p5/ricochetrobots
 	url = https://github.com/briansmiley/RicochetRobots.git
+[submodule "p5/bitmapper"]
+	path = p5/bitmapper
+	url = https://github.com/briansmiley/BitMapper.git
