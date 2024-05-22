@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Sketch</title>
 
-    <link rel="stylesheet" type="text/css" href="../../styles/main.css">
-    <link rel="stylesheet" type="text/css" href="./drops.css">
+    <link rel="stylesheet" type="text/css" href="../../styles/compiled.css" />
+    <link rel="stylesheet" type="text/css" href="./drops.css" />
 
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
@@ -17,42 +17,44 @@
 
   <body>
     <main>
-    <div id = "canvas-box"></div>
-    <div id = "controls-box">
-      <div id = "controls">
+      <div id="canvas-box"></div>
+      <div id="controls-box">
+        <div id="controls">
+          <div id="controls-top-row">
+            <div id="color-select-container" class="select-container">
+              <div class="select-label">Colors</div>
+            </div>
+            <div id="drop-color-picker-container" class="select-container">
+              <!-- <div class = 'select-label'>Drop color </div> -->
+            </div>
+            <div
+              id="background-color-picker-container"
+              class="select-container"
+            >
+              <div class="select-label">Background</div>
+            </div>
+            <div id="reflection-checkbox-container">Reflect</div>
+          </div>
+          <div id="drop-rate-container" class="slider-container">
+            <div class="slider-label">Drop rate</div>
+          </div>
+          <div id="spread-rate-container" class="slider-container">
+            <div class="slider-label">Spread speed</div>
+          </div>
+          <div id="ripple-duration-container" class="slider-container">
+            <div class="slider-label">Ripple duration</div>
+          </div>
+          <div id="ripple-weight-container" class="slider-container">
+            <div class="slider-label">Ripple weight</div>
+          </div>
 
-        <div id = 'controls-top-row'>
-          <div id = 'color-select-container' class = 'select-container'>
-            <div class = 'select-label'>Colors </div>
-          </div>
-          <div id = 'drop-color-picker-container' class = 'select-container'>
-            <!-- <div class = 'select-label'>Drop color </div> -->
-          </div>
-          <div id = 'background-color-picker-container' class = 'select-container'>
-            <div class = 'select-label'>Background </div>
-          </div>
-          <div id = 'reflection-checkbox-container'>Reflect</div>
-        </div>
-        <div id = 'drop-rate-container' class = 'slider-container'>
-          <div class = 'slider-label'>Drop rate</div>
-        </div>
-        <div id = 'spread-rate-container' class = 'slider-container'>
-          <div class = 'slider-label'>Spread speed</div>
-        </div>
-        <div id = 'ripple-duration-container' class = 'slider-container'>
-          <div class = 'slider-label'>Ripple duration</div>
-        </div>
-        <div id = "ripple-weight-container" class = 'slider-container'>
-          <div class = 'slider-label'>Ripple weight</div>
-        </div>
-
-        <!-- <div id = 'color-select'>Color </div>
+          <!-- <div id = 'color-select'>Color </div>
         <div id = 'drop-rate' class="slider">Drop rate </div>
         <div id = 'spread-rate' class="slider">Spread speed </div>
         <div id = 'ripple-duration' class="slider">Ripple duration </div>
         <div id = 'ripple-weight' class="slider">Ripple weight </div> -->
+        </div>
       </div>
-    </div>
     </main>
   </body>
 </html>

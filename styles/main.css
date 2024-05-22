@@ -1,66 +1,68 @@
-body {
-    background-color:aliceblue;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+body {
+  background-color: aliceblue;
+}
 h2 {
-    text-align: center;
+  text-align: center;
 }
 .highlight {
-    background-color:rgb(217, 217, 146);
-    border-radius: 5px;
-    padding: 5px;
+  background-color: rgb(217, 217, 146);
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .p5-thumbnails-container {
-    display:flex;
-    justify-content: center;
-    flex-flow: wrap;
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap;
 }
 .p5-thumbnail {
-    display: inline-block; /* Display thumbnails as inline-block elements */
-    margin: 8px; /* Adjust margin between thumbnails */
-    text-align: center; /* Center the text caption */
-    text-decoration: none; /* Remove underline from links */
-    color: black; /* Set text color */
-    border: 2px solid #999;
-    padding: 1em;
-    height: fit-content;
+  display: inline-block; /* Display thumbnails as inline-block elements */
+  margin: 8px; /* Adjust margin between thumbnails */
+  text-align: center; /* Center the text caption */
+  text-decoration: none; /* Remove underline from links */
+  color: black; /* Set text color */
+  border: 2px solid #999;
+  padding: 1em;
+  height: fit-content;
 }
 .p5-thumbnail img {
-    width: 135px; /* Adjust thumbnail width */
-    margin: auto auto 15px auto; /*Centers thumbnail image with caption spacing below */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Ensure image is displayed as a block */
+  width: 135px; /* Adjust thumbnail width */
+  margin: auto auto 15px auto; /*Centers thumbnail image with caption spacing below */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Ensure image is displayed as a block */
 }
 canvas {
-    display: block;
-    /* margin: auto; */
+  display: block;
+  /* margin: auto; */
 }
 
 main#voronoi {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: start;
-    align-items: center;
-    gap: 0.5rem;
-    height: 100vh;
-    background-color: #888;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100vh;
+  background-color: #888;
 }
 
 main#voronoi #container {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
-main#voronoi #container input[type='range'] {
-    width: 20em;
+main#voronoi #container input[type="range"] {
+  width: 20em;
 }
 
-main#voronoi #container input[type='text'] {
-    width: 3em;
-    height:auto;
-    text-align: center;
-
+main#voronoi #container input[type="text"] {
+  width: 3em;
+  height: auto;
+  text-align: center;
 }
